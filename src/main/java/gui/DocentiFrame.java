@@ -78,6 +78,11 @@ public class DocentiFrame extends JFrame {
         crea.setBackground(Color.WHITE);
         crea.setForeground(Color.DARK_GRAY);
 
+        crea.addActionListener(e ->{
+            new CreaDocentiFrame(controllore);
+            dispose();
+        });
+
         JButton modifica = new JButton("MODIFICA");
         modifica.setFont(CustomFont.getFont((float) width/68));
         modifica.setBorder(new EtchedBorder());
@@ -91,7 +96,7 @@ public class DocentiFrame extends JFrame {
         elimina.setForeground(Color.DARK_GRAY);
         //PULSANTI------------------------------------------------------
 
-        //PANEL PULSANTI-------------------------------------------------------
+        //PANEL PULSANTI-----------------------------------------------------
         JPanel opzioniPanel = new JPanel(new GridLayout(3,1));
         sfondoLabel.add(opzioniPanel);
         opzioniPanel.setBounds(width/4,height/2,b_width,b_height*3);

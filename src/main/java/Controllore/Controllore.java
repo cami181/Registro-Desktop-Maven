@@ -8,21 +8,6 @@ import Credenziali.Credenziali;
 import java.util.*;
 
 public class Controllore {
-
-    // ---- INIZIO CREAZIONE UTENTI ----//
-    public Studente creaStudente(String nome, String cognome, Date dataDiNascita, String CF, Classe classe) {
-        return new Studente(nome, cognome, dataDiNascita, CF, classe);
-    }
-
-    public Docente creaDocente(String nome, String cognome, Date dataDiNascita, String CF, ArrayList<Classe> classe, ArrayList<String> materie) {
-        return new Docente(nome, cognome, dataDiNascita, CF, classe, materie);
-    }
-
-    public Genitore creaGenitore(String nome, String cognome, Date dataDiNascita, String CF, Studente studente) {
-        return new Genitore(nome, cognome, dataDiNascita, CF, studente);
-    }
-    // ---- FINE CREAZIONE UTENTI ---- //
-
     // ---- INIZIO MODIFCA UTENTI ---- //
     public void modificaStudente(Studente studente_temp, Studente studente) {
         studente.setNome(studente_temp.getNome());

@@ -80,7 +80,7 @@ public class StudentiFrame extends JFrame {
         crea.setForeground(Color.DARK_GRAY);
 
         crea.addActionListener(e -> {
-            new CreaStudenti(controllore);
+            new CreaStudentiFrame(controllore);
             //dispose();
         });
 

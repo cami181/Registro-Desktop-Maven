@@ -51,6 +51,50 @@ public class HomeFrame extends JFrame {
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
+        
+        //EXIT-------------------------------------------------------------
+        JPanel exitPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(exitPanel);
+        exitPanel.setBounds(0,b_height,b_height,b_height);
+        exitPanel.setOpaque(false);
+
+        JButton exitButton = new JButton();
+        exitButton.setFont(CustomFont.getFont((float) width/68));
+        exitButton.setBorder(new EtchedBorder());
+        exitButton.setBackground(Color.WHITE);
+        exitButton.setForeground(Color.DARK_GRAY);
+        exitPanel.add(exitButton);
+
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/exit.png")));
+        Image newImage = imageIcon.getImage().getScaledInstance(b_height, b_height, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newImage);
+        exitButton.setIcon(imageIcon);
+        exitButton.setIconTextGap(0);
+        exitButton.setOpaque(false);
+        exitButton.setContentAreaFilled(false);
+        exitButton.setBorderPainted(false);
+
+        exitButton.addActionListener(e->{
+            dispose();
+        });
+        //EXIT---------------------------------------------------------
+
+        JPanel homePanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(homePanel);
+        homePanel.setBounds(0,0,b_height,b_height);
+        homePanel.setOpaque(false);
+
+        PulsanteHome homeButton = new PulsanteHome(b_height);
+        homeButton.setFont(CustomFont.getFont((float) width/68));
+        homeButton.setBorder(new EtchedBorder());
+        homeButton.setBackground(Color.WHITE);
+        homeButton.setForeground(Color.DARK_GRAY);
+        homePanel.add(homeButton);
+
+        homeButton.addActionListener(e->{
+            new HomeFrame(controllore);
+            dispose();
+        });
 
         //PANEL PULSANTI---------------------------------------------
         JPanel utentiPanel = new JPanel(new GridLayout(1,1));

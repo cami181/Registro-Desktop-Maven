@@ -2,15 +2,19 @@ package Altro;
 
 import Utenti.Docente;
 
+import java.util.Date;
+
 public class Assenza {
     private String giustifica;
     private Docente docente;
+    private Date data;
+
+    public Assenza(Date data) {
+        this.data = data;
+    }
 
     public Assenza(String giustifica) {
         this.giustifica = giustifica;
-    }
-
-    public Assenza() {
     }
 
     public String getGiustifica() {
@@ -27,5 +31,13 @@ public class Assenza {
 
     public void setDocente(Docente docente) {
         this.docente = docente;
+    }
+
+    public Date getData(){
+        return data;
+    }
+
+    public int getMaxAssense(){
+        return 45;
     }
 }
