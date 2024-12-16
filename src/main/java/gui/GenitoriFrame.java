@@ -56,6 +56,25 @@ public class GenitoriFrame extends JFrame {
         });
         //HOME--------------------------------------------------------
 
+        //PULSANTE INDIETRO----------------------------------------
+        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(indietroPanel);
+        indietroPanel.setBounds(0,b_height,b_height,b_height);
+        indietroPanel.setOpaque(false);
+
+        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
+        indietroButton.setFont(CustomFont.getFont((float) width/68));
+        indietroButton.setBorder(new EtchedBorder());
+        indietroButton.setBackground(Color.WHITE);
+        indietroButton.setForeground(Color.DARK_GRAY);
+        indietroPanel.add(indietroButton);
+
+        indietroButton.addActionListener(e->{
+            new HomeFrame(controllore);
+            dispose();
+        });
+        //PULSANTE INDIETRO---------------------------------------
+
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
         titlePanel.setBounds(width/6,height/4,width*2/3,height/5);

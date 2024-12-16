@@ -1,11 +1,9 @@
 package Controllore;
 
-import Utenti.Classe;
 import Utenti.*;
-
 import Credenziali.Credenziali;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Controllore {
     // ---- INIZIO MODIFCA UTENTI ---- //
@@ -35,7 +33,16 @@ public class Controllore {
     // ---- FINE MODIFCA UTENTI ---- //
 
     // --- REGISTRAZIONE --- //
-    public void registrazione(Persona persona, Credenziali credenziali) {
+    public void registrazione(Persona persona) {
+        String user = persona.getNome() + "." + persona.getCognome();
+        String password = "";
+        for(int i=0;i<user.length();i++){
+            if(user.charAt(i)!='a' && user.charAt(i)!='e' && user.charAt(i)!='i' && user.charAt(i)!='o' && user.charAt(i)!='u' && user.charAt(i)!='.'){
+                password += user.charAt(i);
+            }
+        }
+        Credenziali credenziali = new Credenziali(user,password);
+
         if(persona instanceof Studente) {
             Studente s = (Studente) persona;
             s.setCredenziali(credenziali);
@@ -68,4 +75,16 @@ public class Controllore {
 
         return true;
     }
+
+    public boolean alreadyExistentCf(String cf){
+        ArrayList<Persona> utenti = new ArrayList<>();
+        utenti.add(new Studente("ciao","bro",null,"0000000000000000",null));
+
+        for (Persona p: utenti) {
+            if(p.getCF().equals(cf)) return true;
+        }
+
+        return false;
+    }
+    //CODICE FISCALE-------------------------------
 }

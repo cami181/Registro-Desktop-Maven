@@ -15,7 +15,7 @@ public class HomeFrame extends JFrame {
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
-        setUndecorated(true); //--> toglie la barra in alto
+        setUndecorated(true);
         setVisible(true);
 
         Container container = this.getContentPane();
@@ -102,7 +102,7 @@ public class HomeFrame extends JFrame {
         sfondoLabel.add(utentiPanel);
         sfondoLabel.add(graficiPanel);
 
-        utentiPanel.setBounds(width/2 - 275,height/2+50,b_width*3,b_height);
+        utentiPanel.setBounds(width/4,height/2+50,b_width*4,b_height);
         utentiPanel.setOpaque(false);
 
         graficiPanel.setBounds(width/2 - 175,height*2/3+100,b_width*2,b_height);
@@ -140,18 +140,16 @@ public class HomeFrame extends JFrame {
         studente.setBorder(new EtchedBorder());
         studente.setBackground(Color.WHITE);
         studente.setForeground(Color.DARK_GRAY);
-
-
         studente.addActionListener(e -> {
             new StudentiFrame(controllore);
             dispose();
         });
+
         JButton docente = new JButton("DOCENTE");
         docente.setFont(CustomFont.getFont((float) width/68));
         docente.setBorder(new EtchedBorder());
         docente.setBackground(Color.WHITE);
         docente.setForeground(Color.DARK_GRAY);
-
         docente.addActionListener(e -> {
             new DocentiFrame(controllore);
             dispose();
@@ -162,10 +160,18 @@ public class HomeFrame extends JFrame {
         genitore.setBorder(new EtchedBorder());
         genitore.setBackground(Color.WHITE);
         genitore.setForeground(Color.DARK_GRAY);
-
-
         genitore.addActionListener(e -> {
             new GenitoriFrame(controllore);
+            dispose();
+        });
+
+        JButton classe = new JButton("CLASSE");
+        classe.setFont(CustomFont.getFont((float) width/68));
+        classe.setBorder(new EtchedBorder());
+        classe.setBackground(Color.WHITE);
+        classe.setForeground(Color.DARK_GRAY);
+        classe.addActionListener(e -> {
+            new ClassFrame(controllore);
             dispose();
         });
 
@@ -197,6 +203,7 @@ public class HomeFrame extends JFrame {
         utentiPanel.add(studente);
         utentiPanel.add(docente);
         utentiPanel.add(genitore);
+        utentiPanel.add(classe);
 
         graficiPanel.add(graficiStudenti);
         graficiPanel.add(graficiClassi);

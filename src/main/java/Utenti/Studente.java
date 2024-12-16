@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Studente extends Persona{
     private ArrayList<Voto> voti;
-    private ArrayList<String> note;
+    private ArrayList<Nota> note;
     private ArrayList<Assenza> assenze;
 
     private Classe classe;
@@ -25,7 +25,7 @@ public class Studente extends Persona{
         return voti;
     }
 
-    public ArrayList<String> getNote() {
+    public ArrayList<Nota> getNote() {
         return note;
     }
 

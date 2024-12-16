@@ -71,6 +71,25 @@ public class DocentiFrame extends JFrame {
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
 
+        //PULSANTE INDIETRO----------------------------------------
+        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(indietroPanel);
+        indietroPanel.setBounds(0,b_height,b_height,b_height);
+        indietroPanel.setOpaque(false);
+
+        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
+        indietroButton.setFont(CustomFont.getFont((float) width/68));
+        indietroButton.setBorder(new EtchedBorder());
+        indietroButton.setBackground(Color.WHITE);
+        indietroButton.setForeground(Color.DARK_GRAY);
+        indietroPanel.add(indietroButton);
+
+        indietroButton.addActionListener(e->{
+            new HomeFrame(controllore);
+            dispose();
+        });
+        //PULSANTE INDIETRO---------------------------------------
+
         //PULSANTI------------------------------------------------------
         JButton crea = new JButton("CREA");
         crea.setFont(CustomFont.getFont((float) width/68));

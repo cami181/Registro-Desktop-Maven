@@ -75,7 +75,7 @@ public class CreaDocentiFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            new StudentiFrame(controllore);
+            new DocentiFrame(controllore);
             dispose();
         });
 
@@ -223,14 +223,15 @@ public class CreaDocentiFrame extends JFrame {
         classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
         classLabel.setForeground(Color.WHITE);
 
-        JCheckBox classCombo = new JCheckBox();
-        classCombo.add(new JButton("CIAO"));
-        classCombo.add(new JButton("CIAO2"));
-        classCombo.add(new JButton("CIAO3"));
+        JCheckBox classBox = new JCheckBox();
+        classBox.setOpaque(false);
+        classBox.add(new JButton("CIAO"),0);
+        classBox.add(new JButton("CIAO2"),1);
+        classBox.add(new JButton("CIAO3"),2);
 
         classPanel.add(classLabel);
         classPanel.add(Box.createHorizontalStrut(10));
-        classPanel.add(classCombo);
+        classPanel.add(classBox);
         /*//CLASSE
         JPanel classPanel = new JPanel();
         classPanel.setLayout(new BoxLayout(classPanel, BoxLayout.X_AXIS));
@@ -286,7 +287,7 @@ public class CreaDocentiFrame extends JFrame {
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else{
-                // CREA LO STUDENTE Studente studente = new Studente();
+
                 JOptionPane.showMessageDialog(null,":)");
             }
         });

@@ -8,10 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class CreaStudentiFrame extends JFrame {
     private Controllore controllore;
@@ -164,10 +161,10 @@ public class CreaStudentiFrame extends JFrame {
             annoCombo.addItem(String.valueOf(i));
         }
 
-        // Listener per aggiornare i giorni in base a mese e anno selezionati
+        // Listener per aggiornare i giorni in base a mese e anno
         ActionListener aggiornaGiorni = e -> {
             int giorniMax = 31;
-            int meseSelezionato = meseCombo.getSelectedIndex(); // Ottieni l'indice del mese selezionato (0-based)
+            int meseSelezionato = meseCombo.getSelectedIndex();
             int anno = Integer.parseInt((String) annoCombo.getSelectedItem());
             Calendar cal = Calendar.getInstance();
             cal.set(anno, meseSelezionato, 1);
@@ -195,7 +192,7 @@ public class CreaStudentiFrame extends JFrame {
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(annoCombo);
 
-        // Aggiungi i pannelli di input al formPanel
+        // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
         formPanel1.add(Box.createVerticalStrut(20));  // Spazio tra i campi
         formPanel1.add(cognomePanel);
@@ -278,19 +275,26 @@ public class CreaStudentiFrame extends JFrame {
             else if(!controllore.checkCodiceFiscale(cfField.getText().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
+            else if(controllore.alreadyExistentCf(cfField.getText())){
+                JOptionPane.showMessageDialog(null,"Codice Fiscale già esistente");
+            }
             else{
-                //USER PASSWORD
-                String user = nomeField.getText() + "." + cognomeField.getText();
-                String password = "";
-                for(int i=0;i<user.length();i++){
-                    if(user.charAt(i)!='a' && user.charAt(i)!='e' && user.charAt(i)!='i' && user.charAt(i)!='o' && user.charAt(i)!='u' && user.charAt(i)!='.'){
-                        password += user.charAt(i);
+                //data di nascita
+                int anno = Integer.parseInt(Objects.requireNonNull(annoCombo.getSelectedItem()).toString());
+                int mese = meseCombo.getSelectedIndex();
+                int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
+                Date data = new GregorianCalendar(anno,mese,giorno).getTime();
+
+                Classe classe = null;
+                for (Classe c: classi) {
+                    if(Objects.requireNonNull(classCombo.getSelectedItem()).toString().equals(c.toString())){
+                        classe = c;
                     }
                 }
 
-                /*Studente studente = new Studente(nomeField.getText(),cognomeField.getText(),new Date(boh),cfField.getText(),new Classe(roba));
-                controllore.registrazione(studente,new Credenziali(user,password));*/
-                JOptionPane.showMessageDialog(null,user + " " + password);
+                Studente studente = new Studente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classe);
+                controllore.registrazione(studente);
+                JOptionPane.showMessageDialog(null,":)");
             }
         });
 
