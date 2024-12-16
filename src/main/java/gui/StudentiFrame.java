@@ -100,7 +100,6 @@ public class StudentiFrame extends JFrame {
 
         crea.addActionListener(e -> {
             new CreaStudentiFrame(controllore);
-            //dispose();
         });
 
         JButton modifica = new JButton("MODIFICA");
@@ -114,6 +113,10 @@ public class StudentiFrame extends JFrame {
         elimina.setBorder(new EtchedBorder());
         elimina.setBackground(Color.WHITE);
         elimina.setForeground(Color.DARK_GRAY);
+        elimina.addActionListener(e ->{
+            new ModificaStudenteFrame(controllore);
+            dispose();
+        });
         //PULSANTI------------------------------------------------------
 
         //PANEL PULSANTI-------------------------------------------------------

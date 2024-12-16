@@ -1,13 +1,11 @@
 package gui;
 
-import Utenti.Classe;
 import Controllore.Controllore;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -15,7 +13,6 @@ public class CreaDocentiFrame extends JFrame {
     private Controllore controllore;
     public CreaDocentiFrame(Controllore controllore) {
         this.controllore = controllore;
-
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
