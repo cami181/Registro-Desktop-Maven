@@ -280,7 +280,7 @@ public class CreaDocentiFrame extends JFrame {
            /* else if(Objects.equals(classCombo.getSelectedItem(), " ")){
                 JOptionPane.showMessageDialog(null,"Inserire la classe");
             }*/
-            else if(!controllore.checkCodiceFiscale(cfField.getText().trim())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else{

@@ -55,7 +55,7 @@ public class HomeFrame extends JFrame {
         //EXIT-------------------------------------------------------------
         JPanel exitPanel = new JPanel(new GridLayout(1,1));
         sfondoLabel.add(exitPanel);
-        exitPanel.setBounds(0,b_height,b_height,b_height);
+        exitPanel.setBounds(0,0,b_height,b_height);
         exitPanel.setOpaque(false);
 
         JButton exitButton = new JButton();
@@ -78,23 +78,6 @@ public class HomeFrame extends JFrame {
             dispose();
         });
         //EXIT---------------------------------------------------------
-
-        JPanel homePanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(homePanel);
-        homePanel.setBounds(0,0,b_height,b_height);
-        homePanel.setOpaque(false);
-
-        PulsanteHome homeButton = new PulsanteHome(b_height);
-        homeButton.setFont(CustomFont.getFont((float) width/68));
-        homeButton.setBorder(new EtchedBorder());
-        homeButton.setBackground(Color.WHITE);
-        homeButton.setForeground(Color.DARK_GRAY);
-        homePanel.add(homeButton);
-
-        homeButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
 
         //PANEL PULSANTI---------------------------------------------
         JPanel utentiPanel = new JPanel(new GridLayout(1,1));

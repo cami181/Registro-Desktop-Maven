@@ -41,39 +41,52 @@ public class Controllore {
                 password += user.charAt(i);
             }
         }
-        Credenziali credenziali = new Credenziali(user,password);
 
         if(persona instanceof Studente) {
+            user = "s" + user;
             Studente s = (Studente) persona;
-            s.setCredenziali(credenziali);
+            s.setCredenziali(new Credenziali(user,password));
         } else if(persona instanceof Genitore) {
+            user = "d" + user;
             Genitore g = (Genitore) persona;
-            g.setCredenziali(credenziali);
+            g.setCredenziali(new Credenziali(user,password));
         } else {
+            user = "g" + user;
             Docente d = (Docente) persona;
-            d.setCredenziali(credenziali);
+            d.setCredenziali(new Credenziali(user,password));
         }
+    }
+
+    public boolean registraClasse(int anno, String corso, char sezione){
+        ArrayList<Classe> classi = new ArrayList<>();
+        classi.add(new Classe(4,"inf",'a'));
+
+        for (Classe c: classi) {
+            if(c.getAnno()==anno && c.getIndirizzo().equals(corso) && c.getSezione()==sezione) return false;
+        }
+        Classe classe = new Classe(anno,corso,sezione);
+        return true;
     }
     // --- FINE REGISTRAZIONE --- //
 
     //CODICE FISCALE------------------------------
-    public boolean checkCodiceFiscale(String cf){
+    public boolean codiceFiscaleInvalido(String cf){
         //lunghezza di 16
-        if(cf.length()!=16) return false;
+        if(cf.length()!=16) return true;
 
         //NUMERI
         Integer[] in = new Integer[]{6,7,9,10,12,13,14};
         for (Integer i: in) {
-            if(!Character.isDigit(cf.charAt(i))) return false;
+            if(!Character.isDigit(cf.charAt(i))) return true;
         }
 
         //CARATTERI
         in = new Integer[]{0,1,2,3,4,5,8,11,15};
         for (Integer i: in) {
-            if(Character.isDigit(cf.charAt(i))) return false;
+            if(Character.isDigit(cf.charAt(i))) return true;
         }
 
-        return true;
+        return false;
     }
 
     public boolean alreadyExistentCf(String cf){

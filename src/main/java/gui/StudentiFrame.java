@@ -130,10 +130,6 @@ public class StudentiFrame extends JFrame {
         opzioniPanel.add(elimina);
         //PANEL PULSANTI-------------------------------------------------------
 
-        //LISTA NOMI------------------------------
-
-        //LISTA NOMI------------------------------
-
         container.add(sfondoPanel);
         revalidate();
         repaint();

@@ -98,7 +98,7 @@ public class ClassFrame extends JFrame {
         crea.setForeground(Color.DARK_GRAY);
 
         crea.addActionListener(e ->{
-            new CreaDocentiFrame(controllore);
+            new CreaClasseFrame(controllore);
             dispose();
         });
 
