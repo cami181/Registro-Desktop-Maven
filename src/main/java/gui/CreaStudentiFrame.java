@@ -2,13 +2,13 @@ package gui;
 
 import Utenti.*;
 import Controllore.Controllore;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
-
 public class CreaStudentiFrame extends JFrame {
     private Controllore controllore;
     public CreaStudentiFrame(Controllore controllore) {
@@ -295,6 +295,7 @@ public class CreaStudentiFrame extends JFrame {
                 controllore.registrazione(studente);
                 JOptionPane.showMessageDialog(null,":)");
             }
+
         });
 
         confermaPanel.add(conferma);
