@@ -46,7 +46,7 @@ public class HomeFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("REGISTRO ELETTRONICO");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(CustomFont.getFont((float) width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -58,21 +58,12 @@ public class HomeFrame extends JFrame {
         exitPanel.setBounds(0,0,b_height,b_height);
         exitPanel.setOpaque(false);
 
-        JButton exitButton = new JButton();
-        exitButton.setFont(CustomFont.getFont((float) width/68));
+        PulsanteExit exitButton = new PulsanteExit(b_height);
+        exitButton.setFont(new Font("Arial", Font.BOLD, width/68));
         exitButton.setBorder(new EtchedBorder());
         exitButton.setBackground(Color.WHITE);
         exitButton.setForeground(Color.DARK_GRAY);
         exitPanel.add(exitButton);
-
-        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/exit.png")));
-        Image newImage = imageIcon.getImage().getScaledInstance(b_height, b_height, Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newImage);
-        exitButton.setIcon(imageIcon);
-        exitButton.setIconTextGap(0);
-        exitButton.setOpaque(false);
-        exitButton.setContentAreaFilled(false);
-        exitButton.setBorderPainted(false);
 
         exitButton.addActionListener(e->{
             dispose();
@@ -85,19 +76,19 @@ public class HomeFrame extends JFrame {
         sfondoLabel.add(utentiPanel);
         sfondoLabel.add(graficiPanel);
 
-        utentiPanel.setBounds(width/4,height/2+50,b_width*4,b_height);
+        utentiPanel.setBounds(width/3-b_width,height/2,b_width*4,b_height);
         utentiPanel.setOpaque(false);
 
-        graficiPanel.setBounds(width/2 - 175,height*2/3+100,b_width*2,b_height);
+        graficiPanel.setBounds(width/3,height/2+250,b_width*2,b_height);
         graficiPanel.setOpaque(false);
         //PANEL PULSANTI----------------------------------------------
 
         //PANEL TITOLI--------------------------------------
         JPanel gestioneUtenti = new JPanel(new GridLayout(1,1));
-        gestioneUtenti.setBounds(width/2 - 90,height/2-50,b_width*3,b_height);
+        gestioneUtenti.setBounds(width/3,height/2-50,b_width*3,b_height);
         gestioneUtenti.setOpaque(false);
         JPanel gestioneGrafici = new JPanel(new GridLayout(1,1));
-        gestioneGrafici.setBounds(width/2 - 50,height/2+200,b_width*3,b_height);
+        gestioneGrafici.setBounds(width/3+b_width/2,height/2+200,b_width*3,b_height);
         gestioneGrafici.setOpaque(false);
 
         sfondoLabel.add(gestioneUtenti);
@@ -105,12 +96,12 @@ public class HomeFrame extends JFrame {
 
         JLabel utentiLabel = new JLabel("GESTIONE UTENTI");
         utentiLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        utentiLabel.setFont(CustomFont.getFont((float) width/65));
+        utentiLabel.setFont(new Font("Arial", Font.BOLD, width/40));
         utentiLabel.setForeground(Color.white);
 
         JLabel graficiLabel = new JLabel("GRAFICI");
         graficiLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        graficiLabel.setFont(CustomFont.getFont((float) width/65));
+        graficiLabel.setFont(new Font("Arial", Font.BOLD, width/40));
         graficiLabel.setForeground(Color.white);
 
         gestioneUtenti.add(utentiLabel);
@@ -119,7 +110,7 @@ public class HomeFrame extends JFrame {
 
         //PULSANTI--------------------------------
         JButton studente = new JButton("STUDENTI");
-        studente.setFont(CustomFont.getFont((float) width/68));
+        studente.setFont(new Font("Arial", Font.BOLD, width/68));
         studente.setBorder(new EtchedBorder());
         studente.setBackground(Color.WHITE);
         studente.setForeground(Color.DARK_GRAY);
@@ -129,7 +120,7 @@ public class HomeFrame extends JFrame {
         });
 
         JButton docente = new JButton("DOCENTE");
-        docente.setFont(CustomFont.getFont((float) width/68));
+        docente.setFont(new Font("Arial", Font.BOLD, width/68));
         docente.setBorder(new EtchedBorder());
         docente.setBackground(Color.WHITE);
         docente.setForeground(Color.DARK_GRAY);
@@ -139,7 +130,7 @@ public class HomeFrame extends JFrame {
         });
 
         JButton genitore = new JButton("GENITORE");
-        genitore.setFont(CustomFont.getFont((float) width/68));
+        genitore.setFont(new Font("Arial", Font.BOLD, width/68));
         genitore.setBorder(new EtchedBorder());
         genitore.setBackground(Color.WHITE);
         genitore.setForeground(Color.DARK_GRAY);
@@ -149,7 +140,7 @@ public class HomeFrame extends JFrame {
         });
 
         JButton classe = new JButton("CLASSE");
-        classe.setFont(CustomFont.getFont((float) width/68));
+        classe.setFont(new Font("Arial", Font.BOLD, width/68));
         classe.setBorder(new EtchedBorder());
         classe.setBackground(Color.WHITE);
         classe.setForeground(Color.DARK_GRAY);
@@ -159,7 +150,7 @@ public class HomeFrame extends JFrame {
         });
 
         JButton graficiClassi = new JButton("CLASSI");
-        graficiClassi.setFont(CustomFont.getFont((float) width/68));
+        graficiClassi.setFont(new Font("Arial", Font.BOLD, width/68));
         graficiClassi.setBorder(new EtchedBorder());
         graficiClassi.setBackground(Color.WHITE);
         graficiClassi.setForeground(Color.DARK_GRAY);
@@ -170,7 +161,7 @@ public class HomeFrame extends JFrame {
         });
 
         JButton graficiStudenti = new JButton("STUDENTI");
-        graficiStudenti.setFont(CustomFont.getFont((float) width/68));
+        graficiStudenti.setFont(new Font("Arial", Font.BOLD, width/68));
         graficiStudenti.setBorder(new EtchedBorder());
         graficiStudenti.setBackground(Color.WHITE);
         graficiStudenti.setForeground(Color.DARK_GRAY);

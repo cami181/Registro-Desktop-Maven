@@ -44,7 +44,7 @@ public class GenitoriFrame extends JFrame {
         homePanel.setOpaque(false);
 
         PulsanteHome homeButton = new PulsanteHome(b_height);
-        homeButton.setFont(CustomFont.getFont((float) width/68));
+        homeButton.setFont(new Font("Arial", Font.BOLD, width/35));
         homeButton.setBorder(new EtchedBorder());
         homeButton.setBackground(Color.WHITE);
         homeButton.setForeground(Color.DARK_GRAY);
@@ -63,7 +63,7 @@ public class GenitoriFrame extends JFrame {
         indietroPanel.setOpaque(false);
 
         PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(CustomFont.getFont((float) width/68));
+        indietroButton.setFont(new Font("Arial", Font.BOLD, width/35));
         indietroButton.setBorder(new EtchedBorder());
         indietroButton.setBackground(Color.WHITE);
         indietroButton.setForeground(Color.DARK_GRAY);
@@ -84,7 +84,7 @@ public class GenitoriFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("GENITORI");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(CustomFont.getFont((float) width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/35));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -92,19 +92,19 @@ public class GenitoriFrame extends JFrame {
 
         //PULSANTI------------------------------------------------------
         JButton crea = new JButton("CREA");
-        crea.setFont(CustomFont.getFont((float) width/68));
+        crea.setFont(new Font("Arial", Font.BOLD, width/35));
         crea.setBorder(new EtchedBorder());
         crea.setBackground(Color.WHITE);
         crea.setForeground(Color.DARK_GRAY);
 
         JButton modifica = new JButton("MODIFICA");
-        modifica.setFont(CustomFont.getFont((float) width/68));
+        modifica.setFont(new Font("Arial", Font.BOLD, width/35));
         modifica.setBorder(new EtchedBorder());
         modifica.setBackground(Color.WHITE);
         modifica.setForeground(Color.DARK_GRAY);
 
         JButton elimina = new JButton("ELIMINA");
-        elimina.setFont(CustomFont.getFont((float) width/68));
+        elimina.setFont(new Font("Arial", Font.BOLD, width/35));
         elimina.setBorder(new EtchedBorder());
         elimina.setBackground(Color.WHITE);
         elimina.setForeground(Color.DARK_GRAY);
@@ -120,10 +120,6 @@ public class GenitoriFrame extends JFrame {
         opzioniPanel.add(modifica);
         opzioniPanel.add(elimina);
         //PANEL PULSANTI-------------------------------------------------------
-
-        //LISTA NOMI------------------------------
-
-        //LISTA NOMI------------------------------
 
         container.add(sfondoPanel);
         revalidate();

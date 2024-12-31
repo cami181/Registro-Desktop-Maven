@@ -6,15 +6,12 @@ import java.util.Date;
 
 public class Assenza {
     private String giustifica;
-    private Docente docente;
-    private Date data;
+    private final Docente docente;
+    private final Date data;
 
-    public Assenza(Date data) {
+    public Assenza(Docente docente, Date data) {
+        this.docente = docente;
         this.data = data;
-    }
-
-    public Assenza(String giustifica) {
-        this.giustifica = giustifica;
     }
 
     public String getGiustifica() {
@@ -27,10 +24,6 @@ public class Assenza {
 
     public void setGiustifica(String giustifica) {
         this.giustifica = giustifica;
-    }
-
-    public void setDocente(Docente docente) {
-        this.docente = docente;
     }
 
     public Date getData(){

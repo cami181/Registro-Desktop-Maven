@@ -47,7 +47,7 @@ public class CreaStudentiFrame extends JFrame {
         homePanel.setOpaque(false);
 
         PulsanteHome homeButton = new PulsanteHome(b_height);
-        homeButton.setFont(CustomFont.getFont((float) width/68));
+        homeButton.setFont(new Font("Arial", Font.BOLD, width/35));
         homeButton.setBorder(new EtchedBorder());
         homeButton.setBackground(Color.WHITE);
         homeButton.setForeground(Color.DARK_GRAY);
@@ -74,7 +74,7 @@ public class CreaStudentiFrame extends JFrame {
         indietroPanel.setOpaque(false);
 
         PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(CustomFont.getFont((float) width/68));
+        indietroButton.setFont(new Font("Arial", Font.BOLD, width/35));
         indietroButton.setBorder(new EtchedBorder());
         indietroButton.setBackground(Color.WHITE);
         indietroButton.setForeground(Color.DARK_GRAY);
@@ -84,6 +84,25 @@ public class CreaStudentiFrame extends JFrame {
             new StudentiFrame(controllore);
             dispose();
         });
+        //INDIETRO---------------------------------------------
+
+        //EXIT-------------------------------------------------------------
+        JPanel exitPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(exitPanel);
+        exitPanel.setBounds(0,b_height*2,b_height,b_height);
+        exitPanel.setOpaque(false);
+
+        PulsanteExit exitButton = new PulsanteExit(b_height);
+        exitButton.setFont(new Font("Arial", Font.BOLD, width/68));
+        exitButton.setBorder(new EtchedBorder());
+        exitButton.setBackground(Color.WHITE);
+        exitButton.setForeground(Color.DARK_GRAY);
+        exitPanel.add(exitButton);
+
+        exitButton.addActionListener(e->{
+            dispose();
+        });
+        //EXIT---------------------------------------------------------
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -94,7 +113,7 @@ public class CreaStudentiFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("CREA STUDENTE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(CustomFont.getFont((float) width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -193,9 +212,9 @@ public class CreaStudentiFrame extends JFrame {
 
         // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
-        formPanel1.add(Box.createVerticalStrut(20));  // Spazio tra i campi
+        formPanel1.add(Box.createVerticalStrut(60));  // Spazio tra i campi
         formPanel1.add(cognomePanel);
-        formPanel1.add(Box.createVerticalStrut(20));
+        formPanel1.add(Box.createVerticalStrut(60));
         formPanel1.add(dataNascitaPanel);
 
         //PANEL 2--------------------------------------------------------------
@@ -247,7 +266,7 @@ public class CreaStudentiFrame extends JFrame {
 
         //aggiunta al panel
         formPanel2.add(cfPanel);
-        formPanel2.add(Box.createVerticalStrut(20));
+        formPanel2.add(Box.createVerticalStrut(80));
         formPanel2.add(classPanel);
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
@@ -257,7 +276,7 @@ public class CreaStudentiFrame extends JFrame {
         confermaPanel.setBounds(width*3/4,height*4/5,b_width,b_height);
 
         JButton conferma = new JButton("CONFERMA");
-        conferma.setFont(CustomFont.getFont((float) height /35));
+        conferma.setFont(new Font("Arial", Font.BOLD, width/68));
         conferma.setBorder(new EtchedBorder());
         conferma.setBackground(new Color(189, 255, 136));
         conferma.setForeground(Color.DARK_GRAY);
@@ -266,7 +285,7 @@ public class CreaStudentiFrame extends JFrame {
         conferma.addActionListener(e ->{
             //nome e cognome
             if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null,"Inserisci nome e cognome");
+                JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
             else if(Objects.equals(classCombo.getSelectedItem(), " ")){
                 JOptionPane.showMessageDialog(null,"Inserire la classe");

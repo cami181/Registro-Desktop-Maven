@@ -45,7 +45,7 @@ public class StudentiFrame extends JFrame {
         homePanel.setOpaque(false);
 
         PulsanteHome homeButton = new PulsanteHome(b_height);
-        homeButton.setFont(CustomFont.getFont((float) width/68));
+        homeButton.setFont(new Font("Arial", Font.BOLD, width/40));
         homeButton.setBorder(new EtchedBorder());
         homeButton.setBackground(Color.WHITE);
         homeButton.setForeground(Color.DARK_GRAY);
@@ -64,7 +64,7 @@ public class StudentiFrame extends JFrame {
         indietroPanel.setOpaque(false);
 
         PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(CustomFont.getFont((float) width/68));
+        indietroButton.setFont(new Font("Arial", Font.BOLD, width/40));
         indietroButton.setBorder(new EtchedBorder());
         indietroButton.setBackground(Color.WHITE);
         indietroButton.setForeground(Color.DARK_GRAY);
@@ -76,6 +76,24 @@ public class StudentiFrame extends JFrame {
         });
         //PULSANTE INDIETRO---------------------------------------
 
+        //EXIT-------------------------------------------------------------
+        JPanel exitPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(exitPanel);
+        exitPanel.setBounds(0,b_height*2,b_height,b_height);
+        exitPanel.setOpaque(false);
+
+        PulsanteExit exitButton = new PulsanteExit(b_height);
+        exitButton.setFont(new Font("Arial", Font.BOLD, width/68));
+        exitButton.setBorder(new EtchedBorder());
+        exitButton.setBackground(Color.WHITE);
+        exitButton.setForeground(Color.DARK_GRAY);
+        exitPanel.add(exitButton);
+
+        exitButton.addActionListener(e->{
+            dispose();
+        });
+        //EXIT---------------------------------------------------------
+
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
         titlePanel.setBounds(width/6,height/4,width*2/3,height/5);
@@ -85,7 +103,7 @@ public class StudentiFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("STUDENTI");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(CustomFont.getFont((float) width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -93,23 +111,29 @@ public class StudentiFrame extends JFrame {
 
         //PULSANTI------------------------------------------------------
         JButton crea = new JButton("CREA");
-        crea.setFont(CustomFont.getFont((float) width/68));
+        crea.setFont(new Font("Arial", Font.BOLD, width/40));
         crea.setBorder(new EtchedBorder());
         crea.setBackground(Color.WHITE);
         crea.setForeground(Color.DARK_GRAY);
 
         crea.addActionListener(e -> {
             new CreaStudentiFrame(controllore);
+            dispose();
         });
 
         JButton modifica = new JButton("MODIFICA");
-        modifica.setFont(CustomFont.getFont((float) width/68));
+        modifica.setFont(new Font("Arial", Font.BOLD, width/40));
         modifica.setBorder(new EtchedBorder());
         modifica.setBackground(Color.WHITE);
         modifica.setForeground(Color.DARK_GRAY);
 
+        modifica.addActionListener(e ->{
+            new ModificaStudenteFrame(controllore);
+            dispose();
+        });
+
         JButton elimina = new JButton("ELIMINA");
-        elimina.setFont(CustomFont.getFont((float) width/68));
+        elimina.setFont(new Font("Arial", Font.BOLD, width/40));
         elimina.setBorder(new EtchedBorder());
         elimina.setBackground(Color.WHITE);
         elimina.setForeground(Color.DARK_GRAY);
@@ -122,7 +146,7 @@ public class StudentiFrame extends JFrame {
         //PANEL PULSANTI-------------------------------------------------------
         JPanel opzioniPanel = new JPanel(new GridLayout(3,1));
         sfondoLabel.add(opzioniPanel);
-        opzioniPanel.setBounds(width/4,height/2,b_width,b_height*3);
+        opzioniPanel.setBounds(width/4,height/2,b_width*2,b_height*3);
         opzioniPanel.setOpaque(false);
 
         opzioniPanel.add(crea);

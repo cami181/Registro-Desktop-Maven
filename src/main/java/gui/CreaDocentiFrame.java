@@ -46,7 +46,7 @@ public class CreaDocentiFrame extends JFrame {
         homePanel.setOpaque(false);
 
         PulsanteHome homeButton = new PulsanteHome(b_height);
-        homeButton.setFont(CustomFont.getFont((float) width/68));
+        homeButton.setFont(new Font("Arial", Font.BOLD, width/35));
         homeButton.setBorder(new EtchedBorder());
         homeButton.setBackground(Color.WHITE);
         homeButton.setForeground(Color.DARK_GRAY);
@@ -65,7 +65,7 @@ public class CreaDocentiFrame extends JFrame {
         indietroPanel.setOpaque(false);
 
         PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(CustomFont.getFont((float) width/68));
+        indietroButton.setFont(new Font("Arial", Font.BOLD, width/35));
         indietroButton.setBorder(new EtchedBorder());
         indietroButton.setBackground(Color.WHITE);
         indietroButton.setForeground(Color.DARK_GRAY);
@@ -85,7 +85,7 @@ public class CreaDocentiFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("CREA DOCENTE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(CustomFont.getFont((float) width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/35));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -266,7 +266,7 @@ public class CreaDocentiFrame extends JFrame {
         confermaPanel.setBounds(width*3/4,height*4/5,b_width,b_height);
 
         JButton conferma = new JButton("CONFERMA");
-        conferma.setFont(CustomFont.getFont((float) height /35));
+        conferma.setFont(new Font("Arial", Font.BOLD, width/35));
         conferma.setBorder(new EtchedBorder());
         conferma.setBackground(new Color(189, 255, 136));
         conferma.setForeground(Color.DARK_GRAY);
