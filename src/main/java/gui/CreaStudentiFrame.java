@@ -314,7 +314,8 @@ public class CreaStudentiFrame extends JFrame {
                 controllore.registrazione(studente);
                 JOptionPane.showMessageDialog(null,":)");
             }
-
+            new StudentiFrame(controllore);
+            dispose();
         });
 
         confermaPanel.add(conferma);

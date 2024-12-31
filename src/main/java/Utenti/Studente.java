@@ -37,6 +37,10 @@ public class Studente extends Persona{
         return classe;
     }
 
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
+
     public double getMedia(){
         double media = 0;
         for (Voto v: voti) {

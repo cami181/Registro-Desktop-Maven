@@ -3,12 +3,19 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 import Controllore.Controllore;
+import Utenti.Classe;
+import Utenti.Studente;
 
 public class StudentiFrame extends JFrame {
     private Controllore controllore;
+    private JButton selectedButton;
+    Date data = new GregorianCalendar(2002,11,20).getTime();
     public StudentiFrame(Controllore controllore){
         this.controllore = controllore;
 
@@ -127,21 +134,93 @@ public class StudentiFrame extends JFrame {
         modifica.setBackground(Color.WHITE);
         modifica.setForeground(Color.DARK_GRAY);
 
-        modifica.addActionListener(e ->{
-            new ModificaStudenteFrame(controllore);
-            dispose();
-        });
-
         JButton elimina = new JButton("ELIMINA");
         elimina.setFont(new Font("Arial", Font.BOLD, width/40));
         elimina.setBorder(new EtchedBorder());
         elimina.setBackground(Color.WHITE);
         elimina.setForeground(Color.DARK_GRAY);
+
+        modifica.addActionListener(e ->{
+            if(modifica.equals(selectedButton)){
+                modifica.setBackground(Color.WHITE);
+                selectedButton = null;
+            }
+            else{
+                modifica.setBackground(Color.GREEN);
+                elimina.setBackground(Color.WHITE);
+                selectedButton = modifica;
+            }
+        });
         elimina.addActionListener(e ->{
-            new ModificaStudenteFrame(controllore);
-            dispose();
+            if(elimina.equals(selectedButton)){
+                elimina.setBackground(Color.WHITE);
+                selectedButton = null;
+            }
+            else {
+                elimina.setBackground(Color.GREEN);
+                modifica.setBackground(Color.WHITE);
+                selectedButton = elimina;
+            }
         });
         //PULSANTI------------------------------------------------------
+
+        //PANEL LISTA NOMI-------------------------------------------------
+        JPanel elencoPanel = new JPanel();
+        elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
+        sfondoLabel.add(elencoPanel);
+        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*3);
+        elencoPanel.setOpaque(false);
+
+        JLabel listaLabel = new JLabel("SELEZIONA UNO STUDENTE");
+        listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
+        listaLabel.setForeground(Color.WHITE);
+
+
+        JComboBox<String> listaStudenti = new JComboBox<>();
+        //DA PRENDERE ELENCO STUDENTI
+        ArrayList<Studente> studenti = new ArrayList<>();
+        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
+        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(5,"inf",'B'));
+        studenti.add(s);
+        studenti.add(s1);
+        listaStudenti.addItem("");
+        for (Studente tmp: studenti) {
+            listaStudenti.addItem(tmp.getCF());
+        }
+
+        //pulsanti
+        JButton conferma = new JButton("CONFERMA");
+        conferma.addActionListener(e ->{
+            if(Objects.requireNonNull(listaStudenti.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
+            }
+            else{
+                try{
+                    if(selectedButton.equals(modifica)){
+                        //prendo lo studente e lo elimino dalla lista
+                        String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
+                        for (Studente tmp: studenti) {
+                            if(tmp.getCF().equals(cf)){
+                                new ModificaStudenteFrame(controllore,tmp);
+                                dispose();
+                            }
+                        }
+                    }
+                    else if(selectedButton.equals(elimina)){
+                        //prendo lo studente e lo elimino dalla lista anche qua
+                    }
+                }catch(NullPointerException ex){
+                    JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sullo studente");
+                }
+            }
+        });
+
+        elencoPanel.add(listaLabel);
+        elencoPanel.add(Box.createVerticalStrut(60));
+        elencoPanel.add(listaStudenti);
+        elencoPanel.add(Box.createVerticalStrut(60));
+        elencoPanel.add(conferma);
+        //PANEL LISTA NOMI-------------------------------------------------
 
         //PANEL PULSANTI-------------------------------------------------------
         JPanel opzioniPanel = new JPanel(new GridLayout(3,1));

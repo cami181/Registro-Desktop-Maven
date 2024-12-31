@@ -11,8 +11,9 @@ import java.awt.event.ActionListener;
 import java.util.*;
 public class ModificaStudenteFrame extends JFrame {
     private Controllore controllore;
-    public ModificaStudenteFrame(Controllore controllore) {
+    public ModificaStudenteFrame(Controllore controllore, Studente studente) {
         this.controllore = controllore;
+        Studente tmp = studente;
 
         int width, height, b_height, b_width;
 
@@ -54,6 +55,8 @@ public class ModificaStudenteFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
+            controllore.registrazione(tmp);
+            JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new HomeFrame(controllore);
             dispose();
         });
@@ -81,6 +84,8 @@ public class ModificaStudenteFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
+            controllore.registrazione(tmp);
+            JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new StudentiFrame(controllore);
             dispose();
         });
@@ -100,6 +105,8 @@ public class ModificaStudenteFrame extends JFrame {
         exitPanel.add(exitButton);
 
         exitButton.addActionListener(e->{
+            controllore.registrazione(tmp);
+            JOptionPane.showMessageDialog(null,"studente salvato come prima");
             dispose();
         });
         //EXIT---------------------------------------------------------
@@ -135,6 +142,7 @@ public class ModificaStudenteFrame extends JFrame {
         nomeLabel.setForeground(Color.WHITE);
         JTextField nomeField = new JTextField();
         nomeField.setPreferredSize(new Dimension(200, 15));
+        nomeField.setText(studente.getNome());
         nomePanel.add(nomeLabel);
         nomePanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
         nomePanel.add(nomeField);
@@ -148,6 +156,7 @@ public class ModificaStudenteFrame extends JFrame {
         cognomeLabel.setForeground(Color.WHITE);
         JTextField cognomeField = new JTextField();
         cognomeField.setPreferredSize(new Dimension(200, 15));
+        cognomeField.setText(studente.getCognome());
         cognomePanel.add(cognomeLabel);
         cognomePanel.add(Box.createHorizontalStrut(10));
         cognomePanel.add(cognomeField);
@@ -160,11 +169,15 @@ public class ModificaStudenteFrame extends JFrame {
         dataNascitaLabel.setFont(new Font("Arial", Font.BOLD, height/35));
         dataNascitaLabel.setForeground(Color.WHITE);
 
+        Calendar calendar = Calendar. getInstance();
+        calendar.setTime(studente.getDataDiNascita());
+
         // ComboBox per i giorni
         JComboBox<String> giornoCombo = new JComboBox<>();
         for (int i = 1; i <= 31; i++) {
             giornoCombo.addItem(String.format("%02d", i));
         }
+        giornoCombo.setSelectedIndex(calendar.get(Calendar.DAY_OF_MONTH)-1);
 
         // ComboBox per i mesi
         JComboBox<String> meseCombo = new JComboBox<>();
@@ -172,12 +185,14 @@ public class ModificaStudenteFrame extends JFrame {
         for (String mese : mesi) {
             meseCombo.addItem(mese);
         }
+        meseCombo.setSelectedIndex(calendar.get(Calendar.MONTH)-1);
 
         // ComboBox per gli anni
         JComboBox<String> annoCombo = new JComboBox<>();
         for (int i = 1900; i <= 2024; i++) {
             annoCombo.addItem(String.valueOf(i));
         }
+        annoCombo.setSelectedIndex(calendar.get(Calendar.YEAR)-1900);
 
         // Listener per aggiornare i giorni in base a mese e anno
         ActionListener aggiornaGiorni = e -> {
@@ -234,6 +249,7 @@ public class ModificaStudenteFrame extends JFrame {
 
         JTextField cfField = new JTextField();
         cfField.setPreferredSize(new Dimension(200, 15));
+        cfField.setText(studente.getCF());
 
         cfPanel.add(cfLabel);
         cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
@@ -256,9 +272,13 @@ public class ModificaStudenteFrame extends JFrame {
         classi.add(new Classe(3,"tur", 'A'));
 
         classCombo.addItem(" ");
-        for (Classe c : classi) {
-            classCombo.addItem(c.toString());
+        int tmp_classe = 0;
+        for(int i=0;i<classi.size();i++){
+            classCombo.addItem(classi.get(i).toString());
+            if(studente.getClasse().toString().equals(classi.get(i).toString())) tmp_classe = i + 1;
         }
+
+        classCombo.setSelectedIndex(tmp_classe);
 
         classPanel.add(classLabel);
         classPanel.add(Box.createHorizontalStrut(10));
@@ -310,10 +330,17 @@ public class ModificaStudenteFrame extends JFrame {
                     }
                 }
 
-                Studente studente = new Studente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classe);
+                studente.setNome(nomeField.getText());
+                studente.setCognome(cognomeField.getText());
+                studente.setDataDiNascita(data);
+                studente.setCF(cfField.getText());
+                studente.setClasse(classe);
+
                 controllore.registrazione(studente);
                 JOptionPane.showMessageDialog(null,":)");
             }
+            new StudentiFrame(controllore);
+            dispose();
 
         });
 
