@@ -126,7 +126,6 @@ public class ModificaGenitoreFrame extends JFrame {
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
 
-
         // PANEL FORM 1 --------------------------------------
         JPanel formPanel1 = new JPanel();
         formPanel1.setLayout(new BoxLayout(formPanel1, BoxLayout.Y_AXIS));

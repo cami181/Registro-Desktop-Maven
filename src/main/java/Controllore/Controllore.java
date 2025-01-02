@@ -27,7 +27,7 @@ public class Controllore {
         for (Classe c: classi) {
             if(c.getAnno()==anno && c.getIndirizzo().equals(corso) && c.getSezione()==sezione) return false;
         }
-        Classe classe = new Classe(anno,corso,sezione);
+        Classe classe = new Classe(anno,corso,sezione); //DA REGISTRARE
         return true;
     }
     // --- FINE REGISTRAZIONE --- //

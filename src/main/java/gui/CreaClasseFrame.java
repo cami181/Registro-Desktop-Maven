@@ -1,13 +1,10 @@
 package gui;
 
 import Controllore.Controllore;
-import Utenti.Classe;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class CreaClasseFrame extends JFrame {
@@ -73,9 +70,27 @@ public class CreaClasseFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            new DocentiFrame(controllore);
+            new ClassFrame(controllore);
             dispose();
         });
+
+        //EXIT-------------------------------------------------------------
+        JPanel exitPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(exitPanel);
+        exitPanel.setBounds(0,b_height*2,b_height,b_height);
+        exitPanel.setOpaque(false);
+
+        PulsanteExit exitButton = new PulsanteExit(b_height);
+        exitButton.setFont(new Font("Arial", Font.BOLD, width/68));
+        exitButton.setBorder(new EtchedBorder());
+        exitButton.setBackground(Color.WHITE);
+        exitButton.setForeground(Color.DARK_GRAY);
+        exitPanel.add(exitButton);
+
+        exitButton.addActionListener(e->{
+            dispose();
+        });
+        //EXIT---------------------------------------------------------
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -84,14 +99,13 @@ public class CreaClasseFrame extends JFrame {
         sfondoLabel.add(titlePanel);
         titlePanel.setBackground(Color.white);
 
-        JLabel titoloLabel = new JLabel("CREA DOCENTE");
+        JLabel titoloLabel = new JLabel("CREA CLASSE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/35));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
-
 
         // PANEL FORM 1 --------------------------------------
         JPanel formPanel1 = new JPanel();
@@ -108,6 +122,7 @@ public class CreaClasseFrame extends JFrame {
         nomeLabel.setForeground(Color.WHITE);
         // ComboBox anno
         JComboBox<String> anno = new JComboBox<>();
+        anno.addItem("");
         for (int i = 1; i <= 5; i++) {
             anno.addItem(String.valueOf(i));
         }
@@ -125,6 +140,7 @@ public class CreaClasseFrame extends JFrame {
         // ComboBox corso
         String[] s = {"inf","tur","cat"};
         JComboBox<String> corso = new JComboBox<>();
+        corso.addItem("");
         for (String st : s) {
             corso.addItem(st);
         }
@@ -141,20 +157,20 @@ public class CreaClasseFrame extends JFrame {
         sezioneLabel.setForeground(Color.WHITE);
         // ComboBox sezione
         String[] s2 = {"a","b","c"};
-        JComboBox<String> scombo = new JComboBox<>();
+        JComboBox<String> sectionCombo = new JComboBox<>();
+        sectionCombo.addItem("");
         for (String st : s2) {
-            scombo.addItem(st);
+            sectionCombo.addItem(st);
         }
         sezionePanel.add(sezioneLabel);
         sezionePanel.add(Box.createHorizontalStrut(10));
-        sezionePanel.add(scombo);
+        sezionePanel.add(sectionCombo);
 
         formPanel1.add(annoPanel);
-        formPanel1.add(Box.createVerticalStrut(10));
+        formPanel1.add(Box.createVerticalStrut(60));
         formPanel1.add(sezionePanel);
-        formPanel1.add(Box.createVerticalStrut(10));
+        formPanel1.add(Box.createVerticalStrut(60));
         formPanel1.add(corsoPanel);
-
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
         JPanel confermaPanel = new JPanel();
@@ -163,17 +179,25 @@ public class CreaClasseFrame extends JFrame {
         confermaPanel.setBounds(width*3/4,height*4/5,b_width,b_height);
 
         JButton conferma = new JButton("CONFERMA");
-        conferma.setFont(new Font("Arial", Font.BOLD, width/35));
+        conferma.setFont(new Font("Arial", Font.BOLD, width/60));
         conferma.setBorder(new EtchedBorder());
         conferma.setBackground(new Color(189, 255, 136));
         conferma.setForeground(Color.DARK_GRAY);
 
         //listener x l'invio della classe
         conferma.addActionListener(e ->{
-            if(!controllore.registraClasse(Integer.parseInt((String) Objects.requireNonNull(anno.getSelectedItem())),
-                    Objects.requireNonNull(corso.getSelectedItem()).toString(),
-                    Objects.requireNonNull(scombo.getSelectedItem()).toString().charAt(0))){
-                JOptionPane.showMessageDialog(null,"Classe già esistente");
+            if(Objects.equals(anno.getSelectedItem(), "") || Objects.equals(corso.getSelectedItem(), "") || Objects.equals(sectionCombo.getSelectedItem(), "")){
+                JOptionPane.showMessageDialog(null,"Compila tutti i campi");
+            }
+            else{
+                if(!controllore.registraClasse(Integer.parseInt((String) Objects.requireNonNull(anno.getSelectedItem())),
+                        Objects.requireNonNull(corso.getSelectedItem()).toString(),
+                        Objects.requireNonNull(sectionCombo.getSelectedItem()).toString().charAt(0))){
+                    JOptionPane.showMessageDialog(null,"Classe già esistente");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Classe registrata");
+                }
             }
         });
 
