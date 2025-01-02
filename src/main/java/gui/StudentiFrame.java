@@ -3,10 +3,7 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Objects;
+import java.util.*;
 
 import Controllore.Controllore;
 import Utenti.Classe;
@@ -15,7 +12,7 @@ import Utenti.Studente;
 public class StudentiFrame extends JFrame {
     private Controllore controllore;
     private JButton selectedButton;
-    Date data = new GregorianCalendar(2002,11,20).getTime(); //PROVA
+    Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
     public StudentiFrame(Controllore controllore){
         this.controllore = controllore;
         int width, height, b_height, b_width;

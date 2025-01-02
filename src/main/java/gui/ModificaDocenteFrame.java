@@ -195,7 +195,7 @@ public class ModificaDocenteFrame extends JFrame {
         for (String mese : mesi) {
             meseCombo.addItem(mese);
         }
-        meseCombo.setSelectedIndex(calendar.get(Calendar.MONTH)-1);
+        meseCombo.setSelectedIndex(calendar.get(Calendar.MONTH));
 
         // ComboBox per gli anni
         JComboBox<String> annoCombo = new JComboBox<>();
