@@ -1,15 +1,16 @@
 package gui;
 
 import Controllore.Controllore;
+import Utenti.Classe;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.util.Objects;
 
-public class CreaClasseFrame extends JFrame {
+public class ModificaClasseFrame extends JFrame {
     private Controllore controllore;
-    public CreaClasseFrame(Controllore controllore) {
+    public ModificaClasseFrame(Controllore controllore, Classe classe) {
         this.controllore = controllore;
         int width, height, b_height, b_width;
 
@@ -70,6 +71,8 @@ public class CreaClasseFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
+            controllore.registraClasse(classe.getAnno(),classe.getIndirizzo(),classe.getSezione());
+            JOptionPane.showMessageDialog(null,"classe salvata come prima");
             new ClassFrame(controllore);
             dispose();
         });
@@ -88,6 +91,8 @@ public class CreaClasseFrame extends JFrame {
         exitPanel.add(exitButton);
 
         exitButton.addActionListener(e->{
+            controllore.registraClasse(classe.getAnno(),classe.getIndirizzo(),classe.getSezione());
+            JOptionPane.showMessageDialog(null,"classe salvata come prima");
             dispose();
         });
         //EXIT---------------------------------------------------------
@@ -99,7 +104,7 @@ public class CreaClasseFrame extends JFrame {
         sfondoLabel.add(titlePanel);
         titlePanel.setBackground(Color.white);
 
-        JLabel titoloLabel = new JLabel("CREA CLASSE");
+        JLabel titoloLabel = new JLabel("MODIFICA CLASSE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
@@ -126,6 +131,7 @@ public class CreaClasseFrame extends JFrame {
         for (int i = 1; i <= 5; i++) {
             anno.addItem(String.valueOf(i));
         }
+        anno.setSelectedIndex(classe.getAnno());
         annoPanel.add(nomeLabel);
         annoPanel.add(Box.createHorizontalStrut(10));
         annoPanel.add(anno);
@@ -144,6 +150,7 @@ public class CreaClasseFrame extends JFrame {
         for (String st : s) {
             corso.addItem(st);
         }
+        corso.setSelectedItem(classe.getIndirizzo());
         corsoPanel.add(corsoLabel);
         corsoPanel.add(Box.createHorizontalStrut(10));
         corsoPanel.add(corso);
@@ -162,6 +169,7 @@ public class CreaClasseFrame extends JFrame {
         for (char st : s2) {
             sectionCombo.addItem(st);
         }
+        sectionCombo.setSelectedItem(classe.getSezione());
         sezionePanel.add(sezioneLabel);
         sezionePanel.add(Box.createHorizontalStrut(10));
         sezionePanel.add(sectionCombo);
@@ -197,6 +205,8 @@ public class CreaClasseFrame extends JFrame {
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Classe registrata");
+                    new ClassFrame(controllore);
+                    dispose();
                 }
             }
         });

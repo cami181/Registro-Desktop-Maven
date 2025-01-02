@@ -195,7 +195,7 @@ public class ClassFrame extends JFrame {
                         String s = Objects.requireNonNull(listaClassi.getSelectedItem()).toString();
                         for (Classe tmp: classi) {
                             if(tmp.toString().equals(s)){
-                                //new ModificaClasseFrame(controllore,tmp);
+                                new ModificaClasseFrame(controllore,tmp);
                                 dispose();
                             }
                         }
