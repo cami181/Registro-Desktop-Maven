@@ -55,7 +55,7 @@ public class ModificaStudenteFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
-            controllore.registrazione(tmp);
+            controllore.registraStudente(tmp);
             JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new HomeFrame(controllore);
             dispose();
@@ -84,7 +84,7 @@ public class ModificaStudenteFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            controllore.registrazione(tmp);
+            controllore.registraStudente(tmp);
             JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new StudentiFrame(controllore);
             dispose();
@@ -105,7 +105,7 @@ public class ModificaStudenteFrame extends JFrame {
         exitPanel.add(exitButton);
 
         exitButton.addActionListener(e->{
-            controllore.registrazione(tmp);
+            controllore.registraStudente(tmp);
             JOptionPane.showMessageDialog(null,"studente salvato come prima");
             dispose();
         });
@@ -329,14 +329,13 @@ public class ModificaStudenteFrame extends JFrame {
                         classe = c;
                     }
                 }
-
                 studente.setNome(nomeField.getText());
                 studente.setCognome(cognomeField.getText());
                 studente.setDataDiNascita(data);
                 studente.setCF(cfField.getText());
                 studente.setClasse(classe);
 
-                controllore.registrazione(studente);
+                controllore.registraStudente(studente);
                 JOptionPane.showMessageDialog(null,":)");
             }
             new StudentiFrame(controllore);

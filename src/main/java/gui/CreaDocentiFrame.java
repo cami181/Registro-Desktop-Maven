@@ -1,16 +1,20 @@
 package gui;
 
 import Controllore.Controllore;
+import Utenti.Classe;
+import Utenti.Docente;
+import Utenti.Studente;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Objects;
+import java.util.*;
 
 public class CreaDocentiFrame extends JFrame {
     private Controllore controllore;
+    private ArrayList<Classe> classiDocente = new ArrayList<>();
+    private ArrayList<String> materieDocente = new ArrayList<>();
     public CreaDocentiFrame(Controllore controllore) {
         this.controllore = controllore;
         int width, height, b_height, b_width;
@@ -75,6 +79,25 @@ public class CreaDocentiFrame extends JFrame {
             new DocentiFrame(controllore);
             dispose();
         });
+        //INDIETRO-------------------------------------------
+
+        //EXIT-------------------------------------------------------------
+        JPanel exitPanel = new JPanel(new GridLayout(1,1));
+        sfondoLabel.add(exitPanel);
+        exitPanel.setBounds(0,b_height*2,b_height,b_height);
+        exitPanel.setOpaque(false);
+
+        PulsanteExit exitButton = new PulsanteExit(b_height);
+        exitButton.setFont(new Font("Arial", Font.BOLD, width/68));
+        exitButton.setBorder(new EtchedBorder());
+        exitButton.setBackground(Color.WHITE);
+        exitButton.setForeground(Color.DARK_GRAY);
+        exitPanel.add(exitButton);
+
+        exitButton.addActionListener(e->{
+            dispose();
+        });
+        //EXIT---------------------------------------------------------
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -85,7 +108,7 @@ public class CreaDocentiFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("CREA DOCENTE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/35));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -108,8 +131,21 @@ public class CreaDocentiFrame extends JFrame {
         JTextField nomeField = new JTextField();
         nomeField.setPreferredSize(new Dimension(200, 15));
         nomePanel.add(nomeLabel);
-        nomePanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        nomePanel.add(Box.createHorizontalStrut(10));
         nomePanel.add(nomeField);
+
+        //CODICE FISCALE PANEL
+        JPanel cfpanel = new JPanel();
+        cfpanel.setLayout(new BoxLayout(cfpanel, BoxLayout.X_AXIS));
+        cfpanel.setOpaque(false);
+        JLabel cfLabel = new JLabel("Codice Fiscale:");
+        cfLabel.setFont(new Font("Arial", Font.BOLD, height/35));
+        cfLabel.setForeground(Color.WHITE);
+        JTextField cfField = new JTextField();
+        cfField.setPreferredSize(new Dimension(200, 15));
+        cfpanel.add(cfLabel);
+        cfpanel.add(Box.createHorizontalStrut(10));
+        cfpanel.add(cfField);
 
         // COGNOME
         JPanel cognomePanel = new JPanel();
@@ -184,80 +220,172 @@ public class CreaDocentiFrame extends JFrame {
 
         // Aggiungi i pannelli di input al formPanel
         formPanel1.add(nomePanel);
-        formPanel1.add(Box.createVerticalStrut(20));  // Spazio tra i campi
+        formPanel1.add(Box.createVerticalStrut(50));  // Spazio tra i campi
         formPanel1.add(cognomePanel);
-        formPanel1.add(Box.createVerticalStrut(20));
+        formPanel1.add(Box.createVerticalStrut(50));
+        formPanel1.add(cfpanel);
+        formPanel1.add(Box.createVerticalStrut(50));
         formPanel1.add(dataNascitaPanel);
 
-        //PANEL 2--------------------------------------------------------------
-        JPanel formPanel2 = new JPanel();
-        formPanel2.setLayout(new BoxLayout(formPanel2, BoxLayout.Y_AXIS));
-        formPanel2.setBounds(width*3/5,height/3+68, width/3, height/4);
-        formPanel2.setOpaque(false);
+        //"MATERIE"
+        JPanel titoloMaterie = new JPanel();
+        titoloMaterie.setBounds(width*3/5,height/4, width/4, height/12);
+        titoloMaterie.setOpaque(false);
+        JLabel tm = new JLabel("Gestione materie");
+        tm.setFont(new Font("Arial",Font.BOLD,width/42));
+        tm.setForeground(Color.WHITE);
+        titoloMaterie.add(tm);
 
-        //CODICE FISCALE
-        JPanel cfPanel = new JPanel();
-        cfPanel.setLayout(new BoxLayout(cfPanel, BoxLayout.X_AXIS));
-        cfPanel.setOpaque(false);
+        //MATERIE DEL DOCENTE PANEL--------------------------------------------
+        JPanel materiePanel = new JPanel();
+        materiePanel.setLayout(new GridLayout(2,2));
+        materiePanel.setBounds(width*3/5,height/3, width/4, height/6);
+        materiePanel.setOpaque(false);
 
-        JLabel cfLabel = new JLabel("Codice Fiscale:");
-        cfLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        cfLabel.setForeground(Color.WHITE);
-
-        JTextField cfField = new JTextField();
-        cfField.setPreferredSize(new Dimension(200, 15));
-
-        cfPanel.add(cfLabel);
-        cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
-        cfPanel.add(cfField);
-
-        //JCOMBOBOX----------------------------------------------------
-        JPanel classPanel = new JPanel();
-        classPanel.setLayout(new BoxLayout(classPanel, BoxLayout.X_AXIS));
-        classPanel.setOpaque(false);
-
-        JLabel classLabel = new JLabel("Classe:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        classLabel.setForeground(Color.WHITE);
-
-        JCheckBox classBox = new JCheckBox();
-        classBox.setOpaque(false);
-        classBox.add(new JButton("CIAO"),0);
-        classBox.add(new JButton("CIAO2"),1);
-        classBox.add(new JButton("CIAO3"),2);
-
-        classPanel.add(classLabel);
-        classPanel.add(Box.createHorizontalStrut(10));
-        classPanel.add(classBox);
-        /*//CLASSE
-        JPanel classPanel = new JPanel();
-        classPanel.setLayout(new BoxLayout(classPanel, BoxLayout.X_AXIS));
-        classPanel.setOpaque(false);
-
-        JLabel classLabel = new JLabel("Classe:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        classLabel.setForeground(Color.WHITE);
-
-        JComboBox<String> classCombo = new JComboBox<>();
-        //esempio
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf", 'B'));
-        classi.add(new Classe(5,"inf", 'A'));
-        classi.add(new Classe(3,"tur", 'A'));
-
-        classCombo.addItem(" ");
-        for (Classe c : classi) {
-            classCombo.addItem(c.toString());
+        //AGGIUNGI
+        JComboBox<String> materieBox = new JComboBox<>();
+        materieBox.setOpaque(false);
+        //PRENDI TUTTE LE MATERIE ESISTENTI
+        ArrayList<String> materie = new ArrayList<>();
+        materie.add("Matematica");
+        materie.add("Italiano");
+        materie.add("Storia");
+        materie.add("Informatica");
+        materieBox.addItem("");
+        for (String m: materie) {
+            materieBox.addItem(m);
         }
 
-        classPanel.add(classLabel);
-        classPanel.add(Box.createHorizontalStrut(10));
-        classPanel.add(classCombo);*/
+        //RIMUOVI
+        JComboBox<String> profMaterieBox = new JComboBox<>();
+        profMaterieBox.setOpaque(false);
+        //PRENDI LE MATERIE DEL DOCENTE
+        profMaterieBox.addItem("");
+        for (String m: materieDocente) {
+            profMaterieBox.addItem(m);
+        }
 
-        //aggiunta al panel
-        formPanel2.add(cfPanel);
-        formPanel2.add(Box.createVerticalStrut(20));
-        formPanel2.add(classPanel);
+        JButton rimuovi2 = new JButton("RIMUOVI");
+        rimuovi2.addActionListener(e ->{
+            if(Objects.requireNonNull(profMaterieBox.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona una classe");
+            }
+            else{
+                try{
+                    for (String s: materieDocente) {
+                        if(s.equals(Objects.requireNonNull(profMaterieBox.getSelectedItem()).toString())){
+                            materieDocente.remove(s);
+                            materie.add(s);
+                            materieBox.addItem(s);
+                            profMaterieBox.removeItem(s);
+                        }
+                    }
+                }catch(ConcurrentModificationException ignore){}
+            }
+        });
+
+        JButton aggiungi2 = new JButton("AGGIUNGI");
+        aggiungi2.addActionListener(e ->{
+            if(Objects.requireNonNull(materieBox.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona una classe");
+            }
+            else{
+                try{
+                    for (String m: materie) {
+                        if(m.equals(Objects.requireNonNull(materieBox.getSelectedItem()).toString())){
+                            materieDocente.add(m);
+                            materie.remove(m);
+                            profMaterieBox.addItem(m);
+                            materieBox.removeItem(m);
+                        }
+                    }
+                }catch (ConcurrentModificationException ignore){}
+            }
+        });
+
+        materiePanel.add(materieBox);
+        materiePanel.add(aggiungi2);
+        materiePanel.add(profMaterieBox);
+        materiePanel.add(rimuovi2);
+
+        //"CLASSI"
+        JPanel titoloClassi = new JPanel();
+        titoloClassi.setBounds(width*3/5,height/2, width/4, height/12);
+        titoloClassi.setOpaque(false);
+        JLabel tc = new JLabel("Gestione classi");
+        tc.setFont(new Font("Arial",Font.BOLD,width/42));
+        tc.setForeground(Color.WHITE);
+        titoloClassi.add(tc);
+
+        //CLASSI DEL DOCENTE PANEL----------------------------------------------------
+        JPanel classPanel = new JPanel();
+        classPanel.setLayout(new GridLayout(2,2));
+        classPanel.setBounds(width*3/5,height*7/12, width/4, height/6);
+        //classPanel.setOpaque(false);
+
+        //AGGIUNGI
+        JComboBox<String> allClassesBox = new JComboBox<>();
+        allClassesBox.setOpaque(false);
+        //PRENDI TUTTE LE CLASSI ESISTENTI
+        ArrayList<Classe> classi = new ArrayList<>();
+        classi.add(new Classe(5,"inf",'b'));
+        classi.add(new Classe(4,"inf",'b'));
+        allClassesBox.addItem("");
+        for (Classe c: classi) {
+            allClassesBox.addItem(c.toString());
+        }
+
+        //RIMUOVI
+        JComboBox<String> profClassesBox = new JComboBox<>();
+        profClassesBox.setOpaque(false);
+        //PRENDI LE CLASSI DEL DOCENTE
+        profClassesBox.addItem("");
+        for (Classe c: classiDocente) {
+            profClassesBox.addItem(c.toString());
+        }
+
+        JButton rimuovi = new JButton("RIMUOVI");
+        rimuovi.addActionListener(e ->{
+            if(Objects.requireNonNull(profClassesBox.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona una classe");
+            }
+            else{
+                try{
+                    for (Classe c: classiDocente) {
+                        if(c.toString().equals(Objects.requireNonNull(profClassesBox.getSelectedItem()).toString())){
+                            classi.add(c);
+                            classiDocente.remove(c);
+                            allClassesBox.addItem(c.toString());
+                            profClassesBox.removeItem(c.toString());
+                        }
+                    }
+                }catch(ConcurrentModificationException ignore){}
+            }
+        });
+
+        JButton aggiungi = new JButton("AGGIUNGI");
+        aggiungi.addActionListener(e ->{
+            if(Objects.requireNonNull(allClassesBox.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona una classe");
+            }
+            else{
+                try{
+                    for (Classe c: classi) {
+                        if(c.toString().equals(Objects.requireNonNull(allClassesBox.getSelectedItem()).toString())){
+                            classiDocente.add(c);
+                            classi.remove(c);
+                            profClassesBox.addItem(c.toString());
+                            allClassesBox.removeItem(c.toString());
+                        }
+                    }
+                }catch(ConcurrentModificationException ignore){}
+            }
+        });
+
+        classPanel.add(allClassesBox);
+        classPanel.add(aggiungi);
+        classPanel.add(profClassesBox);
+        classPanel.add(rimuovi);
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
         JPanel confermaPanel = new JPanel();
@@ -266,26 +394,33 @@ public class CreaDocentiFrame extends JFrame {
         confermaPanel.setBounds(width*3/4,height*4/5,b_width,b_height);
 
         JButton conferma = new JButton("CONFERMA");
-        conferma.setFont(new Font("Arial", Font.BOLD, width/35));
+        conferma.setFont(new Font("Arial", Font.BOLD, width/68));
         conferma.setBorder(new EtchedBorder());
         conferma.setBackground(new Color(189, 255, 136));
         conferma.setForeground(Color.DARK_GRAY);
 
-        //listener x l'invio dello studente
+        //listener x l'invio del docente
         conferma.addActionListener(e ->{
             //nome e cognome
             if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Inserisci nome e cognome");
             }
-           /* else if(Objects.equals(classCombo.getSelectedItem(), " ")){
-                JOptionPane.showMessageDialog(null,"Inserire la classe");
-            }*/
-            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim().toLowerCase())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else{
+                //data di nascita
+                int anno = Integer.parseInt(Objects.requireNonNull(annoCombo.getSelectedItem()).toString());
+                int mese = meseCombo.getSelectedIndex();
+                int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
+                Date data = new GregorianCalendar(anno,mese,giorno).getTime();
 
+                Docente docente = new Docente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classiDocente,materieDocente);
+                controllore.registraDocente(docente);
                 JOptionPane.showMessageDialog(null,":)");
+
+                new DocentiFrame(controllore);
+                dispose();
             }
         });
 
@@ -293,7 +428,10 @@ public class CreaDocentiFrame extends JFrame {
 
         // Aggiungi i Panel allo sfondo
         sfondoLabel.add(formPanel1);
-        sfondoLabel.add(formPanel2);
+        sfondoLabel.add(titoloMaterie);
+        sfondoLabel.add(titoloClassi);
+        sfondoLabel.add(materiePanel);
+        sfondoLabel.add(classPanel);
         sfondoLabel.add(confermaPanel);
         container.add(sfondoPanel);
 

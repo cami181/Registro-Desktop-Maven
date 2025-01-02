@@ -15,10 +15,9 @@ import Utenti.Studente;
 public class StudentiFrame extends JFrame {
     private Controllore controllore;
     private JButton selectedButton;
-    Date data = new GregorianCalendar(2002,11,20).getTime();
+    Date data = new GregorianCalendar(2002,11,20).getTime(); //PROVA
     public StudentiFrame(Controllore controllore){
         this.controllore = controllore;
-
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -174,7 +173,6 @@ public class StudentiFrame extends JFrame {
         JLabel listaLabel = new JLabel("SELEZIONA UNO STUDENTE");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
-
 
         JComboBox<String> listaStudenti = new JComboBox<>();
         //DA PRENDERE ELENCO STUDENTI

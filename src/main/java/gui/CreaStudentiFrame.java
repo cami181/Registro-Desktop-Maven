@@ -311,11 +311,11 @@ public class CreaStudentiFrame extends JFrame {
                 }
 
                 Studente studente = new Studente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classe);
-                controllore.registrazione(studente);
+                controllore.registraStudente(studente);
                 JOptionPane.showMessageDialog(null,":)");
+                new StudentiFrame(controllore);
+                dispose();
             }
-            new StudentiFrame(controllore);
-            dispose();
         });
 
         confermaPanel.add(conferma);
