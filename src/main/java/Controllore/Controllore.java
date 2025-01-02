@@ -9,38 +9,14 @@ import java.util.ArrayList;
 public class Controllore {
     // --- REGISTRAZIONE --- //
     public void registraStudente(Studente studente){
-        String user = "s" + studente.getNome() + "." + studente.getCognome();
-        String password = "";
-        for(int i=0;i<user.length();i++) {
-            if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                password += user.charAt(i);
-            }
-        }
-        studente.setCredenziali(new Credenziali(user,password));
         //CARICA
     }
 
     public void registraDocente(Docente docente){
-        String user = "d" + docente.getNome() + "." + docente.getCognome();
-        String password = "";
-        for(int i=0;i<user.length();i++) {
-            if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                password += user.charAt(i);
-            }
-        }
-        docente.setCredenziali(new Credenziali(user,password));
         //CARICA
     }
 
     public void registraGenitore(Genitore genitore){
-        String user = "g" + genitore.getNome() + "." + genitore.getCognome();
-        String password = "";
-        for(int i=0;i<user.length();i++) {
-            if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                password += user.charAt(i);
-            }
-        }
-        genitore.setCredenziali(new Credenziali(user,password));
         //CARICA
     }
 

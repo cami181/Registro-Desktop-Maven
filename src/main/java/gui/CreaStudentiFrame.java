@@ -1,8 +1,8 @@
 package gui;
 
+import Credenziali.Credenziali;
 import Utenti.*;
 import Controllore.Controllore;
-import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -311,6 +311,14 @@ public class CreaStudentiFrame extends JFrame {
                 }
 
                 Studente studente = new Studente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classe);
+                String user = "s" + studente.getNome() + "." + studente.getCognome();
+                String password = "";
+                for(int i=0;i<user.length();i++) {
+                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
+                        password += user.charAt(i);
+                    }
+                }
+                studente.setCredenziali(new Credenziali(user,password));
                 controllore.registraStudente(studente);
                 JOptionPane.showMessageDialog(null,":)");
                 new StudentiFrame(controllore);

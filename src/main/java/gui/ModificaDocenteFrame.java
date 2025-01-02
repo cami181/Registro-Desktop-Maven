@@ -116,7 +116,7 @@ public class ModificaDocenteFrame extends JFrame {
 
         JLabel titoloLabel = new JLabel("MODIFICA DOCENTE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/25));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
