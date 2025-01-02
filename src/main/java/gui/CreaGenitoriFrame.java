@@ -82,7 +82,7 @@ public class CreaGenitoriFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            new StudentiFrame(controllore);
+            new GenitoriFrame(controllore);
             dispose();
         });
         //INDIETRO---------------------------------------------

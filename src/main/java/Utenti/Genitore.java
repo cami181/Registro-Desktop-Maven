@@ -7,11 +7,14 @@ public class Genitore extends Persona{
 
     public Genitore(String nome, String congome, Date dataDiNascita, String CF, Studente figlio) {
         super(nome, congome, dataDiNascita, CF);
-
         this.figlio = figlio;
     }
 
     public Studente getFiglio() {
         return figlio;
+    }
+
+    public void setFiglio(Studente studente){
+        this.figlio = studente;
     }
 }

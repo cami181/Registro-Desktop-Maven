@@ -176,7 +176,7 @@ public class GenitoriFrame extends JFrame {
         //DA PRENDERE ELENCO GENITORI
         ArrayList<Genitore> genitori = new ArrayList<>();
         Studente prova = new Studente("nome","cognome",data,"aaaaaa00a00a000a",new Classe(5,"inf",'b'));
-        Genitore s = new Genitore("c","co",data,"cccccc00cccc000c",prova);
+        Genitore s = new Genitore("c","co",data,"ccccc00c46c000c",prova);
         Genitore s1 = new Genitore("c","co2",data,"cccccc11c11c111c ",prova);
         genitori.add(s);
         genitori.add(s1);
@@ -198,7 +198,7 @@ public class GenitoriFrame extends JFrame {
                         String cf = Objects.requireNonNull(listaGenitori.getSelectedItem()).toString();
                         for (Genitore tmp: genitori) {
                             if(tmp.getCF().equals(cf)){
-                                //new ModificaGenitoreFrame(controllore,tmp);
+                                new ModificaGenitoreFrame(controllore,tmp);
                                 dispose();
                             }
                         }

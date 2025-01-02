@@ -8,17 +8,18 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
-public class ModificaStudenteFrame extends JFrame {
+public class ModificaGenitoreFrame extends JFrame {
     private Controllore controllore;
-    public ModificaStudenteFrame(Controllore controllore, Studente studente) {
+    Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+    public ModificaGenitoreFrame(Controllore controllore, Genitore genitore) {
         this.controllore = controllore;
-        Studente tmp = studente;
+        Genitore tmp = genitore;
 
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
-        setUndecorated(true); //--> toglie la barra in alto
+        setUndecorated(true);
         setVisible(true);
 
         Container container = this.getContentPane();
@@ -54,8 +55,8 @@ public class ModificaStudenteFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
-            controllore.registraStudente(tmp);
-            JOptionPane.showMessageDialog(null,"studente salvato come prima");
+            controllore.registraGenitore(tmp);
+            JOptionPane.showMessageDialog(null,"genitore salvato come prima");
             new HomeFrame(controllore);
             dispose();
         });
@@ -83,9 +84,9 @@ public class ModificaStudenteFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            controllore.registraStudente(tmp);
-            JOptionPane.showMessageDialog(null,"studente salvato come prima");
-            new StudentiFrame(controllore);
+            controllore.registraGenitore(tmp);
+            JOptionPane.showMessageDialog(null,"genitore salvato come prima");
+            new GenitoriFrame(controllore);
             dispose();
         });
         //INDIETRO---------------------------------------------
@@ -104,8 +105,8 @@ public class ModificaStudenteFrame extends JFrame {
         exitPanel.add(exitButton);
 
         exitButton.addActionListener(e->{
-            controllore.registraStudente(tmp);
-            JOptionPane.showMessageDialog(null,"studente salvato come prima");
+            controllore.registraGenitore(tmp);
+            JOptionPane.showMessageDialog(null,"genitore salvato come prima");
             dispose();
         });
         //EXIT---------------------------------------------------------
@@ -117,7 +118,7 @@ public class ModificaStudenteFrame extends JFrame {
         sfondoLabel.add(titlePanel);
         titlePanel.setBackground(Color.white);
 
-        JLabel titoloLabel = new JLabel("MODIFICA STUDENTE");
+        JLabel titoloLabel = new JLabel("MODIFICA GENITORE");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
 
@@ -141,9 +142,9 @@ public class ModificaStudenteFrame extends JFrame {
         nomeLabel.setForeground(Color.WHITE);
         JTextField nomeField = new JTextField();
         nomeField.setPreferredSize(new Dimension(200, 15));
-        nomeField.setText(studente.getNome());
+        nomeField.setText(genitore.getNome());
         nomePanel.add(nomeLabel);
-        nomePanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        nomePanel.add(Box.createHorizontalStrut(10));
         nomePanel.add(nomeField);
 
         // COGNOME
@@ -155,7 +156,7 @@ public class ModificaStudenteFrame extends JFrame {
         cognomeLabel.setForeground(Color.WHITE);
         JTextField cognomeField = new JTextField();
         cognomeField.setPreferredSize(new Dimension(200, 15));
-        cognomeField.setText(studente.getCognome());
+        cognomeField.setText(genitore.getCognome());
         cognomePanel.add(cognomeLabel);
         cognomePanel.add(Box.createHorizontalStrut(10));
         cognomePanel.add(cognomeField);
@@ -169,7 +170,7 @@ public class ModificaStudenteFrame extends JFrame {
         dataNascitaLabel.setForeground(Color.WHITE);
 
         Calendar calendar = Calendar. getInstance();
-        calendar.setTime(studente.getDataDiNascita());
+        calendar.setTime(genitore.getDataDiNascita());
 
         // ComboBox per i giorni
         JComboBox<String> giornoCombo = new JComboBox<>();
@@ -226,7 +227,7 @@ public class ModificaStudenteFrame extends JFrame {
 
         // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
-        formPanel1.add(Box.createVerticalStrut(60));  // Spazio tra i campi
+        formPanel1.add(Box.createVerticalStrut(60));
         formPanel1.add(cognomePanel);
         formPanel1.add(Box.createVerticalStrut(60));
         formPanel1.add(dataNascitaPanel);
@@ -248,45 +249,40 @@ public class ModificaStudenteFrame extends JFrame {
 
         JTextField cfField = new JTextField();
         cfField.setPreferredSize(new Dimension(200, 15));
-        cfField.setText(studente.getCF());
+        cfField.setText(genitore.getCF());
 
         cfPanel.add(cfLabel);
-        cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        cfPanel.add(Box.createHorizontalStrut(10));
         cfPanel.add(cfField);
 
-        //CLASSE
-        JPanel classPanel = new JPanel();
-        classPanel.setLayout(new BoxLayout(classPanel, BoxLayout.X_AXIS));
-        classPanel.setOpaque(false);
+        //FIGLIO
+        JPanel figlioPanel = new JPanel();
+        figlioPanel.setLayout(new BoxLayout(figlioPanel, BoxLayout.X_AXIS));
+        figlioPanel.setOpaque(false);
 
-        JLabel classLabel = new JLabel("Classe:");
+        JLabel classLabel = new JLabel("CF del figlio:");
         classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
         classLabel.setForeground(Color.WHITE);
 
-        JComboBox<String> classCombo = new JComboBox<>();
+        JComboBox<String> studentiCombo = new JComboBox<>();
         //esempio
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf", 'B'));
-        classi.add(new Classe(5,"inf", 'A'));
-        classi.add(new Classe(3,"tur", 'A'));
+        ArrayList<Studente> studenti = new ArrayList<>();
+        studenti.add(new Studente("nome","cognome",data,"aaaaaa00a00a000a",new Classe(5,"inf",'b')));
 
-        classCombo.addItem(" ");
-        int tmp_classe = 0;
-        for(int i=0;i<classi.size();i++){
-            classCombo.addItem(classi.get(i).toString());
-            if(studente.getClasse().toString().equals(classi.get(i).toString())) tmp_classe = i + 1;
+        studentiCombo.addItem(" ");
+        for (Studente s : studenti) {
+            studentiCombo.addItem(s.getCF());
         }
+        studentiCombo.setSelectedItem(genitore.getFiglio().getCF());
 
-        classCombo.setSelectedIndex(tmp_classe);
-
-        classPanel.add(classLabel);
-        classPanel.add(Box.createHorizontalStrut(10));
-        classPanel.add(classCombo);
+        figlioPanel.add(classLabel);
+        figlioPanel.add(Box.createHorizontalStrut(10));
+        figlioPanel.add(studentiCombo);
 
         //aggiunta al panel
         formPanel2.add(cfPanel);
         formPanel2.add(Box.createVerticalStrut(80));
-        formPanel2.add(classPanel);
+        formPanel2.add(figlioPanel);
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
         JPanel confermaPanel = new JPanel();
@@ -306,8 +302,8 @@ public class ModificaStudenteFrame extends JFrame {
             if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
-            else if(Objects.equals(classCombo.getSelectedItem(), " ")){
-                JOptionPane.showMessageDialog(null,"Inserire la classe");
+            else if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
+                JOptionPane.showMessageDialog(null,"Selezionare il CF del proprio figlio");
             }
             else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
@@ -322,21 +318,21 @@ public class ModificaStudenteFrame extends JFrame {
                 int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
                 Date data = new GregorianCalendar(anno,mese,giorno).getTime();
 
-                Classe classe = null;
-                for (Classe c: classi) {
-                    if(Objects.requireNonNull(classCombo.getSelectedItem()).toString().equals(c.toString())){
-                        classe = c;
+                Studente figlio = null;
+                for (Studente s: studenti) {
+                    if(Objects.requireNonNull(studentiCombo.getSelectedItem()).toString().equals(s.getCF())){
+                        figlio = s;
                     }
                 }
-                studente.setNome(nomeField.getText());
-                studente.setCognome(cognomeField.getText());
-                studente.setDataDiNascita(data);
-                studente.setCF(cfField.getText());
-                studente.setClasse(classe);
+                genitore.setNome(nomeField.getText());
+                genitore.setCognome(cognomeField.getText());
+                genitore.setDataDiNascita(data);
+                genitore.setCF(cfField.getText());
+                genitore.setFiglio(figlio);
 
-                controllore.registraStudente(studente);
+                controllore.registraGenitore(genitore);
                 JOptionPane.showMessageDialog(null,":)");
-                new StudentiFrame(controllore);
+                new GenitoriFrame(controllore);
                 dispose();
             }
         });
