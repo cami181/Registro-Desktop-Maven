@@ -21,4 +21,12 @@ public class Docente extends Persona{
     public ArrayList<String> getMaterie() {
         return materie;
     }
+
+    public void setClassi(ArrayList<Classe> classi) {
+        this.classi = classi;
+    }
+
+    public void setMaterie(ArrayList<String> materie) {
+        this.materie = materie;
+    }
 }

@@ -181,8 +181,8 @@ public class DocentiFrame extends JFrame {
         classi.add(new Classe(5,"inf",'b'));
         classi.add(new Classe(4,"inf",'b'));
         ArrayList<String> materie = new ArrayList<>();
-        materie.add("matematica");
-        materie.add("italiano");
+        materie.add("Matematica");
+        materie.add("Italiano");
         ArrayList<Docente> docenti = new ArrayList<>();
         Docente s = new Docente("c","co",data,"cccccc00cccc000c",classi,materie);
         Docente s1 = new Docente("c","co2",data,"cccccc11c11c111c ",classi,materie);
@@ -202,7 +202,7 @@ public class DocentiFrame extends JFrame {
             else{
                 try{
                     if(selectedButton.equals(modifica)){
-                        //prendo il docente e lo elimino dalla lista
+                        //prendo il docente e LO ELIMINO DALLA LISTA WEB
                         String cf = Objects.requireNonNull(listaDocenti.getSelectedItem()).toString();
                         for (Docente tmp: docenti) {
                             if(tmp.getCF().equals(cf)){
