@@ -46,14 +46,14 @@ public class HomeFrame extends JFrame {
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
-        titlePanel.setBounds(width/6,height/4,width*2/3,height/5);
+        titlePanel.setBounds((width-width*2/3)/2,height/4,width*2/3,height/5);
         titlePanel.setOpaque(false);
         sfondoLabel.add(titlePanel);
         titlePanel.setBackground(Color.white);
 
         JLabel titoloLabel = new JLabel("REGISTRO ELETTRONICO");
         titoloLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/20));
+        titoloLabel.setFont(new Font("Arial", Font.BOLD, width/19));
 
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
@@ -83,10 +83,10 @@ public class HomeFrame extends JFrame {
         sfondoLabel.add(utentiPanel);
         sfondoLabel.add(graficiPanel);
 
-        utentiPanel.setBounds(width/3-b_width,height/2,b_width*4,b_height);
+        utentiPanel.setBounds(width/3-b_width,height/2-40+b_height,b_width*4,b_height);
         utentiPanel.setOpaque(false);
 
-        graficiPanel.setBounds(width/3,height/2+250,b_width*2,b_height);
+        graficiPanel.setBounds(width/3,height/2+210+b_height,b_width*2,b_height);
         graficiPanel.setOpaque(false);
         //PANEL PULSANTI----------------------------------------------
 

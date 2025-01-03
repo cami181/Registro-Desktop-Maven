@@ -4,6 +4,7 @@ import Utenti.*;
 import Credenziali.Credenziali;
 
 import javax.print.Doc;
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 
 public class Controllore {
@@ -63,4 +64,15 @@ public class Controllore {
         return false;
     }
     //CODICE FISCALE-------------------------------
+
+    //MATERIE------------------
+    public ArrayList<String> getMaterie(){
+        ArrayList<String> materie = new ArrayList<>();
+        materie.add("Matematica");
+        materie.add("Italiano");
+        materie.add("Storia");
+        materie.add("Informatica");
+        materie.add("Sistemi");
+        return materie;
+    }
 }

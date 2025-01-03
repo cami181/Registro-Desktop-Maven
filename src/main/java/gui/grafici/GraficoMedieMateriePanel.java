@@ -4,12 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GraficoMedieMateriePanel extends JPanel {
-    private final int[] medie_raddoppiate;
-    private final String[] materie = {"Ita", "Mat", "Sto", "Inf", "Sis"};
+    private final int[] medie_raddoppiate = new int[5];
+    private final String[] materie = {"Mat", "Ita", "Sto", "Inf", "Sis"};
 
     public GraficoMedieMateriePanel(double[] medie) {
-        medie_raddoppiate = new int[medie.length];
-        for(int i=0;i<medie.length;i++){
+        for(int i=0;i<5;i++){
             medie_raddoppiate[i] = (int) (medie[i]*2);
         }
     }
@@ -21,9 +20,9 @@ public class GraficoMedieMateriePanel extends JPanel {
         int width = this.getWidth();
         int height = this.getHeight();
         int margine = 30;
-        int larghezzaColonna = (width-margine*2)/medie_raddoppiate.length;
+        int larghezzaColonna = (width-margine*2)/5;
 
-        for (int i = 0; i < medie_raddoppiate.length; i++) {
+        for(int i=0; i<5; i++) {
             int altezzaColonna =(int) (((double) medie_raddoppiate[i]/20)*(height-margine*2));
             int x = margine + i*larghezzaColonna;
             int y = height - margine - altezzaColonna;

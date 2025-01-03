@@ -267,11 +267,7 @@ public class ModificaDocenteFrame extends JFrame {
         JComboBox<String> materieBox = new JComboBox<>();
         materieBox.setOpaque(false);
         //PRENDI TUTTE LE MATERIE ESISTENTI
-        ArrayList<String> materie = new ArrayList<>();
-        materie.add("Matematica");
-        materie.add("Italiano");
-        materie.add("Storia");
-        materie.add("Informatica");
+        ArrayList<String> materie = controllore.getMaterie();
         //togli quelle del docente
         materie.removeIf(s -> materieDocente.contains(s));
 
