@@ -26,13 +26,7 @@ public class GraficoAssenzePanel extends JPanel {
             int x = margine + i*larghezzaColonna;
             int y = height - margine - altezzaColonna;
 
-            if(assenze[i]<=9){ // voto<=4,5 -> rosso
-                g2D.setColor(new Color(196, 0, 0));
-            } else if(assenze[i]<12){ // 4,5<voto<6 -> arancione
-                g2D.setColor(new Color(234, 123, 0));
-            }else{ // voto>=6 -> verde
-                g2D.setColor(new Color(56, 255, 0));
-            }
+            g2D.setColor(new Color(83, 106, 255));
 
             g2D.fillRect(x,y,larghezzaColonna-5,altezzaColonna);
 

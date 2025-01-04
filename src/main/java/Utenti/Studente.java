@@ -2,6 +2,7 @@ package Utenti;
 import Altro.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Studente extends Persona{
@@ -41,11 +42,54 @@ public class Studente extends Persona{
         this.classe = classe;
     }
 
-    public double getMedia(){
+    public double getMediaMensile(int mese){
         double media = 0;
+        int qt = 0;
         for (Voto v: voti) {
-            media += v.getValore();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(v.getData());
+
+            if(calendar.get(Calendar.MONTH)==mese){ // gennaio=0, febbraio=1..... dicembre=11
+                media += v.getValore();
+                qt++;
+            }
         }
-        return media/voti.size();
+
+        if(qt==0){ //non ci sono voti
+            return 0;
+        }
+        else{
+            return media/qt;
+        }
+    }
+
+    public double getMediaMateria(String materia){
+        double media = 0;
+        int qt = 0;
+        for (Voto v: voti) {
+            if(v.getMateria().equals(materia)){
+                media += v.getValore();
+                qt++;
+            }
+        }
+
+        if(qt==0){ //non ci sono voti
+            return 0;
+        }
+        else{
+            return media/qt;
+        }
+    }
+
+    public int getAssenzeMensili(int mese){
+        int assenze = 0;
+        for (Assenza a: this.assenze) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(a.getData());
+            if(calendar.get(Calendar.MONTH)==mese){
+                assenze++;
+            }
+        }
+        return assenze;
     }
 }

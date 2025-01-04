@@ -1,11 +1,12 @@
 package Controllore;
 
+import Altro.Assenza;
+import Altro.Voto;
 import Utenti.*;
-import Credenziali.Credenziali;
-
-import javax.print.Doc;
-import javax.print.DocFlavor;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Controllore {
     // --- REGISTRAZIONE --- //
@@ -65,7 +66,7 @@ public class Controllore {
     }
     //CODICE FISCALE-------------------------------
 
-    //MATERIE------------------
+    //GETTER------------------
     public ArrayList<String> getMaterie(){
         ArrayList<String> materie = new ArrayList<>();
         materie.add("Matematica");
@@ -74,5 +75,53 @@ public class Controllore {
         materie.add("Informatica");
         materie.add("Sistemi");
         return materie;
+    }
+
+    public ArrayList<String> getIndirizzi(){
+        ArrayList<String> indirizzi = new ArrayList<>();
+        indirizzi.add("inf");
+        indirizzi.add("tur");
+        indirizzi.add("afm");
+        indirizzi.add("cat");
+        return indirizzi;
+    }
+
+    public ArrayList<Classe> getClassi(){
+        Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
+        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(4,"inf",'B'));
+        s1.getVoti().add(new Voto(7,"Informatica",null,data));
+        s.getVoti().add(new Voto(3,"Italiano",null,data));
+        s.getVoti().add(new Voto(6,"Informatica",null,data));
+        s1.getVoti().add(new Voto(7,"Italiano",null,data));
+        ArrayList<Classe> classi = new ArrayList<>();
+        classi.add(new Classe(5,"inf",'B'));
+        classi.add(new Classe(4,"inf",'B'));
+        classi.get(0).getStudenti().add(s);
+        classi.get(0).getStudenti().add(s1);
+        return classi;
+    }
+
+    //GETTER-------------------
+
+    //GETTER DAL WEB SERVER----------------------------------------------------------------------
+    public ArrayList<Studente> getStudenti(){
+        Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
+        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(4,"inf",'B'));
+        s.getVoti().add(new Voto(3,"Italiano",null,data));
+        s.getVoti().add(new Voto(6,"Informatica",null,data));
+        s1.getVoti().add(new Voto(7,"Italiano",null,data));
+        s1.getVoti().add(new Voto(7,"Informatica",null,data));
+        s1.getAssenze().add(new Assenza(null,data));
+        s1.getAssenze().add(new Assenza(null,data));
+        s1.getAssenze().add(new Assenza(null,data));
+        s1.getAssenze().add(new Assenza(null,data));
+        s1.getAssenze().add(new Assenza(null,data));
+
+        ArrayList<Studente> studenti = new ArrayList<>();
+        studenti.add(s);
+        studenti.add(s1);
+        return studenti;
     }
 }

@@ -163,7 +163,7 @@ public class HomeFrame extends JFrame {
         graficiClassi.setForeground(Color.DARK_GRAY);
 
         graficiClassi.addActionListener(e -> {
-            new GraficiClassiFrame();
+            new GraficiClassiFrame(controllore);
             dispose();
         });
 

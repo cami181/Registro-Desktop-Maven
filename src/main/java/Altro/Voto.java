@@ -1,16 +1,19 @@
 package Altro;
 
 import Utenti.Docente;
+import java.util.Date;
 
 public class Voto {
-    private double voto;
-    private String materia;
-    private Docente docente;
+    private final double voto;
+    private final String materia;
+    private final Docente docente;
+    private final Date data;
 
-    public Voto(double voto, String materia, Docente docente) {
+    public Voto(double voto, String materia, Docente docente, Date data) {
         this.voto = voto;
         this.materia = materia;
         this.docente = docente;
+        this.data = data;
     }
 
     public double getValore() {
@@ -23,5 +26,9 @@ public class Voto {
 
     public Docente getDocente() {
         return docente;
+    }
+
+    public Date getData(){
+        return data;
     }
 }

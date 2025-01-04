@@ -9,6 +9,7 @@ import gui.pulsanti.PulsanteIndietro;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class CreaClasseFrame extends JFrame {
@@ -141,8 +142,8 @@ public class CreaClasseFrame extends JFrame {
         JLabel corsoLabel = new JLabel("Corso:");
         corsoLabel.setFont(new Font("Arial", Font.BOLD, height/35));
         corsoLabel.setForeground(Color.WHITE);
-        // ComboBox corso
-        String[] s = {"inf","tur","cat"};
+        // ComboBox indirizzo
+        ArrayList<String> s = controllore.getIndirizzi();
         JComboBox<String> corso = new JComboBox<>();
         corso.addItem("");
         for (String st : s) {
