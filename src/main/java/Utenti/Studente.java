@@ -1,9 +1,7 @@
 package Utenti;
 import Altro.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class Studente extends Persona{
     private ArrayList<Voto> voti;

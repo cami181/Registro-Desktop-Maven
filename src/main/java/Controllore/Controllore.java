@@ -3,23 +3,26 @@ package Controllore;
 import Altro.Assenza;
 import Altro.Voto;
 import Utenti.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
+import webserver.WebServer;
+
+import javax.swing.*;
 
 public class Controllore {
     // --- REGISTRAZIONE --- //
     public void registraStudente(Studente studente){
-        //CARICA
+        WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword(),new JTextArea());
+        WebServer.sendRequestStudente("registrazione",studente,new JTextArea());
     }
 
     public void registraDocente(Docente docente){
-        //CARICA
+        WebServer.registerUser("registrazione",docente.getCredenziali().getUser(),docente.getCredenziali().getPassword(),new JTextArea());
+        WebServer.sendRequestDocente("registrazione",docente,new JTextArea());
     }
 
     public void registraGenitore(Genitore genitore){
-        //CARICA
+        WebServer.registerUser("registrazione",genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword(),new JTextArea());
+        WebServer.sendRequestGenitore("registrazione",genitore,new JTextArea());
     }
 
     public boolean registraClasse(int anno, String corso, char sezione){
@@ -29,7 +32,8 @@ public class Controllore {
         for (Classe c: classi) {
             if(c.getAnno()==anno && c.getIndirizzo().equals(corso) && c.getSezione()==sezione) return false;
         }
-        Classe classe = new Classe(anno,corso,sezione); //DA REGISTRARE
+        Classe classe = new Classe(anno,corso,sezione);
+        WebServer.sendRequestClasse("registrazione",classe,null);
         return true;
     }
     // --- FINE REGISTRAZIONE --- //
@@ -86,22 +90,6 @@ public class Controllore {
         return indirizzi;
     }
 
-    public ArrayList<Classe> getClassi(){
-        Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
-        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
-        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(4,"inf",'B'));
-        s1.getVoti().add(new Voto(7,"Informatica",null,data));
-        s.getVoti().add(new Voto(3,"Italiano",null,data));
-        s.getVoti().add(new Voto(6,"Informatica",null,data));
-        s1.getVoti().add(new Voto(7,"Italiano",null,data));
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf",'B'));
-        classi.add(new Classe(4,"inf",'B'));
-        classi.get(0).getStudenti().add(s);
-        classi.get(0).getStudenti().add(s1);
-        return classi;
-    }
-
     //GETTER-------------------
 
     //GETTER DAL WEB SERVER----------------------------------------------------------------------
@@ -123,5 +111,21 @@ public class Controllore {
         studenti.add(s);
         studenti.add(s1);
         return studenti;
+    }
+
+    public ArrayList<Classe> getClassi(){
+        Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
+        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(4,"inf",'B'));
+        s1.getVoti().add(new Voto(7,"Informatica",null,data));
+        s.getVoti().add(new Voto(3,"Italiano",null,data));
+        s.getVoti().add(new Voto(6,"Informatica",null,data));
+        s1.getVoti().add(new Voto(7,"Italiano",null,data));
+        ArrayList<Classe> classi = new ArrayList<>();
+        classi.add(new Classe(5,"inf",'B'));
+        classi.add(new Classe(4,"inf",'B'));
+        classi.get(0).getStudenti().add(s);
+        classi.get(0).getStudenti().add(s1);
+        return classi;
     }
 }

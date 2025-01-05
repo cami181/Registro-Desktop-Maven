@@ -106,7 +106,7 @@ public class HomeFrame extends JFrame {
         utentiLabel.setFont(new Font("Arial", Font.BOLD, width/40));
         utentiLabel.setForeground(Color.white);
 
-        JLabel graficiLabel = new JLabel("GRAFICI");
+        JLabel graficiLabel = new JLabel("STATISTICHE");
         graficiLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         graficiLabel.setFont(new Font("Arial", Font.BOLD, width/40));
         graficiLabel.setForeground(Color.white);
