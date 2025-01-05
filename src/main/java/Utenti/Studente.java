@@ -24,6 +24,28 @@ public class Studente extends Persona{
         return voti;
     }
 
+    public String getStringVoti(){
+        String s = "";
+        for (Voto v: voti) {
+            s += v.toString() + ";";
+        }
+        return s;
+    }
+    public String getStringNote(){
+        String s = "";
+        for (Nota n: note) {
+            s += n.toString() + ";";
+        }
+        return s;
+    }
+    public String getStringAssenze(){
+        String s = "";
+        for (Assenza a: assenze) {
+            s += a.toString() + ";";
+        }
+        return s;
+    }
+
     public ArrayList<Nota> getNote() {
         return note;
     }

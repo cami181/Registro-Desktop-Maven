@@ -59,4 +59,7 @@ public class Voto {
     public Date getData(){
         return data;
     }
+    public String toString(){
+        return voto + " " + materia + " " + docente.getNome() + "_" + docente.getCognome() + " " + data;
+    }
 }

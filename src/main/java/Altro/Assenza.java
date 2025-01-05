@@ -5,7 +5,7 @@ import Utenti.Docente;
 import java.util.Date;
 
 public class Assenza {
-    private String giustifica;
+    private String giustifica = "non giustificata";
     private final Docente docente;
     private final Date data;
 
@@ -63,5 +63,9 @@ public class Assenza {
      */
     public int getMaxAssense(){
         return 45;
+    }
+
+    public String toString(){
+        return data + " " + docente.getNome() + "_" + docente.getCognome() + " " + giustifica;
     }
 }

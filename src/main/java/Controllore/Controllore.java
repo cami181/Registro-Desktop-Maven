@@ -17,8 +17,15 @@ public class Controllore {
      * @param studente Studente da registrare.
      */
     public void registraStudente(Studente studente){
+        Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+        studente.getVoti().add(new Voto(7,"Informatica",new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+        studente.getVoti().add(new Voto(2,"Matematica",new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+
         WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword(),new JTextArea());
-        WebServer.sendRequestStudente("registrazione",studente,new JTextArea());
+        WebServer.sendRequestStudente("carica",studente,new JTextArea());
     }
 
     /**

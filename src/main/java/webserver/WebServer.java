@@ -10,6 +10,7 @@ import Utenti.*;
 public class WebServer {
     // URL del server PHP
     private static final String SERVER_URL = "https://tommasomazzoni.altervista.org/WS.php";
+    private static final String STUDENTI_URL = "https://tommasomazzoni.altervista.org/studente.php";
 
     public static void registerUser(String action, String username, String password, JTextArea responseArea) {
         // Configura il client HTTP
@@ -55,11 +56,23 @@ public class WebServer {
         RequestBody formBody = new FormBody.Builder()
                 .add("azione", action)
                 .add("studente", String.valueOf(studente))
+                .add("azione", action)
+                .add("username",studente.getCredenziali().getUser())
+                .add("password",studente.getCredenziali().getPassword())
+                .add("nome",studente.getNome())
+                .add("cognome",studente.getCognome())
+                .add("data",studente.getDataDiNascita().toString())
+                .add("codiceFiscale",studente.getCF())
+                .add("classe",studente.getClasse().toString())
+                .add("voti",studente.getStringVoti())
+                .add("note",studente.getStringNote())
+                .add("assenze",studente.getStringAssenze())
                 .build();
+        System.out.println(studente.getStringAssenze());
 
         // Costruisce la richiesta HTTP
         Request request = new Request.Builder()
-                .url(SERVER_URL)
+                .url(STUDENTI_URL)
                 .post(formBody)
                 .build();
 
@@ -71,6 +84,7 @@ public class WebServer {
 
                 // Mostra la risposta nella text area
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     String responseBody = response.body().string();
                     SwingUtilities.invokeLater(() -> responseArea.setText("Risposta del server: \n" + responseBody));
                 } else {

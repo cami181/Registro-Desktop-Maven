@@ -48,4 +48,7 @@ public class Nota {
     public String getMotivo() {
         return motivo;
     }
+    public String toString(){
+        return data + " " + docente.getNome() + "_" + docente.getCognome() + "Motivo: " + motivo;
+    }
 }
