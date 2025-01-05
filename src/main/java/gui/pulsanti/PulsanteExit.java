@@ -5,6 +5,14 @@ import java.awt.*;
 import java.util.Objects;
 
 public class PulsanteExit extends JButton {
+
+    /**
+     * Funzione che crea il pulsante "exit".
+     * Inizializza il pulsante con un'icona personalizzata.
+     * L'icona viene caricata, scalata in base all'altezza assegnata e gli attribusice il pulsante.
+     *
+     * @param height Altezza dell'icona che servirà per ridimensionare l'immagine.
+     */
     public PulsanteExit(int height){
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/exit.png")));
         Image newImage = imageIcon.getImage().getScaledInstance(height, height, Image.SCALE_SMOOTH);

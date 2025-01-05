@@ -19,6 +19,13 @@ public class CreaDocentiFrame extends JFrame {
     private Controllore controllore;
     private ArrayList<Classe> classiDocente = new ArrayList<>();
     private ArrayList<String> materieDocente = new ArrayList<>();
+
+    /**
+     * Funzione che costruisce la finestra crea.
+     * Imposta gli elementi della finestra e le interazioni degli utenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public CreaDocentiFrame(Controllore controllore) {
         this.controllore = controllore;
         int width, height, b_height, b_width;

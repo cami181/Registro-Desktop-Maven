@@ -17,6 +17,13 @@ public class ModificaDocenteFrame extends JFrame {
     private Controllore controllore;
     private ArrayList<Classe> classiDocente;
     private ArrayList<String> materieDocente;
+
+    /**
+     * Funzione che crea la finestra per modificare i docenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     * @param docente Docente che si deve modificare.
+     */
     public ModificaDocenteFrame(Controllore controllore, Docente docente) {
         this.controllore = controllore;
         int width, height, b_height, b_width;

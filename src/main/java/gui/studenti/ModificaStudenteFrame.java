@@ -14,6 +14,13 @@ import java.awt.event.ActionListener;
 import java.util.*;
 public class ModificaStudenteFrame extends JFrame {
     private Controllore controllore;
+
+    /**
+     * Funzione che crea la finestra per modificare gli studenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     * @param studente Studente che si deve modificare.
+     */
     public ModificaStudenteFrame(Controllore controllore, Studente studente) {
         this.controllore = controllore;
         Studente tmp = studente;

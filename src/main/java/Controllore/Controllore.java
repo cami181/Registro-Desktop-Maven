@@ -10,21 +10,45 @@ import javax.swing.*;
 
 public class Controllore {
     // --- REGISTRAZIONE --- //
+
+    /**
+     * Registra nuovo studente.
+     *
+     * @param studente Studente da registrare.
+     */
     public void registraStudente(Studente studente){
         WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword(),new JTextArea());
         WebServer.sendRequestStudente("registrazione",studente,new JTextArea());
     }
 
+    /**
+     * Registra nuovo docente.
+     *
+     * @param docente Docente da registrare.
+     */
     public void registraDocente(Docente docente){
         WebServer.registerUser("registrazione",docente.getCredenziali().getUser(),docente.getCredenziali().getPassword(),new JTextArea());
         WebServer.sendRequestDocente("registrazione",docente,new JTextArea());
     }
 
+    /**
+     * Registra nuovo genitore.
+     *
+     * @param genitore Genitore da registrare.
+     */
     public void registraGenitore(Genitore genitore){
         WebServer.registerUser("registrazione",genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword(),new JTextArea());
         WebServer.sendRequestGenitore("registrazione",genitore,new JTextArea());
     }
 
+    /**
+     * Registra nuova classe se non è già presente nella lista.
+     *
+     * @param anno Anno classe.
+     * @param corso Indirizzo corso della classe.
+     * @param sezione Sezione classe.
+     * @return true se la classe è stata registrata, false se già presente nella lista.
+     */
     public boolean registraClasse(int anno, String corso, char sezione){
         ArrayList<Classe> classi = new ArrayList<>();
         classi.add(new Classe(4,"inf",'a')); //PROVA
@@ -39,6 +63,13 @@ public class Controllore {
     // --- FINE REGISTRAZIONE --- //
 
     //CODICE FISCALE------------------------------
+
+    /**
+     * Verifica validità del codice fiscale.
+     *
+     * @param cf Codice fiscale da verificare.
+     * @return true se il codice fiscale è errato, false se corretto.
+     */
     public boolean codiceFiscaleInvalido(String cf){
         //lunghezza di 16
         if(cf.length()!=16) return true;
@@ -58,6 +89,12 @@ public class Controllore {
         return false;
     }
 
+    /**
+     * Verifica il codice fiscale se già presente nella lista o no.
+     *
+     * @param cf Codice fiscale da verificare.
+     * @return true se il codice fiscale esiste già, false se è nuovo.
+     */
     public boolean alreadyExistentCf(String cf){
         ArrayList<Persona> utenti = new ArrayList<>();
         utenti.add(new Studente("ciao","bro",null,"0000000000000000",null));
@@ -71,6 +108,12 @@ public class Controllore {
     //CODICE FISCALE-------------------------------
 
     //GETTER------------------
+
+    /**
+     * Restituisce lista delle materie disponibili.
+     *
+     * @return Lista delle materie.
+     */
     public ArrayList<String> getMaterie(){
         ArrayList<String> materie = new ArrayList<>();
         materie.add("Matematica");
@@ -81,6 +124,11 @@ public class Controllore {
         return materie;
     }
 
+    /**
+     * Restituisce lista degli indirizzi disponibili.
+     *
+     * @return Lista degli indirizzi.
+     */
     public ArrayList<String> getIndirizzi(){
         ArrayList<String> indirizzi = new ArrayList<>();
         indirizzi.add("inf");
@@ -89,10 +137,15 @@ public class Controllore {
         indirizzi.add("cat");
         return indirizzi;
     }
-
     //GETTER-------------------
 
     //GETTER DAL WEB SERVER----------------------------------------------------------------------
+
+    /**
+     * Restituisce lista degli studenti registrati.
+     *
+     * @return Lista degli studenti registrati.
+     */
     public ArrayList<Studente> getStudenti(){
         Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
         Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
@@ -113,6 +166,11 @@ public class Controllore {
         return studenti;
     }
 
+    /**
+     * Restituisce lista delle classi registrate.
+     *
+     * @return Lista delle classi registrate.
+     */
     public ArrayList<Classe> getClassi(){
         Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
         Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));

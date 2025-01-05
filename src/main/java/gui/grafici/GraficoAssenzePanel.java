@@ -7,10 +7,21 @@ public class GraficoAssenzePanel extends JPanel {
     private final int[] assenze;
     private final String[] mesi = {"set", "ott", "nov", "dic", "gen", "feb", "mar", "apr", "mag", "giu"};
 
+    /**
+     * Funzione che crea la finestra con il grafico delle assenze in base al mese fornito.
+     *
+     * @param assenze Array di interi dove, ogni elemento, rappresenta il numero di assenze per mese.
+     *                L'array deve contenere 10 valori, uno per ogni mese.
+     */
     public GraficoAssenzePanel(int[] assenze) {
         this.assenze = assenze;
     }
 
+    /**
+     * Disegna un grafico a barre per rappresentare il numero di assenze per ogni mese.
+     *
+     * @param g Graphics utilizzato per disegnare il grafico.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

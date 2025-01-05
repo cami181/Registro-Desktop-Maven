@@ -15,6 +15,13 @@ import gui.pulsanti.PulsanteIndietro;
 public class ClassFrame extends JFrame {
     private Controllore controllore;
     private JButton selectedButton;
+
+    /**
+     * Funzione che costruisce la finestra delle classi.
+     * Imposta: dimensione finestra, visibilità, layout e gestisce vari componenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public ClassFrame(Controllore controllore){
         this.controllore = controllore;
         int width, height, b_height, b_width;

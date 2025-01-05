@@ -16,6 +16,13 @@ import java.util.*;
 public class CreaGenitoriFrame extends JFrame {
     private Controllore controllore;
     Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+
+    /**
+     * Funzione che costruisce la finestra crea.
+     * Imposta gli elementi della finestra e le interazioni degli utenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public CreaGenitoriFrame(Controllore controllore) {
         this.controllore = controllore;
 

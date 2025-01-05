@@ -7,12 +7,29 @@ public class GraficoMedieMateriePanel extends JPanel {
     private final int[] medie_raddoppiate = new int[5];
     private final String[] materie = {"Mat", "Ita", "Sto", "Inf", "Sis"};
 
+    /**
+     * Funzione che crea un grafico a barre per rappresentare la media dei voti.
+     * Nei grafici degli studenti: crea un grafico con le medie di ogni materia relative allo studente selezionato.
+     * Nei grafici della classe: crea un grafico con le medie di ogni materia relative alla classe selezionata
+     *
+     * @param medie Array di 5 valori di tipo double ognuno del quale rappresenta la media di una materia.
+     *              L'array deve contenere tutti valori: Matematica, Italiano, Storia, Informatica e Sistemi.
+     */
     public GraficoMedieMateriePanel(double[] medie) {
         for(int i=0;i<5;i++){
             medie_raddoppiate[i] = (int) (medie[i]*2);
         }
     }
 
+    /**
+     * Disegna un grafico a barre per rappresentare la media per ogni materia.
+     * Colori utilizzati:
+     *                    - Rosso: valori inferiori al 10.
+     *                    - Arancione: per valori compresi tra 10 e 12.
+     *                    -Verde: per valori superiori a 12.
+     *
+     * @param g Graphics utilizzato per disegnare il grafico.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

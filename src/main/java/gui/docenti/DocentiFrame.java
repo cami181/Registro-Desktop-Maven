@@ -20,6 +20,13 @@ public class DocentiFrame extends JFrame {
     private Controllore controllore;
     private JButton selectedButton;
     Date data = new GregorianCalendar(2002,11,20).getTime(); //PROVA
+
+    /**
+     * Funzione che costruisce la finestra dei docenti.
+     * Imposta: dimensione finestra, visibilità, layout e gestisce vari componenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public DocentiFrame(Controllore controllore){
         this.controllore = controllore;
         int width, height, b_height, b_width;

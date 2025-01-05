@@ -15,6 +15,13 @@ import java.awt.event.ActionListener;
 import java.util.*;
 public class CreaStudentiFrame extends JFrame {
     private Controllore controllore;
+
+    /**
+     * Funzione che costruisce la finestra crea.
+     * Imposta gli elementi della finestra e le interazioni degli utenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public CreaStudentiFrame(Controllore controllore) {
         this.controllore = controllore;
 

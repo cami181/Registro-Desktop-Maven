@@ -16,6 +16,12 @@ import gui.studenti.StudentiFrame;
 
 public class HomeFrame extends JFrame {
     private Controllore controllore;
+
+    /**
+     * Funzione che crea la finestra principale ed i relativi pulsanti/azioni.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public HomeFrame(Controllore controllore) {
         this.controllore = controllore;
         int width, height, b_height, b_width;

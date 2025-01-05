@@ -15,6 +15,13 @@ import java.util.*;
 public class ModificaGenitoreFrame extends JFrame {
     private Controllore controllore;
     Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+
+    /**
+     * Funzione che crea la finestra per modificare i genitori.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     * @param genitore Genitore che si deve modificare.
+     */
     public ModificaGenitoreFrame(Controllore controllore, Genitore genitore) {
         this.controllore = controllore;
         Genitore tmp = genitore;

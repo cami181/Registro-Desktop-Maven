@@ -12,6 +12,12 @@ import java.util.*;
 
 public class GraficiStudentiFrame extends JFrame {
     private JPanel graphPanel;
+
+    /**
+     * Funzione che crea la finestra con il grafico dei vari studenti.
+     *
+     * @param controllore Controllore che gestisce: dati studenti e materie.
+     */
     public GraficiStudentiFrame(Controllore controllore){
         int width, height, b_height;
 

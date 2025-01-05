@@ -14,6 +14,13 @@ import java.util.Objects;
 
 public class ModificaClasseFrame extends JFrame {
     private Controllore controllore;
+
+    /**
+     * Funzione che crea la finestra per modificare le classi.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     * @param classe Classe che si deve modificare.
+     */
     public ModificaClasseFrame(Controllore controllore, Classe classe) {
         this.controllore = controllore;
         int width, height, b_height, b_width;

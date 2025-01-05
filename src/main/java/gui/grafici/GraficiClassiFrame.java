@@ -13,6 +13,12 @@ import java.util.*;
 
 public class GraficiClassiFrame extends JFrame {
     private JPanel graphPanel;
+
+    /**
+     * Funzione che crea la finestra con il grafico delle varie classi.
+     *
+     * @param controllore Controllore che gestisce: classi e dati studenti.
+     */
     public GraficiClassiFrame(Controllore controllore){
         int width, height, b_height;
 

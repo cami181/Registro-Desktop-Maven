@@ -9,6 +9,14 @@ public class Voto {
     private final Docente docente;
     private final Date data;
 
+    /**
+     * Funzione che crea un voto con: voto, materia, docente e data.
+     *
+     * @param voto Voto valutazione.
+     * @param materia Materia realativa alla valutazione.
+     * @param docente Docente che ha assegnato la valutazione.
+     * @param data Data in cui è stato aggiunta la valutazione.
+     */
     public Voto(double voto, String materia, Docente docente, Date data) {
         this.voto = voto;
         this.materia = materia;
@@ -16,18 +24,38 @@ public class Voto {
         this.data = data;
     }
 
+    /**
+     * Restituisce valore voto.
+     *
+     * @return Valore valutazione.
+     */
     public double getValore() {
         return voto;
     }
 
+    /**
+     * Restituisce la materia associata al voto.
+     *
+     * @return Nome materia.
+     */
     public String getMateria() {
         return materia;
     }
 
+    /**
+     * Restituisce il docente che ha aggiunto il voto.
+     *
+     * @return Docente che ha assegnato il voto.
+     */
     public Docente getDocente() {
         return docente;
     }
 
+    /**
+     * Restituisce la data dell'assegnazione del voto.
+     *
+     * @return Data voto.
+     */
     public Date getData(){
         return data;
     }

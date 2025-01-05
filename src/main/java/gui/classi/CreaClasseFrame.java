@@ -14,6 +14,13 @@ import java.util.Objects;
 
 public class CreaClasseFrame extends JFrame {
     private Controllore controllore;
+
+    /**
+     * Funzione che costruisce la finestra crea.
+     * Imposta gli elementi della finestra e le interazioni degli utenti.
+     *
+     * @param controllore Controllore che gestisce la logica.
+     */
     public CreaClasseFrame(Controllore controllore) {
         this.controllore = controllore;
         int width, height, b_height, b_width;
