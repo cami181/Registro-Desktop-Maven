@@ -61,11 +61,23 @@ public class Voto {
     public Date getData(){
         return data;
     }
+
+    /**
+     * Funzione che restituisce data nota in formato giorno-mese-anno.
+     *
+     * @return Data nota formattata in stringa.
+     */
     public String getStringData(){
         Calendar calendar = Calendar. getInstance();
         calendar.setTime(data);
         return calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
     }
+
+    /**
+     * Funzione che restituisce il voto in formato stringa.
+     *
+     * @return Stringa che rappresenta la nota.
+     */
     public String toString(){
         if(docente==null){
             return voto + " " + materia + " " + "docente_nonregistrato" + " " + getStringData();

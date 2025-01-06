@@ -21,6 +21,13 @@ public class Assenza {
         this.data = data;
     }
 
+    /**
+     * Funzione che crea un'assenza associando docente, data e giustifica.
+     *
+     * @param docente Docente associato all'assenza.
+     * @param data Data assenza.
+     * @param giustifica Indica se l'assenza è giustificata.
+     */
     public Assenza(Docente docente, Date data, boolean giustifica){
         this.docente = docente;
         this.data = data;
@@ -62,6 +69,12 @@ public class Assenza {
     public Date getData(){
         return data;
     }
+
+    /**
+     * Funzione che restituisce la data dell'assenza in formato giorno-mese-anno.
+     *
+     * @return Data assenza come stringa formattata.
+     */
     public String getStringData(){
         Calendar calendar = Calendar. getInstance();
         calendar.setTime(data);
@@ -77,6 +90,11 @@ public class Assenza {
         return 45;
     }
 
+    /**
+     * Funzione che restituisce l'assenza in formato stringa.
+     *
+     * @return Stringa che rappresenta l'assenza.
+     */
     public String toString(){
         if(docente==null){
             if(giustifica){

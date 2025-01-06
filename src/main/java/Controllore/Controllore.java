@@ -67,9 +67,22 @@ public class Controllore {
     // --- FINE REGISTRAZIONE --- //
 
     // --- ELIMINAZIONE --- //
+
+    /**
+     * Metodo che permette di eliminare un utente dal sistema.
+     *
+     * @param user Nome dell'utente da eliminare.
+     * @param password Password dell'utente da eliminare.
+     */
     public void eliminaUtente(String user, String password){
         WebServer.registerUser("elimina",user,password,new JTextArea());
     }
+
+    /**
+     * Metodo che permette di eliminare uno studente dal sistema.
+     *
+     * @param studente Studente da eliminare.
+     */
     public void eliminaStudente(Studente studente){
         eliminaUtente(studente.getCredenziali().getUser(),studente.getCredenziali().getPassword());
         if(studente.getClasse()==null){
@@ -77,10 +90,22 @@ public class Controllore {
         }
         WebServer.creaEliminaStudente("elimina",studente,new JTextArea());
     }
+
+    /**
+     * Metodo che permette di eliminare un docente dal sistema.
+     *
+     * @param docente Studente da eliminare.
+     */
     public void eliminaDocente(Docente docente){
         eliminaUtente(docente.getCredenziali().getUser(),docente.getCredenziali().getPassword());
         WebServer.creaEliminaDocente("elimina",docente,new JTextArea());
     }
+
+    /**
+     * Metodo che permette di eliminare un genitore dal sistema.
+     *
+     * @param genitore Studente da eliminare.
+     */
     public void eliminaGenitore(Genitore genitore){
         eliminaUtente(genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword());
         Date data = new GregorianCalendar(0, Calendar.JANUARY,1).getTime();
@@ -89,6 +114,14 @@ public class Controllore {
         }
         WebServer.creaEliminaGenitore("elimina",genitore,new JTextArea());
     }
+
+    /**
+     * Metodo che permette di eliminare una classe dal sistema.
+     *
+     * @param anno Anno della classe da eliminare.
+     * @param indirizzo Indirizzo della classe da eliminare.
+     * @param sezione Sezione della classe da eliminare.
+     */
     public void eliminaClasse(int anno, String indirizzo, char sezione){
         WebServer.creaEliminaClasse("elimina",new Classe(anno,indirizzo,sezione),new JTextArea());
     }
@@ -400,6 +433,11 @@ public class Controllore {
         return classi;
     }
 
+    /**
+     * Restituisce lista dei genitori registrati.
+     *
+     * @return Lista dei genitori registrati.
+     */
     public ArrayList<Genitore> getGenitori(){
         String s = WebServer.getGenitori();
         ArrayList<Genitore> genitori = new ArrayList<>();
@@ -457,6 +495,11 @@ public class Controllore {
         return genitori;
     }
 
+    /**
+     * Restituisce lista dei docenti registrati.
+     *
+     * @return Lista dei docenti registrati.
+     */
     public ArrayList<Docente> getDocenti(){
         String s = WebServer.getDocenti();
 

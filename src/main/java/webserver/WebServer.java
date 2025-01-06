@@ -15,7 +15,14 @@ public class WebServer {
     private static final String GENITORI_URL = "https://tommasomazzoni.altervista.org/genitore.php";
     private static final String CLASSI_URL = "https://tommasomazzoni.altervista.org/classe.php";
 
-
+    /**
+     * Funzione che registra un utente inviando una richiesta HTTP POST al server.
+     *
+     * @param action Azione da eseguire.
+     * @param username Nome utente.
+     * @param password Password utente.
+     * @param responseArea Area di testo dove visualizzare la risposta del server.
+     */
     public static void registerUser(String action, String username, String password, JTextArea responseArea) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
@@ -52,6 +59,13 @@ public class WebServer {
         }).start();
     }
 
+    /**
+     * Funzione che crea/elimina uno studente dal sistema inviando una richiesta HTTP POST al server.
+     *
+     * @param action Azione da eseguire.
+     * @param studente Studente da creare/eliminare.
+     * @param responseArea Area di testo dove visualizzare la risposta del server.
+     */
     public static void creaEliminaStudente(String action, Studente studente, JTextArea responseArea) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
@@ -98,6 +112,13 @@ public class WebServer {
         }).start();
     }
 
+    /**
+     * Funzione che crea/elimina un docente dal sistema inviando una richiesta HTTP POST al server.
+     *
+     * @param action Azione da eseguire.
+     * @param docente Docente da creare/eliminare.
+     * @param responseArea Area di testo dove visualizzare la risposta del server.
+     */
     public static void creaEliminaDocente(String action, Docente docente, JTextArea responseArea) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
@@ -140,6 +161,13 @@ public class WebServer {
         }).start();
     }
 
+    /**
+     * Funzione che crea/elimina un genitore dal sistema inviando una richiesta HTTP POST al server.
+     *
+     * @param action Azione da eseguire.
+     * @param genitore Genitore da creare/eliminare.
+     * @param responseArea Area di testo dove visualizzare la risposta del server.
+     */
     public static void creaEliminaGenitore(String action, Genitore genitore, JTextArea responseArea) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
@@ -181,6 +209,13 @@ public class WebServer {
         }).start();
     }
 
+    /**
+     * Funzione che crea/elimina una classe dal sistema inviando una richiesta HTTP POST al server.
+     *
+     * @param action Azione da eseguire.
+     * @param classe Classe da creare/eliminare.
+     * @param responseArea Area di testo dove visualizzare la risposta del server.
+     */
     public static void creaEliminaClasse(String action, Classe classe, JTextArea responseArea) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
@@ -218,6 +253,11 @@ public class WebServer {
         }).start();
     }
 
+    /**
+     * Funzione che serve per ottenere la lista delle classi dal server tramite una richiesta HTTP GET.
+     *
+     * @return Risposta server con informazioni sulle classi.
+     */
     public static String getClassi() {
         OkHttpClient client = new OkHttpClient();
 
@@ -239,6 +279,12 @@ public class WebServer {
         }
         return "";
     }
+
+    /**
+     * Funzione che serve per ottenere la lista dei genitori dal server tramite una richiesta HTTP GET.
+     *
+     * @return Risposta server con informazioni sui genitori.
+     */
     public static String getGenitori(){
         OkHttpClient client = new OkHttpClient();
 
@@ -260,6 +306,12 @@ public class WebServer {
         }
         return "";
     }
+
+    /**
+     * Funzione che serve per ottenere la lista dei docenti dal server tramite una richiesta HTTP GET.
+     *
+     * @return Risposta server con informazioni sui docenti.
+     */
     public static String getDocenti(){
         OkHttpClient client = new OkHttpClient();
 
@@ -282,6 +334,11 @@ public class WebServer {
         return "";
     }
 
+    /**
+     * Funzione che serve per ottenere la lista degli studenti dal server tramite una richiesta HTTP GET.
+     *
+     * @return Risposta server con informazioni sugli studenti.
+     */
     public static String getStudenti(){
         OkHttpClient client = new OkHttpClient();
 

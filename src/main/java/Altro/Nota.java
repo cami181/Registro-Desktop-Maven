@@ -31,6 +31,12 @@ public class Nota {
     public Date getData() {
         return data;
     }
+
+    /**
+     * Funzione che restituisce data nota in formato giorno-mese-anno.
+     *
+     * @return Data nota formattata in stringa.
+     */
     public String getStringData(){
         Calendar calendar = Calendar. getInstance();
         calendar.setTime(data);
@@ -54,6 +60,12 @@ public class Nota {
     public String getMotivo() {
         return motivo;
     }
+
+    /**
+     * Funzione che restituisce la nota in formato stringa.
+     *
+     * @return Stringa che rappresenta la nota.
+     */
     public String toString(){
         if(docente==null){
             return getStringData() + "*" + "docente_nonregistrato" + "*Motivo_" + motivo;
