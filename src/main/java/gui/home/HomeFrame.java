@@ -9,21 +9,17 @@ import Controllore.Controllore;
 import gui.classi.ClassFrame;
 import gui.docenti.DocentiFrame;
 import gui.genitori.GenitoriFrame;
-import gui.grafici.GraficiClassiFrame;
-import gui.grafici.GraficiStudentiFrame;
+import gui.grafici.*;
 import gui.pulsanti.PulsanteExit;
 import gui.studenti.StudentiFrame;
 
 public class HomeFrame extends JFrame {
-    private Controllore controllore;
-
     /**
      * Funzione che crea la finestra principale e i relativi pulsanti/azioni.
      *
      * @param controllore Controllore che gestisce la logica.
      */
     public HomeFrame(Controllore controllore) {
-        this.controllore = controllore;
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);

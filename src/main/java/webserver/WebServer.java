@@ -2,7 +2,6 @@ package webserver;
 
 import okhttp3.*;
 
-import javax.swing.*;
 import java.io.IOException;
 
 import Utenti.*;
@@ -21,9 +20,8 @@ public class WebServer {
      * @param action Azione da eseguire.
      * @param username Nome utente.
      * @param password Password utente.
-     * @param responseArea Area di testo dove visualizzare la risposta del server.
      */
-    public static void registerUser(String action, String username, String password, JTextArea responseArea) {
+    public static void registerUser(String action, String username, String password) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
 
@@ -48,13 +46,13 @@ public class WebServer {
                 // Mostra la risposta nella text area
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Risposta del server: \n" + responseBody));
                 } else {
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Errore dal server: \n" + response.message()));
+                    String responseBody = response.body().string();
+                    System.out.println(responseBody);
                 }
             } catch (IOException ex) {
                 // Mostra un errore in caso di problemi con la connessione
-                SwingUtilities.invokeLater(() -> responseArea.setText("Errore di connessione: \n" + ex.getMessage()));
+                System.out.println("Eccezione: " + ex.getMessage());
             }
         }).start();
     }
@@ -64,9 +62,8 @@ public class WebServer {
      *
      * @param action Azione da eseguire.
      * @param studente Studente da creare/eliminare.
-     * @param responseArea Area di testo dove visualizzare la risposta del server.
      */
-    public static void creaEliminaStudente(String action, Studente studente, JTextArea responseArea) {
+    public static void creaEliminaStudente(String action, Studente studente) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
 
@@ -101,13 +98,11 @@ public class WebServer {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     String responseBody = response.body().string();
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Risposta del server: \n" + responseBody));
                 } else {
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Errore dal server: \n" + response.message()));
+                    System.out.println(response.body().string());
                 }
             } catch (IOException ex) {
-                // Mostra un errore in caso di problemi con la connessione
-                SwingUtilities.invokeLater(() -> responseArea.setText("Errore di connessione: \n" + ex.getMessage()));
+                System.out.println("Eccezione: " + ex.getMessage());
             }
         }).start();
     }
@@ -117,9 +112,8 @@ public class WebServer {
      *
      * @param action Azione da eseguire.
      * @param docente Docente da creare/eliminare.
-     * @param responseArea Area di testo dove visualizzare la risposta del server.
      */
-    public static void creaEliminaDocente(String action, Docente docente, JTextArea responseArea) {
+    public static void creaEliminaDocente(String action, Docente docente) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
 
@@ -150,13 +144,11 @@ public class WebServer {
                 // Mostra la risposta nella text area
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Risposta del server: \n" + responseBody));
                 } else {
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Errore dal server: \n" + response.message()));
+                    System.out.println(response.body().string());
                 }
             } catch (IOException ex) {
-                // Mostra un errore in caso di problemi con la connessione
-                SwingUtilities.invokeLater(() -> responseArea.setText("Errore di connessione: \n" + ex.getMessage()));
+                System.out.println("Eccezione: " + ex.getMessage());
             }
         }).start();
     }
@@ -166,9 +158,8 @@ public class WebServer {
      *
      * @param action Azione da eseguire.
      * @param genitore Genitore da creare/eliminare.
-     * @param responseArea Area di testo dove visualizzare la risposta del server.
      */
-    public static void creaEliminaGenitore(String action, Genitore genitore, JTextArea responseArea) {
+    public static void creaEliminaGenitore(String action, Genitore genitore) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
 
@@ -198,13 +189,11 @@ public class WebServer {
                 // Mostra la risposta nella text area
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Risposta del server: \n" + responseBody));
                 } else {
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Errore dal server: \n" + response.message()));
+                    System.out.println(response.body().string());
                 }
             } catch (IOException ex) {
-                // Mostra un errore in caso di problemi con la connessione
-                SwingUtilities.invokeLater(() -> responseArea.setText("Errore di connessione: \n" + ex.getMessage()));
+                System.out.println("Eccezione: " + ex.getMessage());
             }
         }).start();
     }
@@ -214,9 +203,8 @@ public class WebServer {
      *
      * @param action Azione da eseguire.
      * @param classe Classe da creare/eliminare.
-     * @param responseArea Area di testo dove visualizzare la risposta del server.
      */
-    public static void creaEliminaClasse(String action, Classe classe, JTextArea responseArea) {
+    public static void creaEliminaClasse(String action, Classe classe) {
         // Configura il client HTTP
         OkHttpClient client = new OkHttpClient();
 
@@ -242,13 +230,11 @@ public class WebServer {
                 // Mostra la risposta nella text area
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Risposta del server: \n" + responseBody));
                 } else {
-                    SwingUtilities.invokeLater(() -> responseArea.setText("Errore dal server: \n" + response.message()));
+                    System.out.println(response.body().string());
                 }
             } catch (IOException ex) {
-                // Mostra un errore in caso di problemi con la connessione
-                SwingUtilities.invokeLater(() -> responseArea.setText("Errore di connessione: \n" + ex.getMessage()));
+                System.out.println("Eccezione: " + ex.getMessage());
             }
         }).start();
     }
@@ -350,12 +336,13 @@ public class WebServer {
             // Mostra la risposta nella console
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
+
                 return responseBody;
             } else {
                 String responseBody = response.body().string();
+                System.out.println("errore: " + responseBody);
             }
         } catch (IOException ex) {
-            // Gestisci gli errori di connessione
             System.out.println("Eccezione: " + ex.getMessage());
         }
         return "";

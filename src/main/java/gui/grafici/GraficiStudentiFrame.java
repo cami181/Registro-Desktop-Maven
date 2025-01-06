@@ -128,7 +128,7 @@ public class GraficiStudentiFrame extends JFrame {
         panel2.setOpaque(false);
 
         JLabel seleziona = new JLabel("Seleziona lo studente");
-        seleziona.setFont(new Font("Arial", Font.BOLD, height/39));
+        seleziona.setFont(new Font("Arial", Font.BOLD, height/52));
         seleziona.setForeground(Color.WHITE);
         ArrayList<Studente> studenti = controllore.getStudenti();
 

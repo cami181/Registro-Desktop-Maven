@@ -347,7 +347,7 @@ public class ModificaStudenteFrame extends JFrame {
                 }
                 studente.setCredenziali(new Credenziali(user,password));
                 controllore.registraStudente(studente);
-                JOptionPane.showMessageDialog(null,":)");
+                JOptionPane.showMessageDialog(null,"Studente modificato con successo");
                 new StudentiFrame(controllore);
                 dispose();
             }

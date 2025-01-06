@@ -322,7 +322,7 @@ public class CreaGenitoriFrame extends JFrame {
                 }
                 genitore.setCredenziali(new Credenziali(user,password));
                 controllore.registraGenitore(genitore);
-                JOptionPane.showMessageDialog(null,":)");
+                JOptionPane.showMessageDialog(null,"Genitore registrato");
                 new GenitoriFrame(controllore);
                 dispose();
             }

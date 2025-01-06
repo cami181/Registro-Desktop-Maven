@@ -162,14 +162,21 @@ public class GraficiClassiFrame extends JFrame {
                 medieMaterieButton.setBackground(Color.WHITE);
                 sfondoLabel.remove(graphPanel);
 
+                String classe = classiCombo.getSelectedItem().toString().toLowerCase();
                 //trovo la classe
                 Classe tmp = null;
                 for (Classe c: controllore.getClassi()) {
-                    if(c.toString().equals(Objects.requireNonNull(classiCombo.getSelectedItem()).toString().toLowerCase())){
+                    if(c.toString().equals(Objects.requireNonNull(classe))){
                         tmp = c;
                         break;
                     }
                 }
+                for (Studente s: controllore.getStudenti()) {
+                    if(s.getClasse().toString().equals(classe)){
+                        tmp.getStudenti().add(s);
+                    }
+                }
+
                 //calcolo medie dei mesi
                 double[] medieMensili = new double[10];
                 //set -- dic
@@ -205,14 +212,22 @@ public class GraficiClassiFrame extends JFrame {
                 medieMensiliButton.setBackground(Color.WHITE);
                 sfondoLabel.remove(graphPanel);
 
+                String classe = classiCombo.getSelectedItem().toString().toLowerCase();
+
                 Classe tmp = null;
                 //trovo la classe
                 for (Classe c: controllore.getClassi()) {
-                    if(c.toString().equals(Objects.requireNonNull(classiCombo.getSelectedItem()).toString().toLowerCase())){
+                    if(c.toString().equals(Objects.requireNonNull(classe.toLowerCase()))){
                         tmp = c;
                         break;
                     }
                 }
+                for (Studente s: controllore.getStudenti()) {
+                    if(s.getClasse().toString().equals(classe)){
+                        tmp.getStudenti().add(s);
+                    }
+                }
+
                 //medie x materia
                 double[] medieMaterie = new double[5];
                 int i=0;

@@ -356,7 +356,7 @@ public class ModificaGenitoreFrame extends JFrame {
                 }
                 genitore.setCredenziali(new Credenziali(user,password));
                 controllore.registraGenitore(genitore);
-                JOptionPane.showMessageDialog(null,":)");
+                JOptionPane.showMessageDialog(null,"Genitore modificato con successo");
                 new GenitoriFrame(controllore);
                 dispose();
             }

@@ -147,7 +147,6 @@ public class Studente extends Persona{
         for (Voto v: voti) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(v.getData());
-
             if(calendar.get(Calendar.MONTH)==mese){ // gennaio=0, febbraio=1..... dicembre=11
                 media += v.getValore();
                 qt++;

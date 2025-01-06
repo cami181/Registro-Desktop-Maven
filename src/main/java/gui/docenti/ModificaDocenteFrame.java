@@ -185,7 +185,7 @@ public class ModificaDocenteFrame extends JFrame {
         dataNascitaLabel.setFont(new Font("Arial", Font.BOLD, height/35));
         dataNascitaLabel.setForeground(Color.WHITE);
 
-        Calendar calendar = Calendar. getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(docente.getDataDiNascita());
 
         // ComboBox per i giorni
@@ -459,7 +459,7 @@ public class ModificaDocenteFrame extends JFrame {
                 docente.setCredenziali(new Credenziali(user,password));
 
                 controllore.registraDocente(docente);
-                JOptionPane.showMessageDialog(null,":)");
+                JOptionPane.showMessageDialog(null,"Docente modificato con successo");
 
                 new DocentiFrame(controllore);
                 dispose();

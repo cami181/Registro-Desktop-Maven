@@ -1,36 +1,22 @@
 package Controllore;
 
-import Altro.Assenza;
-import Altro.Nota;
-import Altro.Voto;
+import Altro.*;
 import Credenziali.Credenziali;
 import Utenti.*;
 
 import java.util.*;
 import webserver.WebServer;
 
-import javax.swing.*;
-
 public class Controllore {
     // --- REGISTRAZIONE --- //
-
     /**
      * Registra nuovo studente.
      *
      * @param studente Studente da registrare.
      */
     public void registraStudente(Studente studente){
-        /*Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime();
-        Date data2 = new GregorianCalendar(2002, Calendar.SEPTEMBER,20).getTime();
-        studente.getVoti().add(new Voto(7,"Informatica",new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getVoti().add(new Voto(2,"Matematica",new Docente("Laura","Fallini",data2,"aaaa",new ArrayList<>(),new ArrayList<>()),data2));
-        //studente.getNote().add(new Nota(data,new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),"Zavorra"));
-        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data2,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));*/
-
-        WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword(),new JTextArea());
-        WebServer.creaEliminaStudente("carica",studente,new JTextArea());
+        WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword());
+        WebServer.creaEliminaStudente("carica",studente);
     }
 
     /**
@@ -39,8 +25,8 @@ public class Controllore {
      * @param docente Docente da registrare.
      */
     public void registraDocente(Docente docente){
-        WebServer.registerUser("registrazione",docente.getCredenziali().getUser(),docente.getCredenziali().getPassword(),new JTextArea());
-        WebServer.creaEliminaDocente("carica",docente,new JTextArea());
+        WebServer.registerUser("registrazione",docente.getCredenziali().getUser(),docente.getCredenziali().getPassword());
+        WebServer.creaEliminaDocente("carica",docente);
     }
 
     /**
@@ -49,8 +35,8 @@ public class Controllore {
      * @param genitore Genitore da registrare.
      */
     public void registraGenitore(Genitore genitore){
-        WebServer.registerUser("registrazione",genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword(),new JTextArea());
-        WebServer.creaEliminaGenitore("carica",genitore,new JTextArea());
+        WebServer.registerUser("registrazione",genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword());
+        WebServer.creaEliminaGenitore("carica",genitore);
     }
 
     /**
@@ -62,7 +48,7 @@ public class Controllore {
      */
     public void registraClasse(int anno, String corso, char sezione){
         Classe classe = new Classe(anno,corso,sezione);
-        WebServer.creaEliminaClasse("carica",classe,new JTextArea());
+        WebServer.creaEliminaClasse("carica",classe);
     }
     // --- FINE REGISTRAZIONE --- //
 
@@ -75,7 +61,7 @@ public class Controllore {
      * @param password Password dell'utente da eliminare.
      */
     public void eliminaUtente(String user, String password){
-        WebServer.registerUser("elimina",user,password,new JTextArea());
+        WebServer.registerUser("elimina",user,password);
     }
 
     /**
@@ -88,7 +74,7 @@ public class Controllore {
         if(studente.getClasse()==null){
             studente.setClasse(new Classe(0,"000",'0'));
         }
-        WebServer.creaEliminaStudente("elimina",studente,new JTextArea());
+        WebServer.creaEliminaStudente("elimina",studente);
     }
 
     /**
@@ -98,7 +84,7 @@ public class Controllore {
      */
     public void eliminaDocente(Docente docente){
         eliminaUtente(docente.getCredenziali().getUser(),docente.getCredenziali().getPassword());
-        WebServer.creaEliminaDocente("elimina",docente,new JTextArea());
+        WebServer.creaEliminaDocente("elimina",docente);
     }
 
     /**
@@ -112,7 +98,7 @@ public class Controllore {
         if(genitore.getFiglio()==null){
             genitore.setFiglio(new Studente("nome","cognome",data,"0",new Classe(0,"0",'0')));
         }
-        WebServer.creaEliminaGenitore("elimina",genitore,new JTextArea());
+        WebServer.creaEliminaGenitore("elimina",genitore);
     }
 
     /**
@@ -123,7 +109,7 @@ public class Controllore {
      * @param sezione Sezione della classe da eliminare.
      */
     public void eliminaClasse(int anno, String indirizzo, char sezione){
-        WebServer.creaEliminaClasse("elimina",new Classe(anno,indirizzo,sezione),new JTextArea());
+        WebServer.creaEliminaClasse("elimina",new Classe(anno,indirizzo,sezione));
     }
     // --- ELIMINAZIONE --- //
 
@@ -230,19 +216,6 @@ public class Controllore {
      * @return Lista degli studenti registrati.
      */
     public ArrayList<Studente> getStudenti(){
-        /*Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
-        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
-        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(4,"inf",'B'));
-        s.getVoti().add(new Voto(3,"Italiano",null,data));
-        s.getVoti().add(new Voto(6,"Informatica",null,data));
-        s1.getVoti().add(new Voto(7,"Italiano",null,data));
-        s1.getVoti().add(new Voto(7,"Informatica",null,data));
-        s1.getAssenze().add(new Assenza(null,data));
-        s1.getAssenze().add(new Assenza(null,data));
-        s1.getAssenze().add(new Assenza(null,data));
-        s1.getAssenze().add(new Assenza(null,data));
-        s1.getAssenze().add(new Assenza(null,data));*/
-
         ArrayList<Studente> studenti = new ArrayList<>();
 
         String s = WebServer.getStudenti();
@@ -294,6 +267,7 @@ public class Controllore {
 
                 for (String v: votiStringa.split(";")) {
                     if(!v.isEmpty()){
+
                         double valore = Double.parseDouble(v.split(" ")[0]);
                         String materia = v.split(" ")[1];
                         String nomeDoc = v.split(" ")[2].split("_")[0];
@@ -305,14 +279,13 @@ public class Controllore {
                                 break;
                             }
                         }
-                        String dataVoto = temp_split[4].split(":")[1].substring(1);
+                        String dataVoto = v.split(" ")[3];
                         dataVoto = dataVoto.substring(0,dataVoto.length()-1);
                         int gv = Integer.parseInt(dataVoto.split("-")[0]);
                         int mv = Integer.parseInt(dataVoto.split("-")[1]);
                         int av = Integer.parseInt(dataVoto.split("-")[2]);
                         Calendar cv = Calendar.getInstance();
                         cv.set(av, mv, gv);
-                        System.out.println(av + " " + mv + " " + gv);
                         Date datavoto = cv.getTime();
                         voti.add(new Voto(valore,materia,docente,datavoto));
                     }
@@ -395,19 +368,6 @@ public class Controllore {
      * @return Lista delle classi registrate.
      */
     public ArrayList<Classe> getClassi(){
-        /*Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
-        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
-        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(4,"inf",'B'));
-        s1.getVoti().add(new Voto(7,"Informatica",null,data));
-        s.getVoti().add(new Voto(3,"Italiano",null,data));
-        s.getVoti().add(new Voto(6,"Informatica",null,data));
-        s1.getVoti().add(new Voto(7,"Italiano",null,data));
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf",'B'));
-        classi.add(new Classe(4,"inf",'B'));
-        classi.get(0).getStudenti().add(s);
-        classi.get(0).getStudenti().add(s1);*/
-
         ArrayList<Classe> classi = new ArrayList<>();
 
         String c = WebServer.getClassi();
