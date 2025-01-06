@@ -6,15 +6,11 @@ import java.awt.*;
 import java.util.*;
 
 import Controllore.Controllore;
-import Utenti.Classe;
 import Utenti.Studente;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 public class StudentiFrame extends JFrame {
-    private Controllore controllore;
     private JButton selectedButton;
     Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
 
@@ -25,7 +21,6 @@ public class StudentiFrame extends JFrame {
      * @param controllore Controllore che gestisce la logica.
      */
     public StudentiFrame(Controllore controllore){
-        this.controllore = controllore;
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -131,8 +126,17 @@ public class StudentiFrame extends JFrame {
         crea.setForeground(Color.DARK_GRAY);
 
         crea.addActionListener(e -> {
-            new CreaStudentiFrame(controllore);
+            controllore.getStudenti();
+            /*new CreaStudentiFrame(controllore);
             dispose();
+            Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+            ArrayList<Classe> c = new ArrayList<>();
+            c.add(new Classe(4,"hfj",'b'));
+            ArrayList<String> materie = new ArrayList<>();
+            materie.add("ciao");
+            Genitore d = new Genitore("nome","cog",data,"jhkydbgfhjdb","uysdhfkn");
+            d.setCredenziali(new Credenziali("ggen1.dkjnfg","ggn1dkjnfg"));
+            controllore.eliminaGenitore(d);*/
         });
 
         JButton modifica = new JButton("MODIFICA");
@@ -184,11 +188,8 @@ public class StudentiFrame extends JFrame {
 
         JComboBox<String> listaStudenti = new JComboBox<>();
         //DA PRENDERE ELENCO STUDENTI
+        //ArrayList<Studente> studenti = controllore.getStudenti();
         ArrayList<Studente> studenti = new ArrayList<>();
-        Studente s = new Studente("c","co",data,"cccccc00cccc000c",new Classe(5,"inf",'B'));
-        Studente s1 = new Studente("c","co2",data,"cccccc11c11c111c ",new Classe(5,"inf",'B'));
-        studenti.add(s);
-        studenti.add(s1);
         listaStudenti.addItem("");
         for (Studente tmp: studenti) {
             listaStudenti.addItem(tmp.getCF());
@@ -213,7 +214,13 @@ public class StudentiFrame extends JFrame {
                         }
                     }
                     else if(selectedButton.equals(elimina)){
-                        //prendo lo studente e lo elimino dalla lista anche qua
+                        for (Studente tmp: studenti) {
+                            String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
+                            if(tmp.getCF().equals(cf)){
+                                controllore.eliminaStudente(tmp);
+                                JOptionPane.showMessageDialog(null,"Studente eliminato");
+                            }
+                        }
                     }
                 }catch(NullPointerException ex){
                     JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sullo studente");

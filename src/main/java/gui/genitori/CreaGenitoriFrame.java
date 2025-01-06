@@ -318,7 +318,7 @@ public class CreaGenitoriFrame extends JFrame {
                     if(s.getCF().equals(cfField.getText())) figlio = s;
                 }
 
-                Genitore genitore = new Genitore(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),figlio);
+                Genitore genitore = new Genitore(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),studentiCombo.getSelectedItem().toString());
                 String user = "g" + genitore.getNome() + "." + genitore.getCognome();
                 String password = "";
                 for(int i=0;i<user.length();i++) {

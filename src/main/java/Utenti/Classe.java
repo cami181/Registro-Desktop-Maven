@@ -1,10 +1,6 @@
 package Utenti;
 
-import Altro.Assenza;
-import Altro.Voto;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Classe {
     private final int anno;
@@ -112,6 +108,6 @@ public class Classe {
      */
     @Override
     public String toString(){
-        return (String.valueOf(anno) + sezione + " " + indirizzo).toLowerCase();
+        return (String.valueOf(anno) + sezione + indirizzo).toLowerCase();
     }
 }

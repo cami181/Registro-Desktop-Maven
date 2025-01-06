@@ -1,6 +1,8 @@
 package Altro;
 
 import Utenti.Docente;
+
+import java.util.Calendar;
 import java.util.Date;
 
 public class Voto {
@@ -59,7 +61,12 @@ public class Voto {
     public Date getData(){
         return data;
     }
+    public String getStringData(){
+        Calendar calendar = Calendar. getInstance();
+        calendar.setTime(data);
+        return calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
+    }
     public String toString(){
-        return voto + " " + materia + " " + docente.getNome() + "_" + docente.getCognome() + " " + data;
+        return voto + " " + materia + " " + docente.getNome() + "_" + docente.getCognome() + " " + getStringData();
     }
 }

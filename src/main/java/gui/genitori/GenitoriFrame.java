@@ -187,8 +187,8 @@ public class GenitoriFrame extends JFrame {
         //DA PRENDERE ELENCO GENITORI
         ArrayList<Genitore> genitori = new ArrayList<>();
         Studente prova = new Studente("nome","cognome",data,"aaaaaa00a00a000a",new Classe(5,"inf",'b'));
-        Genitore s = new Genitore("c","co",data,"ccccc00c46c000c",prova);
-        Genitore s1 = new Genitore("c","co2",data,"cccccc11c11c111c ",prova);
+        Genitore s = new Genitore("c","co",data,"ccccc00c46c000c",prova.getCF());
+        Genitore s1 = new Genitore("c","co2",data,"cccccc11c11c111c ",prova.getCF());
         genitori.add(s);
         genitori.add(s1);
         listaGenitori.addItem("");

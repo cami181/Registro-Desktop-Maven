@@ -18,7 +18,7 @@ public class HomeFrame extends JFrame {
     private Controllore controllore;
 
     /**
-     * Funzione che crea la finestra principale ed i relativi pulsanti/azioni.
+     * Funzione che crea la finestra principale e i relativi pulsanti/azioni.
      *
      * @param controllore Controllore che gestisce la logica.
      */

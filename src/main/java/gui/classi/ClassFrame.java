@@ -6,7 +6,9 @@ import java.awt.*;
 import java.util.*;
 
 import Controllore.Controllore;
+import Credenziali.Credenziali;
 import Utenti.Classe;
+import Utenti.Studente;
 import gui.home.HomeFrame;
 import gui.pulsanti.PulsanteExit;
 import gui.pulsanti.PulsanteHome;
@@ -184,7 +186,7 @@ public class ClassFrame extends JFrame {
         //DA PRENDERE ELENCO GENITORI
         ArrayList<Classe> classi = new ArrayList<>();
         classi.add(new Classe(5,"inf",'b'));
-        classi.add(new Classe(4,"inf",'b'));
+        classi.add(new Classe(3,"tur",'b'));
 
         listaClassi.addItem("");
         for (Classe tmp: classi) {
@@ -210,7 +212,9 @@ public class ClassFrame extends JFrame {
                         }
                     }
                     else if(selectedButton.equals(elimina)){
-                        //prendo la classe e la elimino dalla lista anche qua
+                        String s = listaClassi.getSelectedItem().toString();
+                        controllore.eliminaClasse(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2),s.charAt(1));
+                        JOptionPane.showMessageDialog(null,"Classe eliminata");
                     }
                 }catch(NullPointerException ex){
                     JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sulla classe");

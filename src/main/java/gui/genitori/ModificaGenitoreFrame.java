@@ -283,7 +283,7 @@ public class ModificaGenitoreFrame extends JFrame {
         for (Studente s : studenti) {
             studentiCombo.addItem(s.getCF());
         }
-        studentiCombo.setSelectedItem(genitore.getFiglio().getCF());
+        studentiCombo.setSelectedItem(genitore.getFiglio());
 
         figlioPanel.add(classLabel);
         figlioPanel.add(Box.createHorizontalStrut(10));
@@ -338,7 +338,7 @@ public class ModificaGenitoreFrame extends JFrame {
                 genitore.setCognome(cognomeField.getText());
                 genitore.setDataDiNascita(data);
                 genitore.setCF(cfField.getText());
-                genitore.setFiglio(figlio);
+                genitore.setFiglio(figlio.getCF());
 
                 controllore.registraGenitore(genitore);
                 JOptionPane.showMessageDialog(null,":)");

@@ -2,6 +2,7 @@ package Altro;
 
 import Utenti.Docente;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Nota {
@@ -30,6 +31,11 @@ public class Nota {
     public Date getData() {
         return data;
     }
+    public String getStringData(){
+        Calendar calendar = Calendar. getInstance();
+        calendar.setTime(data);
+        return calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
+    }
 
     /**
      * Restituisce il docente che ha scritto la nota.
@@ -49,6 +55,6 @@ public class Nota {
         return motivo;
     }
     public String toString(){
-        return data + " " + docente.getNome() + "_" + docente.getCognome() + "Motivo: " + motivo;
+        return getStringData() + "*" + docente.getNome() + "_" + docente.getCognome() + "*Motivo: " + motivo;
     }
 }

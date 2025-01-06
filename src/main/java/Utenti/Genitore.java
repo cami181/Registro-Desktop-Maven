@@ -3,18 +3,18 @@ package Utenti;
 import java.util.Date;
 
 public class Genitore extends Persona{
-    private Studente figlio;
+    private String cfFiglio;
 
-    public Genitore(String nome, String congome, Date dataDiNascita, String CF, Studente figlio) {
+    public Genitore(String nome, String congome, Date dataDiNascita, String CF, String figlio) {
         super(nome, congome, dataDiNascita, CF);
-        this.figlio = figlio;
+        this.cfFiglio = figlio;
     }
 
-    public Studente getFiglio() {
-        return figlio;
+    public String getFiglio() {
+        return cfFiglio;
     }
 
-    public void setFiglio(Studente studente){
-        this.figlio = studente;
+    public void setFiglio(String figlio){
+        this.cfFiglio = figlio;
     }
 }

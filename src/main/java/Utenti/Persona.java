@@ -2,6 +2,7 @@ package Utenti;
 
 import Credenziali.Credenziali;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Persona {
@@ -32,6 +33,11 @@ public class Persona {
 
     public Date getDataDiNascita() {
         return dataDiNascita;
+    }
+    public String getStringData(){
+        Calendar calendar = Calendar. getInstance();
+        calendar.setTime(dataDiNascita);
+        return calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
     }
 
     public String getCF() {

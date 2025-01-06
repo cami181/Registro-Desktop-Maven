@@ -3,7 +3,6 @@ package Utenti;
 import java.util.*;
 
 public class Docente extends Persona{
-
     private ArrayList<Classe> classi;
     private ArrayList<String> materie;
 
@@ -28,5 +27,20 @@ public class Docente extends Persona{
 
     public void setMaterie(ArrayList<String> materie) {
         this.materie = materie;
+    }
+
+    public String getStringMaterie(){
+        String s = "";
+        for (String tmp: materie) {
+            s += tmp + ";";
+        }
+        return s;
+    }
+    public String getStringClassi(){
+        String s = "";
+        for (Classe c: classi) {
+            s += c.toString() + ";";
+        }
+        return s;
     }
 }

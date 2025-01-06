@@ -2,10 +2,11 @@ package Altro;
 
 import Utenti.Docente;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Assenza {
-    private String giustifica = "non giustificata";
+    private boolean giustifica;
     private final Docente docente;
     private final Date data;
 
@@ -20,12 +21,18 @@ public class Assenza {
         this.data = data;
     }
 
+    public Assenza(Docente docente, Date data, boolean giustifica){
+        this.docente = docente;
+        this.data = data;
+        this.giustifica = giustifica;
+    }
+
     /**
      * Restituisce la giustifica se presente l'assenza.
      *
      * @return La giustifica dell'assenza.
      */
-    public String getGiustifica() {
+    public boolean getGiustifica() {
         return giustifica;
     }
 
@@ -43,7 +50,7 @@ public class Assenza {
      *
      * @param giustifica Giustifica da associare alla realativa assenza.
      */
-    public void setGiustifica(String giustifica) {
+    public void setGiustifica(boolean giustifica) {
         this.giustifica = giustifica;
     }
 
@@ -54,6 +61,11 @@ public class Assenza {
      */
     public Date getData(){
         return data;
+    }
+    public String getStringData(){
+        Calendar calendar = Calendar. getInstance();
+        calendar.setTime(data);
+        return calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
     }
 
     /**
@@ -66,6 +78,9 @@ public class Assenza {
     }
 
     public String toString(){
-        return data + " " + docente.getNome() + "_" + docente.getCognome() + " " + giustifica;
+        if(giustifica){
+            return getStringData() + " " + docente.getNome() + "_" + docente.getCognome() + " true";
+        }
+        return getStringData() + " " + docente.getNome() + "_" + docente.getCognome() + " false";
     }
 }
