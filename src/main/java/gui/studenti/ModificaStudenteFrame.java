@@ -1,5 +1,6 @@
 package gui.studenti;
 
+import Credenziali.Credenziali;
 import Utenti.*;
 import Controllore.Controllore;
 import gui.home.HomeFrame;
@@ -13,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
 public class ModificaStudenteFrame extends JFrame {
-    private Controllore controllore;
 
     /**
      * Funzione che crea la finestra per modificare gli studenti.
@@ -22,14 +22,12 @@ public class ModificaStudenteFrame extends JFrame {
      * @param studente Studente che si deve modificare.
      */
     public ModificaStudenteFrame(Controllore controllore, Studente studente) {
-        this.controllore = controllore;
-        Studente tmp = studente;
-
+        controllore.eliminaStudente(studente);
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
-        setUndecorated(true); //--> toglie la barra in alto
+        setUndecorated(true);
         setVisible(true);
 
         Container container = this.getContentPane();
@@ -65,20 +63,12 @@ public class ModificaStudenteFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
-            controllore.registraStudente(tmp);
+            controllore.registraStudente(studente);
             JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new HomeFrame(controllore);
             dispose();
         });
         //HOME--------------------------------------------------------
-
-        //CREDENZIALI--------------------------------------
-        JPanel credPanel = new JPanel();
-        sfondoLabel.add(credPanel);
-        credPanel.setBounds(0,b_height,b_height,b_height);
-        credPanel.setOpaque(false);
-
-        //CREDENZIALI--------------------------------------
 
         //INDIETRO-----------------------------------------
         JPanel indietroPanel = new JPanel(new GridLayout(1,1));
@@ -94,7 +84,7 @@ public class ModificaStudenteFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            controllore.registraStudente(tmp);
+            controllore.registraStudente(studente);
             JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new StudentiFrame(controllore);
             dispose();
@@ -115,7 +105,7 @@ public class ModificaStudenteFrame extends JFrame {
         exitPanel.add(exitButton);
 
         exitButton.addActionListener(e->{
-            controllore.registraStudente(tmp);
+            controllore.registraStudente(studente);
             JOptionPane.showMessageDialog(null,"studente salvato come prima");
             dispose();
         });
@@ -154,7 +144,7 @@ public class ModificaStudenteFrame extends JFrame {
         nomeField.setPreferredSize(new Dimension(200, 15));
         nomeField.setText(studente.getNome());
         nomePanel.add(nomeLabel);
-        nomePanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        nomePanel.add(Box.createHorizontalStrut(10));
         nomePanel.add(nomeField);
 
         // COGNOME
@@ -229,11 +219,11 @@ public class ModificaStudenteFrame extends JFrame {
         //label e combo nel panel separate da spazi
         dataNascitaPanel.add(dataNascitaLabel);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(giornoCombo);
+        dataNascitaPanel.add(annoCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(meseCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(annoCombo);
+        dataNascitaPanel.add(giornoCombo);
 
         // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
@@ -262,7 +252,7 @@ public class ModificaStudenteFrame extends JFrame {
         cfField.setText(studente.getCF());
 
         cfPanel.add(cfLabel);
-        cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        cfPanel.add(Box.createHorizontalStrut(10));
         cfPanel.add(cfField);
 
         //CLASSE
@@ -276,19 +266,21 @@ public class ModificaStudenteFrame extends JFrame {
 
         JComboBox<String> classCombo = new JComboBox<>();
         //esempio
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf", 'B'));
-        classi.add(new Classe(5,"inf", 'A'));
-        classi.add(new Classe(3,"tur", 'A'));
+        ArrayList<Classe> classi = controllore.getClassi();
 
         classCombo.addItem(" ");
         int tmp_classe = 0;
         for(int i=0;i<classi.size();i++){
             classCombo.addItem(classi.get(i).toString());
+
             if(studente.getClasse().toString().equals(classi.get(i).toString())) tmp_classe = i + 1;
         }
-
-        classCombo.setSelectedIndex(tmp_classe);
+        if(studente.getClasse().toString().equals("00000")){
+            classCombo.setSelectedItem(" ");
+        }
+        else{
+            classCombo.setSelectedIndex(tmp_classe);
+        }
 
         classPanel.add(classLabel);
         classPanel.add(Box.createHorizontalStrut(10));
@@ -337,14 +329,23 @@ public class ModificaStudenteFrame extends JFrame {
                 for (Classe c: classi) {
                     if(Objects.requireNonNull(classCombo.getSelectedItem()).toString().equals(c.toString())){
                         classe = c;
+                        break;
                     }
                 }
                 studente.setNome(nomeField.getText());
                 studente.setCognome(cognomeField.getText());
                 studente.setDataDiNascita(data);
-                studente.setCF(cfField.getText());
+                studente.setCF(cfField.getText().trim().toLowerCase());
                 studente.setClasse(classe);
 
+                String user = "s" + studente.getNome() + "." + studente.getCognome();
+                String password = "";
+                for(int i=0;i<user.length();i++) {
+                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
+                        password += user.charAt(i);
+                    }
+                }
+                studente.setCredenziali(new Credenziali(user,password));
                 controllore.registraStudente(studente);
                 JOptionPane.showMessageDialog(null,":)");
                 new StudentiFrame(controllore);

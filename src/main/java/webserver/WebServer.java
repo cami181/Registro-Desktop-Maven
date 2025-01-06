@@ -153,7 +153,7 @@ public class WebServer {
                 .add("cognome",genitore.getCognome())
                 .add("data",genitore.getStringData())
                 .add("codiceFiscale",genitore.getCF())
-                .add("cfFiglio",genitore.getFiglio())
+                .add("cfFiglio",genitore.getFiglio().getCF())
                 .build();
 
         // Costruisce la richiesta HTTP
@@ -293,14 +293,9 @@ public class WebServer {
             // Mostra la risposta nella console
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
-                System.out.println("RISPOSTA SERVER");
-                System.out.println(responseBody);
                 return responseBody;
             } else {
                 String responseBody = response.body().string();
-                System.out.println("RISPOSTA");
-                System.out.println(responseBody);
-                System.out.println("Errore nella risposta");
             }
         } catch (IOException ex) {
             // Gestisci gli errori di connessione

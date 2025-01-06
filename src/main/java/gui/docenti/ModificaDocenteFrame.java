@@ -1,11 +1,10 @@
 package gui.docenti;
 
 import Controllore.Controllore;
+import Credenziali.Credenziali;
 import Utenti.*;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -14,10 +13,6 @@ import java.awt.event.ActionListener;
 import java.util.*;
 
 public class ModificaDocenteFrame extends JFrame {
-    private Controllore controllore;
-    private ArrayList<Classe> classiDocente;
-    private ArrayList<String> materieDocente;
-
     /**
      * Funzione che crea la finestra per modificare i docenti.
      *
@@ -25,12 +20,12 @@ public class ModificaDocenteFrame extends JFrame {
      * @param docente Docente che si deve modificare.
      */
     public ModificaDocenteFrame(Controllore controllore, Docente docente) {
-        this.controllore = controllore;
+        controllore.eliminaDocente(docente);
         int width, height, b_height, b_width;
         Docente tmp = docente;
 
-        classiDocente = docente.getClassi();
-        materieDocente = docente.getMaterie();
+        ArrayList<Classe> classiDocente = docente.getClassi();
+        ArrayList<String> materieDocente = docente.getMaterie();
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
@@ -240,15 +235,15 @@ public class ModificaDocenteFrame extends JFrame {
         //label e combo nel panel separate da spazi
         dataNascitaPanel.add(dataNascitaLabel);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(giornoCombo);
+        dataNascitaPanel.add(annoCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(meseCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(annoCombo);
+        dataNascitaPanel.add(giornoCombo);
 
         // Aggiungi i pannelli di input al formPanel
         formPanel1.add(nomePanel);
-        formPanel1.add(Box.createVerticalStrut(50));  // Spazio tra i campi
+        formPanel1.add(Box.createVerticalStrut(50));
         formPanel1.add(cognomePanel);
         formPanel1.add(Box.createVerticalStrut(50));
         formPanel1.add(cfpanel);
@@ -276,7 +271,7 @@ public class ModificaDocenteFrame extends JFrame {
         //PRENDI TUTTE LE MATERIE ESISTENTI
         ArrayList<String> materie = controllore.getMaterie();
         //togli quelle del docente
-        materie.removeIf(s -> materieDocente.contains(s));
+        materie.removeIf(materieDocente::contains);
 
         materieBox.addItem("");
         for (String m: materie) {
@@ -361,7 +356,7 @@ public class ModificaDocenteFrame extends JFrame {
         for(Classe c:classiDocente) {
             classi.removeIf(c2 -> c2.toString().equals(c.toString()));
         }
-        classi.removeIf(s -> classiDocente.contains(s));
+        classi.removeIf(classiDocente::contains);
 
         allClassesBox.addItem("");
         for (Classe c: classi) {
@@ -454,6 +449,14 @@ public class ModificaDocenteFrame extends JFrame {
                 docente.setCF(cfField.getText());
                 docente.setClassi(classiDocente);
                 docente.setMaterie(materieDocente);
+                String user = "d" + docente.getNome() + "." + docente.getCognome();
+                String password = "";
+                for(int i=0;i<user.length();i++) {
+                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
+                        password += user.charAt(i);
+                    }
+                }
+                docente.setCredenziali(new Credenziali(user,password));
 
                 controllore.registraDocente(docente);
                 JOptionPane.showMessageDialog(null,":)");

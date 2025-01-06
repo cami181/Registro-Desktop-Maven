@@ -1,5 +1,6 @@
 package gui.genitori;
 
+import Credenziali.Credenziali;
 import Utenti.*;
 import Controllore.Controllore;
 import gui.home.HomeFrame;
@@ -13,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
 public class ModificaGenitoreFrame extends JFrame {
-    private Controllore controllore;
     Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
 
     /**
@@ -23,7 +23,7 @@ public class ModificaGenitoreFrame extends JFrame {
      * @param genitore Genitore che si deve modificare.
      */
     public ModificaGenitoreFrame(Controllore controllore, Genitore genitore) {
-        this.controllore = controllore;
+        controllore.eliminaGenitore(genitore);
         Genitore tmp = genitore;
 
         int width, height, b_height, b_width;
@@ -229,11 +229,11 @@ public class ModificaGenitoreFrame extends JFrame {
         //label e combo nel panel separate da spazi
         dataNascitaPanel.add(dataNascitaLabel);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(giornoCombo);
+        dataNascitaPanel.add(annoCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(meseCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(annoCombo);
+        dataNascitaPanel.add(giornoCombo);
 
         // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
@@ -275,15 +275,23 @@ public class ModificaGenitoreFrame extends JFrame {
         classLabel.setForeground(Color.WHITE);
 
         JComboBox<String> studentiCombo = new JComboBox<>();
-        //esempio
-        ArrayList<Studente> studenti = new ArrayList<>();
-        studenti.add(new Studente("nome","cognome",data,"aaaaaa00a00a000a",new Classe(5,"inf",'b')));
+
+        ArrayList<Studente> studenti = controllore.getStudenti();
 
         studentiCombo.addItem(" ");
         for (Studente s : studenti) {
             studentiCombo.addItem(s.getCF());
+            try{
+                if(s.getCF().equals(genitore.getFiglio().getCF())){
+                    studentiCombo.setSelectedItem(s);
+                }
+            }catch (NullPointerException e){
+                studentiCombo.setSelectedItem(" ");
+            }
         }
-        studentiCombo.setSelectedItem(genitore.getFiglio());
+        if(Objects.requireNonNull(studentiCombo.getSelectedItem()).toString().isEmpty()){
+            JOptionPane.showMessageDialog(null,"Account del figlio non associato");
+        }
 
         figlioPanel.add(classLabel);
         figlioPanel.add(Box.createHorizontalStrut(10));
@@ -338,8 +346,15 @@ public class ModificaGenitoreFrame extends JFrame {
                 genitore.setCognome(cognomeField.getText());
                 genitore.setDataDiNascita(data);
                 genitore.setCF(cfField.getText());
-                genitore.setFiglio(figlio.getCF());
-
+                genitore.setFiglio(figlio);
+                String user = "g" + genitore.getNome() + "." + genitore.getCognome();
+                String password = "";
+                for(int i=0;i<user.length();i++) {
+                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
+                        password += user.charAt(i);
+                    }
+                }
+                genitore.setCredenziali(new Credenziali(user,password));
                 controllore.registraGenitore(genitore);
                 JOptionPane.showMessageDialog(null,":)");
                 new GenitoriFrame(controllore);

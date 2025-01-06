@@ -15,9 +15,7 @@ import gui.pulsanti.PulsanteHome;
 import gui.pulsanti.PulsanteIndietro;
 
 public class ClassFrame extends JFrame {
-    private Controllore controllore;
-    private JButton selectedButton;
-
+    private String selectedButton = "";
     /**
      * Funzione che costruisce la finestra delle classi.
      * Imposta: dimensione finestra, visibilità, layout e gestisce vari componenti.
@@ -25,7 +23,6 @@ public class ClassFrame extends JFrame {
      * @param controllore Controllore che gestisce la logica.
      */
     public ClassFrame(Controllore controllore){
-        this.controllore = controllore;
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -148,25 +145,25 @@ public class ClassFrame extends JFrame {
         elimina.setForeground(Color.DARK_GRAY);
 
         modifica.addActionListener(e ->{
-            if(modifica.equals(selectedButton)){
+            if(selectedButton.equals("modifica")){
                 modifica.setBackground(Color.WHITE);
-                selectedButton = null;
+                selectedButton = "";
             }
             else{
                 modifica.setBackground(Color.GREEN);
                 elimina.setBackground(Color.WHITE);
-                selectedButton = modifica;
+                selectedButton = "modifica";
             }
         });
         elimina.addActionListener(e ->{
-            if(elimina.equals(selectedButton)){
+            if(selectedButton.equals("elimina")){
                 elimina.setBackground(Color.WHITE);
-                selectedButton = null;
+                selectedButton = "";
             }
             else {
                 elimina.setBackground(Color.GREEN);
                 modifica.setBackground(Color.WHITE);
-                selectedButton = elimina;
+                selectedButton = "elimina";
             }
         });
         //PULSANTI------------------------------------------------------
@@ -183,10 +180,8 @@ public class ClassFrame extends JFrame {
         listaLabel.setForeground(Color.WHITE);
 
         JComboBox<String> listaClassi = new JComboBox<>();
-        //DA PRENDERE ELENCO GENITORI
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf",'b'));
-        classi.add(new Classe(3,"tur",'b'));
+
+        ArrayList<Classe> classi = controllore.getClassi();
 
         listaClassi.addItem("");
         for (Classe tmp: classi) {
@@ -200,8 +195,8 @@ public class ClassFrame extends JFrame {
                 JOptionPane.showMessageDialog(null,"Seleziona una classe");
             }
             else{
-                try{
-                    if(selectedButton.equals(modifica)){
+                if(!selectedButton.isEmpty()){
+                    if(selectedButton.equals("modifica")){
                         //prendo la classe e la elimino dalla lista
                         String s = Objects.requireNonNull(listaClassi.getSelectedItem()).toString();
                         for (Classe tmp: classi) {
@@ -211,12 +206,14 @@ public class ClassFrame extends JFrame {
                             }
                         }
                     }
-                    else if(selectedButton.equals(elimina)){
+                    else if(selectedButton.equals("elimina")){
                         String s = listaClassi.getSelectedItem().toString();
                         controllore.eliminaClasse(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2),s.charAt(1));
                         JOptionPane.showMessageDialog(null,"Classe eliminata");
+                        new ClassFrame(controllore);
+                        dispose();
                     }
-                }catch(NullPointerException ex){
+                }else {
                     JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sulla classe");
                 }
             }

@@ -78,9 +78,17 @@ public class Assenza {
     }
 
     public String toString(){
-        if(giustifica){
-            return getStringData() + " " + docente.getNome() + "_" + docente.getCognome() + " true";
+        if(docente==null){
+            if(giustifica){
+                return getStringData() + " " +  "docente_nonregistrato" + " true";
+            }
+            return getStringData() + " " + "docente_nonregistrato" + " false";
         }
-        return getStringData() + " " + docente.getNome() + "_" + docente.getCognome() + " false";
+        else{
+            if(giustifica){
+                return getStringData() + " " + docente.getNome() + "_" + docente.getCognome() + " true";
+            }
+            return getStringData() + " " + docente.getNome() + "_" + docente.getCognome() + " false";
+        }
     }
 }

@@ -46,6 +46,18 @@ public class Studente extends Persona{
         return s;
     }
 
+    public void setVoti(ArrayList<Voto> voti) {
+        this.voti = voti;
+    }
+
+    public void setNote(ArrayList<Nota> note) {
+        this.note = note;
+    }
+
+    public void setAssenze(ArrayList<Assenza> assenze) {
+        this.assenze = assenze;
+    }
+
     public ArrayList<Nota> getNote() {
         return note;
     }

@@ -2,24 +2,18 @@ package gui.docenti;
 
 import Controllore.Controllore;
 import Credenziali.Credenziali;
-import Utenti.Classe;
-import Utenti.Docente;
+import Utenti.*;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class CreaDocentiFrame extends JFrame {
-    private Controllore controllore;
-    private ArrayList<Classe> classiDocente = new ArrayList<>();
-    private ArrayList<String> materieDocente = new ArrayList<>();
-
     /**
      * Funzione che costruisce la finestra crea.
      * Imposta gli elementi della finestra e le interazioni degli utenti.
@@ -27,12 +21,11 @@ public class CreaDocentiFrame extends JFrame {
      * @param controllore Controllore che gestisce la logica.
      */
     public CreaDocentiFrame(Controllore controllore) {
-        this.controllore = controllore;
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
-        setUndecorated(true); //--> toglie la barra in alto
+        setUndecorated(true);
         setVisible(true);
 
         Container container = this.getContentPane();
@@ -223,15 +216,15 @@ public class CreaDocentiFrame extends JFrame {
         //label e combo nel panel separate da spazi
         dataNascitaPanel.add(dataNascitaLabel);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(giornoCombo);
+        dataNascitaPanel.add(annoCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(meseCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(annoCombo);
+        dataNascitaPanel.add(giornoCombo);
 
         // Aggiungi i pannelli di input al formPanel
         formPanel1.add(nomePanel);
-        formPanel1.add(Box.createVerticalStrut(50));  // Spazio tra i campi
+        formPanel1.add(Box.createVerticalStrut(50));
         formPanel1.add(cognomePanel);
         formPanel1.add(Box.createVerticalStrut(50));
         formPanel1.add(cfpanel);
@@ -256,8 +249,9 @@ public class CreaDocentiFrame extends JFrame {
         //AGGIUNGI
         JComboBox<String> materieBox = new JComboBox<>();
         materieBox.setOpaque(false);
-        //PRENDI TUTTE LE MATERIE ESISTENTI
+
         ArrayList<String> materie = controllore.getMaterie();
+        ArrayList<String> materieDocente = new ArrayList<>();
         materieBox.addItem("");
         for (String m: materie) {
             materieBox.addItem(m);
@@ -268,10 +262,6 @@ public class CreaDocentiFrame extends JFrame {
         profMaterieBox.setOpaque(false);
         //PRENDI LE MATERIE DEL DOCENTE
         profMaterieBox.addItem("");
-        for (String m: materieDocente) {
-            profMaterieBox.addItem(m);
-        }
-
         JButton rimuovi2 = new JButton("RIMUOVI");
         rimuovi2.addActionListener(e ->{
             if(Objects.requireNonNull(profMaterieBox.getSelectedItem()).toString().isEmpty()){
@@ -290,7 +280,6 @@ public class CreaDocentiFrame extends JFrame {
                 }catch(ConcurrentModificationException ignore){}
             }
         });
-
         JButton aggiungi2 = new JButton("AGGIUNGI");
         aggiungi2.addActionListener(e ->{
             if(Objects.requireNonNull(materieBox.getSelectedItem()).toString().isEmpty()){
@@ -309,7 +298,6 @@ public class CreaDocentiFrame extends JFrame {
                 }catch (ConcurrentModificationException ignore){}
             }
         });
-
         materiePanel.add(materieBox);
         materiePanel.add(aggiungi2);
         materiePanel.add(profMaterieBox);
@@ -323,33 +311,26 @@ public class CreaDocentiFrame extends JFrame {
         tc.setFont(new Font("Arial",Font.BOLD,width/42));
         tc.setForeground(Color.WHITE);
         titoloClassi.add(tc);
-
         //CLASSI DEL DOCENTE PANEL----------------------------------------------------
         JPanel classPanel = new JPanel();
         classPanel.setLayout(new GridLayout(2,2));
         classPanel.setBounds(width*3/5,height*7/12, width/4, height/6);
-        //classPanel.setOpaque(false);
+        classPanel.setOpaque(false);
 
         //AGGIUNGI
         JComboBox<String> allClassesBox = new JComboBox<>();
         allClassesBox.setOpaque(false);
-        //PRENDI TUTTE LE CLASSI ESISTENTI
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf",'b'));
-        classi.add(new Classe(4,"inf",'b'));
+
+        ArrayList<Classe> classi = controllore.getClassi();
         allClassesBox.addItem("");
         for (Classe c: classi) {
             allClassesBox.addItem(c.toString());
         }
-
         //RIMUOVI
         JComboBox<String> profClassesBox = new JComboBox<>();
+        ArrayList<Classe> classiDocente = new ArrayList<>();
         profClassesBox.setOpaque(false);
-        //PRENDI LE CLASSI DEL DOCENTE
         profClassesBox.addItem("");
-        for (Classe c: classiDocente) {
-            profClassesBox.addItem(c.toString());
-        }
 
         JButton rimuovi = new JButton("RIMUOVI");
         rimuovi.addActionListener(e ->{
@@ -369,7 +350,6 @@ public class CreaDocentiFrame extends JFrame {
                 }catch(ConcurrentModificationException ignore){}
             }
         });
-
         JButton aggiungi = new JButton("AGGIUNGI");
         aggiungi.addActionListener(e ->{
             if(Objects.requireNonNull(allClassesBox.getSelectedItem()).toString().isEmpty()){

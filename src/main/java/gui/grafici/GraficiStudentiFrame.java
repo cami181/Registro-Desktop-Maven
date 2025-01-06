@@ -1,5 +1,6 @@
 package gui.grafici;
 
+import Altro.Voto;
 import Controllore.Controllore;
 import Utenti.Studente;
 import gui.home.HomeFrame;
@@ -130,6 +131,7 @@ public class GraficiStudentiFrame extends JFrame {
         seleziona.setFont(new Font("Arial", Font.BOLD, height/39));
         seleziona.setForeground(Color.WHITE);
         ArrayList<Studente> studenti = controllore.getStudenti();
+
         JComboBox<String> studentiCombo = new JComboBox<>();
         studentiCombo.addItem("");
         for (Studente s: studenti) {
@@ -173,15 +175,16 @@ public class GraficiStudentiFrame extends JFrame {
                         break;
                     }
                 }
+
                 //calcolo medie dei mesi
                 double[] medieMensili = new double[10];
                 //set -- dic
                 for(int i=8;i<12;i++){
-                    medieMensili[i-8] = tmp.getMediaMensile(i);
+                        medieMensili[i-8] = tmp.getMediaMensile(i);
                 }
                 //gen-- giu
                 for(int i=0;i<6;i++){
-                    medieMensili[i+4] = tmp.getMediaMensile(i);
+                        medieMensili[i+4] = tmp.getMediaMensile(i);
                 }
                 //grafico
                 graphPanel = new GraficoMedieMensiliPanel(medieMensili);

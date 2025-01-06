@@ -55,6 +55,9 @@ public class Nota {
         return motivo;
     }
     public String toString(){
-        return getStringData() + "*" + docente.getNome() + "_" + docente.getCognome() + "*Motivo: " + motivo;
+        if(docente==null){
+            return getStringData() + "*" + "docente_nonregistrato" + "*Motivo_" + motivo;
+        }
+        return getStringData() + "*" + docente.getNome() + "_" + docente.getCognome() + "*Motivo_" + motivo;
     }
 }

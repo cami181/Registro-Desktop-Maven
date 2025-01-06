@@ -13,8 +13,6 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ModificaClasseFrame extends JFrame {
-    private Controllore controllore;
-
     /**
      * Funzione che crea la finestra per modificare le classi.
      *
@@ -22,7 +20,7 @@ public class ModificaClasseFrame extends JFrame {
      * @param classe Classe che si deve modificare.
      */
     public ModificaClasseFrame(Controllore controllore, Classe classe) {
-        this.controllore = controllore;
+        controllore.eliminaClasse(classe.getAnno(),classe.getIndirizzo(),classe.getSezione());
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -63,6 +61,8 @@ public class ModificaClasseFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
+            controllore.registraClasse(classe.getAnno(),classe.getIndirizzo(),classe.getSezione());
+            JOptionPane.showMessageDialog(null,"classe salvata come prima");
             new HomeFrame(controllore);
             dispose();
         });
@@ -209,7 +209,7 @@ public class ModificaClasseFrame extends JFrame {
                 JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
             else{
-                if(!controllore.registraClasse(Integer.parseInt((String) Objects.requireNonNull(anno.getSelectedItem())),
+                if(controllore.alreadyExistentClass(Integer.parseInt((String) Objects.requireNonNull(anno.getSelectedItem())),
                         Objects.requireNonNull(corso.getSelectedItem()).toString(),
                         Objects.requireNonNull(sectionCombo.getSelectedItem()).toString().charAt(0))){
                     JOptionPane.showMessageDialog(null,"Classe già esistente");

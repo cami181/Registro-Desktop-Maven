@@ -67,6 +67,9 @@ public class Voto {
         return calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
     }
     public String toString(){
+        if(docente==null){
+            return voto + " " + materia + " " + "docente_nonregistrato" + " " + getStringData();
+        }
         return voto + " " + materia + " " + docente.getNome() + "_" + docente.getCognome() + " " + getStringData();
     }
 }

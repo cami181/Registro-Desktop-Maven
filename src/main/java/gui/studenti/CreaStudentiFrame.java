@@ -4,9 +4,7 @@ import Credenziali.Credenziali;
 import Utenti.*;
 import Controllore.Controllore;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -14,7 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
 public class CreaStudentiFrame extends JFrame {
-    private Controllore controllore;
 
     /**
      * Funzione che costruisce la finestra crea.
@@ -23,13 +20,11 @@ public class CreaStudentiFrame extends JFrame {
      * @param controllore Controllore che gestisce la logica.
      */
     public CreaStudentiFrame(Controllore controllore) {
-        this.controllore = controllore;
-
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
-        setUndecorated(true); //--> toglie la barra in alto
+        setUndecorated(true);
         setVisible(true);
 
         Container container = this.getContentPane();
@@ -65,18 +60,11 @@ public class CreaStudentiFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
+            JOptionPane.showMessageDialog(null,"Nessuno studente creato");
             new HomeFrame(controllore);
             dispose();
         });
         //HOME--------------------------------------------------------
-
-        //CREDENZIALI--------------------------------------
-        JPanel credPanel = new JPanel();
-        sfondoLabel.add(credPanel);
-        credPanel.setBounds(0,b_height,b_height,b_height);
-        credPanel.setOpaque(false);
-
-        //CREDENZIALI--------------------------------------
 
         //INDIETRO-----------------------------------------
         JPanel indietroPanel = new JPanel(new GridLayout(1,1));
@@ -92,6 +80,7 @@ public class CreaStudentiFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
+            JOptionPane.showMessageDialog(null,"Nessuno studente creato");
             new StudentiFrame(controllore);
             dispose();
         });
@@ -111,6 +100,7 @@ public class CreaStudentiFrame extends JFrame {
         exitPanel.add(exitButton);
 
         exitButton.addActionListener(e->{
+            JOptionPane.showMessageDialog(null,"Nessuno studente creato");
             dispose();
         });
         //EXIT---------------------------------------------------------
@@ -247,7 +237,7 @@ public class CreaStudentiFrame extends JFrame {
         cfField.setPreferredSize(new Dimension(200, 15));
 
         cfPanel.add(cfLabel);
-        cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        cfPanel.add(Box.createHorizontalStrut(10));
         cfPanel.add(cfField);
 
         //CLASSE
@@ -260,11 +250,8 @@ public class CreaStudentiFrame extends JFrame {
         classLabel.setForeground(Color.WHITE);
 
         JComboBox<String> classCombo = new JComboBox<>();
-        //esempio
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf", 'B'));
-        classi.add(new Classe(5,"inf", 'A'));
-        classi.add(new Classe(3,"tur", 'A'));
+
+        ArrayList<Classe> classi = controllore.getClassi();
 
         classCombo.addItem(" ");
         for (Classe c : classi) {

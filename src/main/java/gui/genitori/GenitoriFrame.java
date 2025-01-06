@@ -6,19 +6,12 @@ import java.awt.*;
 import java.util.*;
 
 import Controllore.Controllore;
-import Utenti.Classe;
-import Utenti.Genitore;
-import Utenti.Studente;
+import Utenti.*;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 public class GenitoriFrame extends JFrame {
-    private Controllore controllore;
-    private JButton selectedButton;
-    Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
-
+    private String selectedButton = "";
     /**
      * Funzione che costruisce la finestra dei genitori.
      * Imposta: dimensione finestra, visibilità, layout e gestisce vari componenti.
@@ -26,7 +19,6 @@ public class GenitoriFrame extends JFrame {
      * @param controllore Controllore che gestisce la logica.
      */
     public GenitoriFrame(Controllore controllore){
-        this.controllore = controllore;
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -149,25 +141,25 @@ public class GenitoriFrame extends JFrame {
         elimina.setForeground(Color.DARK_GRAY);
 
         modifica.addActionListener(e ->{
-            if(modifica.equals(selectedButton)){
+            if(selectedButton.equals("modifica")){
                 modifica.setBackground(Color.WHITE);
-                selectedButton = null;
+                selectedButton = "";
             }
             else{
                 modifica.setBackground(Color.GREEN);
                 elimina.setBackground(Color.WHITE);
-                selectedButton = modifica;
+                selectedButton = "modifica";
             }
         });
         elimina.addActionListener(e ->{
-            if(elimina.equals(selectedButton)){
+            if(selectedButton.equals("elimina")){
                 elimina.setBackground(Color.WHITE);
-                selectedButton = null;
+                selectedButton = "";
             }
             else {
                 elimina.setBackground(Color.GREEN);
                 modifica.setBackground(Color.WHITE);
-                selectedButton = elimina;
+                selectedButton = "elimina";
             }
         });
         //PULSANTI------------------------------------------------------
@@ -185,12 +177,8 @@ public class GenitoriFrame extends JFrame {
 
         JComboBox<String> listaGenitori = new JComboBox<>();
         //DA PRENDERE ELENCO GENITORI
-        ArrayList<Genitore> genitori = new ArrayList<>();
-        Studente prova = new Studente("nome","cognome",data,"aaaaaa00a00a000a",new Classe(5,"inf",'b'));
-        Genitore s = new Genitore("c","co",data,"ccccc00c46c000c",prova.getCF());
-        Genitore s1 = new Genitore("c","co2",data,"cccccc11c11c111c ",prova.getCF());
-        genitori.add(s);
-        genitori.add(s1);
+        ArrayList<Genitore> genitori = controllore.getGenitori();
+
         listaGenitori.addItem("");
         for (Genitore tmp: genitori) {
             listaGenitori.addItem(tmp.getCF());
@@ -203,8 +191,8 @@ public class GenitoriFrame extends JFrame {
                 JOptionPane.showMessageDialog(null,"Seleziona un genitore");
             }
             else{
-                try{
-                    if(selectedButton.equals(modifica)){
+                if(!selectedButton.isEmpty()){
+                    if(selectedButton.equals("modifica")){
                         //prendo il genitore e lo elimino dalla lista
                         String cf = Objects.requireNonNull(listaGenitori.getSelectedItem()).toString();
                         for (Genitore tmp: genitori) {
@@ -214,10 +202,18 @@ public class GenitoriFrame extends JFrame {
                             }
                         }
                     }
-                    else if(selectedButton.equals(elimina)){
-                        //prendo il genitore e lo elimino dalla lista anche qua
+                    else if(selectedButton.equals("elimina")){
+                        String cf = Objects.requireNonNull(listaGenitori.getSelectedItem()).toString();
+                        for (Genitore tmp: genitori) {
+                            if(tmp.getCF().equals(cf)){
+                                controllore.eliminaGenitore(tmp);
+                                JOptionPane.showMessageDialog(null,"Genitore eliminato");
+                                new GenitoriFrame(controllore);
+                                dispose();
+                            }
+                        }
                     }
-                }catch(NullPointerException ex){
+                }else {
                     JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sul genitore");
                 }
             }

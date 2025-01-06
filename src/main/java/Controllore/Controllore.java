@@ -3,6 +3,7 @@ package Controllore;
 import Altro.Assenza;
 import Altro.Nota;
 import Altro.Voto;
+import Credenziali.Credenziali;
 import Utenti.*;
 
 import java.util.*;
@@ -19,13 +20,14 @@ public class Controllore {
      * @param studente Studente da registrare.
      */
     public void registraStudente(Studente studente){
-        Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+        /*Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime();
+        Date data2 = new GregorianCalendar(2002, Calendar.SEPTEMBER,20).getTime();
         studente.getVoti().add(new Voto(7,"Informatica",new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getVoti().add(new Voto(2,"Matematica",new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getNote().add(new Nota(data,new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),"Zavorra"));
+        studente.getVoti().add(new Voto(2,"Matematica",new Docente("Laura","Fallini",data2,"aaaa",new ArrayList<>(),new ArrayList<>()),data2));
+        //studente.getNote().add(new Nota(data,new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),"Zavorra"));
         studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
-        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data2,"aaaa",new ArrayList<>(),new ArrayList<>()),data));
+        studente.getAssenze().add(new Assenza(new Docente("Laura","Fallini",data,"aaaa",new ArrayList<>(),new ArrayList<>()),data));*/
 
         WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword(),new JTextArea());
         WebServer.creaEliminaStudente("carica",studente,new JTextArea());
@@ -52,23 +54,15 @@ public class Controllore {
     }
 
     /**
-     * Registra nuova classe se non è già presente nella lista.
+     * Registra nuova classe.
      *
      * @param anno Anno classe.
      * @param corso Indirizzo corso della classe.
      * @param sezione Sezione classe.
-     * @return true se la classe è stata registrata, false se già presente nella lista.
      */
-    public boolean registraClasse(int anno, String corso, char sezione){
-        /*ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(4,"inf",'a')); //PROVA
-
-        for (Classe c: classi) {
-            if(c.getAnno()==anno && c.getIndirizzo().equals(corso) && c.getSezione()==sezione) return false;
-        }*/
+    public void registraClasse(int anno, String corso, char sezione){
         Classe classe = new Classe(anno,corso,sezione);
         WebServer.creaEliminaClasse("carica",classe,new JTextArea());
-        return true;
     }
     // --- FINE REGISTRAZIONE --- //
 
@@ -78,6 +72,9 @@ public class Controllore {
     }
     public void eliminaStudente(Studente studente){
         eliminaUtente(studente.getCredenziali().getUser(),studente.getCredenziali().getPassword());
+        if(studente.getClasse()==null){
+            studente.setClasse(new Classe(0,"000",'0'));
+        }
         WebServer.creaEliminaStudente("elimina",studente,new JTextArea());
     }
     public void eliminaDocente(Docente docente){
@@ -86,6 +83,10 @@ public class Controllore {
     }
     public void eliminaGenitore(Genitore genitore){
         eliminaUtente(genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword());
+        Date data = new GregorianCalendar(0, Calendar.JANUARY,1).getTime();
+        if(genitore.getFiglio()==null){
+            genitore.setFiglio(new Studente("nome","cognome",data,"0",new Classe(0,"0",'0')));
+        }
         WebServer.creaEliminaGenitore("elimina",genitore,new JTextArea());
     }
     public void eliminaClasse(int anno, String indirizzo, char sezione){
@@ -93,7 +94,23 @@ public class Controllore {
     }
     // --- ELIMINAZIONE --- //
 
-    //CODICE FISCALE------------------------------
+    //CONTROLLI------------------------------
+
+    /**
+     * Verifica che la classe non esista già
+     * @param anno anno della classe
+     * @param indirizzo indirizzo della classe
+     * @param sezione sezione della classe
+     * @return true se la classe esiste già, false se non esiste
+     */
+    public boolean alreadyExistentClass(int anno, String indirizzo, char sezione){
+        Classe tmp = new Classe(anno,indirizzo,sezione);
+        for (Classe c: getClassi()) {
+            if(c.toString().equals(tmp.toString())) return true;
+        }
+        registraClasse(anno, indirizzo, sezione);
+        return false;
+    }
 
     /**
      * Verifica validità del codice fiscale.
@@ -102,6 +119,7 @@ public class Controllore {
      * @return true se il codice fiscale è errato, false se corretto.
      */
     public boolean codiceFiscaleInvalido(String cf){
+        cf = cf.trim().toLowerCase();
         //lunghezza di 16
         if(cf.length()!=16) return true;
 
@@ -127,6 +145,7 @@ public class Controllore {
      * @return true se il codice fiscale esiste già, false se è nuovo.
      */
     public boolean alreadyExistentCf(String cf){
+        cf = cf.trim().toLowerCase();
         ArrayList<Persona> utenti = new ArrayList<>();
         utenti.add(new Studente("ciao","bro",null,"0000000000000000",null));
 
@@ -136,7 +155,7 @@ public class Controllore {
 
         return false;
     }
-    //CODICE FISCALE-------------------------------
+    //CONTROLLI-------------------------------
 
     //GETTER------------------
 
@@ -239,6 +258,7 @@ public class Controllore {
                 String votiStringa = temp_split[7].split(":")[1].substring(1);
                 votiStringa = votiStringa.substring(0,votiStringa.length()-1);
                 ArrayList<Voto> voti = new ArrayList<>();
+
                 for (String v: votiStringa.split(";")) {
                     if(!v.isEmpty()){
                         double valore = Double.parseDouble(v.split(" ")[0]);
@@ -259,6 +279,7 @@ public class Controllore {
                         int av = Integer.parseInt(dataVoto.split("-")[2]);
                         Calendar cv = Calendar.getInstance();
                         cv.set(av, mv, gv);
+                        System.out.println(av + " " + mv + " " + gv);
                         Date datavoto = cv.getTime();
                         voti.add(new Voto(valore,materia,docente,datavoto));
                     }
@@ -286,7 +307,7 @@ public class Controllore {
                                 break;
                             }
                         }
-                        String motivo = temp_split[2].split("\\*")[1].split(":")[1].trim();
+                        String motivo = n.split("\\*")[2].split("_")[1].trim();
                         note.add(new Nota(dataNota,docente,motivo));
                     }
                 }
@@ -304,6 +325,7 @@ public class Controllore {
                         Calendar cv = Calendar.getInstance();
                         cv.set(av, mv, gv);
                         Date dataNota = cv.getTime();
+
                         String docenteNome = a.split(" ")[1].split("_")[0];
                         String docenteCognome = a.split(" ")[1].split("_")[1];
                         Docente docente = null;
@@ -313,18 +335,24 @@ public class Controllore {
                                 break;
                             }
                         }
-                        String giustifica = temp_split[2].split("\\*")[1].split(":")[1].trim();
+                        String giustifica = a.split(" ")[2];
                         if(giustifica.equals("true")){
-                            assenze.add(new Assenza(docente,data,true));
+                            assenze.add(new Assenza(docente,dataNota,true));
                         }
                         else{
-                            assenze.add(new Assenza(docente,data,false));
+                            assenze.add(new Assenza(docente,dataNota,false));
                         }
                     }
                 }
+                Studente studente = new Studente(nome,cognome,data,cf,classe);
+                studente.setCredenziali(new Credenziali(username,password));
+                studente.setVoti(voti);
+                studente.setNote(note);
+                studente.setAssenze(assenze);
+
+                studenti.add(studente);
             }
         }
-
         return studenti;
     }
 
@@ -369,7 +397,6 @@ public class Controllore {
                 classi.add(cl);
             }
         }
-
         return classi;
     }
 
@@ -414,12 +441,20 @@ public class Controllore {
                 //cf figlio
                 String cfFiglio = temp_split[6].split(":")[1].substring(1);
                 cfFiglio = cfFiglio.substring(0,cfFiglio.length()-1);
+                Studente figlio = null;
+                for (Studente st: getStudenti()) {
+                    if(cfFiglio.equals(st.getCF())){
+                        figlio = st;
+                        break;
+                    }
+                }
 
-                /*Genitore g = new Genitore(nome,cognome,data,cf,figlio);
-                genitori.add(g);*/
+                Genitore g = new Genitore(nome,cognome,data,cf,figlio);
+                g.setCredenziali(new Credenziali(username,password));
+                genitori.add(g);
             }
         }
-        return null;
+        return genitori;
     }
 
     public ArrayList<Docente> getDocenti(){
@@ -486,6 +521,7 @@ public class Controllore {
                 }
 
                 Docente docente = new Docente(nome,cognome,data,cf,classi,materie);
+                docente.setCredenziali(new Credenziali(username,password));
                 docenti.add(docente);
             }
         }

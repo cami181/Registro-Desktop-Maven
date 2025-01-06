@@ -202,13 +202,15 @@ public class CreaClasseFrame extends JFrame {
                 JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
             else{
-                if(!controllore.registraClasse(Integer.parseInt((String) Objects.requireNonNull(anno.getSelectedItem())),
+                if(controllore.alreadyExistentClass(Integer.parseInt((String) Objects.requireNonNull(anno.getSelectedItem())),
                         Objects.requireNonNull(corso.getSelectedItem()).toString(),
                         Objects.requireNonNull(sectionCombo.getSelectedItem()).toString().charAt(0))){
                     JOptionPane.showMessageDialog(null,"Classe già esistente");
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Classe registrata");
+                    new ClassFrame(controllore);
+                    dispose();
                 }
             }
         });

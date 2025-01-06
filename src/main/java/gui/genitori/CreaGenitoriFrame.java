@@ -4,9 +4,7 @@ import Credenziali.Credenziali;
 import Utenti.*;
 import Controllore.Controllore;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -14,8 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
 public class CreaGenitoriFrame extends JFrame {
-    private Controllore controllore;
-    Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
 
     /**
      * Funzione che costruisce la finestra crea.
@@ -24,7 +20,6 @@ public class CreaGenitoriFrame extends JFrame {
      * @param controllore Controllore che gestisce la logica.
      */
     public CreaGenitoriFrame(Controllore controllore) {
-        this.controllore = controllore;
 
         int width, height, b_height, b_width;
 
@@ -216,11 +211,11 @@ public class CreaGenitoriFrame extends JFrame {
         //label e combo nel panel separate da spazi
         dataNascitaPanel.add(dataNascitaLabel);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(giornoCombo);
+        dataNascitaPanel.add(annoCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(meseCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(annoCombo);
+        dataNascitaPanel.add(giornoCombo);
 
         // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
@@ -262,8 +257,7 @@ public class CreaGenitoriFrame extends JFrame {
 
         JComboBox<String> studentiCombo = new JComboBox<>();
         //esempio
-        ArrayList<Studente> studenti = new ArrayList<>();
-        studenti.add(new Studente("nome","cognome",data,"aaaaaa00a00a000a",new Classe(5,"inf",'b')));
+        ArrayList<Studente> studenti = controllore.getStudenti();
 
         studentiCombo.addItem(" ");
         for (Studente s : studenti) {
@@ -315,10 +309,10 @@ public class CreaGenitoriFrame extends JFrame {
 
                 Studente figlio = null;
                 for (Studente s: studenti) {
-                    if(s.getCF().equals(cfField.getText())) figlio = s;
+                    if(s.getCF().equals(studentiCombo.getSelectedItem().toString())) figlio = s;
                 }
 
-                Genitore genitore = new Genitore(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),studentiCombo.getSelectedItem().toString());
+                Genitore genitore = new Genitore(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),figlio);
                 String user = "g" + genitore.getNome() + "." + genitore.getCognome();
                 String password = "";
                 for(int i=0;i<user.length();i++) {

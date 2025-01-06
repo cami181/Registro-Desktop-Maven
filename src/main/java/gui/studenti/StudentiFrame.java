@@ -11,7 +11,7 @@ import gui.home.HomeFrame;
 import gui.pulsanti.*;
 
 public class StudentiFrame extends JFrame {
-    private JButton selectedButton;
+    private String selectedButton = "";
     Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
 
     /**
@@ -126,17 +126,8 @@ public class StudentiFrame extends JFrame {
         crea.setForeground(Color.DARK_GRAY);
 
         crea.addActionListener(e -> {
-            controllore.getStudenti();
-            /*new CreaStudentiFrame(controllore);
+            new CreaStudentiFrame(controllore);
             dispose();
-            Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
-            ArrayList<Classe> c = new ArrayList<>();
-            c.add(new Classe(4,"hfj",'b'));
-            ArrayList<String> materie = new ArrayList<>();
-            materie.add("ciao");
-            Genitore d = new Genitore("nome","cog",data,"jhkydbgfhjdb","uysdhfkn");
-            d.setCredenziali(new Credenziali("ggen1.dkjnfg","ggn1dkjnfg"));
-            controllore.eliminaGenitore(d);*/
         });
 
         JButton modifica = new JButton("MODIFICA");
@@ -152,25 +143,25 @@ public class StudentiFrame extends JFrame {
         elimina.setForeground(Color.DARK_GRAY);
 
         modifica.addActionListener(e ->{
-            if(modifica.equals(selectedButton)){
+            if(selectedButton.equals("modifica")){
                 modifica.setBackground(Color.WHITE);
-                selectedButton = null;
+                selectedButton = "";
             }
             else{
                 modifica.setBackground(Color.GREEN);
                 elimina.setBackground(Color.WHITE);
-                selectedButton = modifica;
+                selectedButton = "modifica";
             }
         });
         elimina.addActionListener(e ->{
-            if(elimina.equals(selectedButton)){
+            if(selectedButton.equals("elimina")){
                 elimina.setBackground(Color.WHITE);
-                selectedButton = null;
+                selectedButton = "";
             }
             else {
                 elimina.setBackground(Color.GREEN);
                 modifica.setBackground(Color.WHITE);
-                selectedButton = elimina;
+                selectedButton = "elimina";
             }
         });
         //PULSANTI------------------------------------------------------
@@ -187,9 +178,9 @@ public class StudentiFrame extends JFrame {
         listaLabel.setForeground(Color.WHITE);
 
         JComboBox<String> listaStudenti = new JComboBox<>();
-        //DA PRENDERE ELENCO STUDENTI
-        //ArrayList<Studente> studenti = controllore.getStudenti();
-        ArrayList<Studente> studenti = new ArrayList<>();
+
+        ArrayList<Studente> studenti = controllore.getStudenti();
+
         listaStudenti.addItem("");
         for (Studente tmp: studenti) {
             listaStudenti.addItem(tmp.getCF());
@@ -202,8 +193,8 @@ public class StudentiFrame extends JFrame {
                 JOptionPane.showMessageDialog(null,"Seleziona uno studente");
             }
             else{
-                try{
-                    if(selectedButton.equals(modifica)){
+                if(!selectedButton.isEmpty()){
+                    if(selectedButton.equals("modifica")){
                         //prendo lo studente e lo elimino dalla lista
                         String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
                         for (Studente tmp: studenti) {
@@ -213,16 +204,18 @@ public class StudentiFrame extends JFrame {
                             }
                         }
                     }
-                    else if(selectedButton.equals(elimina)){
+                    else if(selectedButton.equals("elimina")){
                         for (Studente tmp: studenti) {
                             String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
                             if(tmp.getCF().equals(cf)){
                                 controllore.eliminaStudente(tmp);
                                 JOptionPane.showMessageDialog(null,"Studente eliminato");
+                                new StudentiFrame(controllore);
+                                dispose();
                             }
                         }
                     }
-                }catch(NullPointerException ex){
+                }else{
                     JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sullo studente");
                 }
             }
