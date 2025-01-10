@@ -137,7 +137,7 @@ public class CreaStudentiFrame extends JFrame {
         JTextField nomeField = new JTextField();
         nomeField.setPreferredSize(new Dimension(200, 15));
         nomePanel.add(nomeLabel);
-        nomePanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        nomePanel.add(Box.createHorizontalStrut(10));
         nomePanel.add(nomeField);
 
         // COGNOME

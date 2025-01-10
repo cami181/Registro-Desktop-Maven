@@ -88,7 +88,6 @@ public class WebServer {
                 .post(formBody)
                 .build();
 
-
         // Esegue la richiesta in un thread separato
         new Thread(() -> {
             try {
@@ -96,8 +95,6 @@ public class WebServer {
 
                 // Mostra la risposta nella text area
                 if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    String responseBody = response.body().string();
                 } else {
                     System.out.println(response.body().string());
                 }

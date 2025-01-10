@@ -8,6 +8,32 @@ import java.util.*;
 import webserver.WebServer;
 
 public class Controllore {
+    private ArrayList<Studente> studenti;
+    private ArrayList<Docente> docenti;
+    private ArrayList<Genitore> genitori;
+    private ArrayList<Classe> classi;
+
+    public Controllore(){
+        classi = getClassiServer();
+        docenti = getDocentiServer();
+        studenti = getStudentiServer();
+        genitori = getGenitoriServer();
+    }
+
+    //GETTER-----------------------
+    public ArrayList<Studente> getStudenti() {
+        return studenti;
+    }
+    public ArrayList<Docente> getDocenti() {
+        return docenti;
+    }
+    public ArrayList<Genitore> getGenitori() {
+        return genitori;
+    }
+    public ArrayList<Classe> getClassi() {
+        return classi;
+    }
+    //GETTER-----------------------
     // --- REGISTRAZIONE --- //
     /**
      * Registra nuovo studente.
@@ -17,6 +43,7 @@ public class Controllore {
     public void registraStudente(Studente studente){
         WebServer.registerUser("registrazione",studente.getCredenziali().getUser(),studente.getCredenziali().getPassword());
         WebServer.creaEliminaStudente("carica",studente);
+        studenti.add(studente);
     }
 
     /**
@@ -27,6 +54,7 @@ public class Controllore {
     public void registraDocente(Docente docente){
         WebServer.registerUser("registrazione",docente.getCredenziali().getUser(),docente.getCredenziali().getPassword());
         WebServer.creaEliminaDocente("carica",docente);
+        docenti.add(docente);
     }
 
     /**
@@ -37,6 +65,7 @@ public class Controllore {
     public void registraGenitore(Genitore genitore){
         WebServer.registerUser("registrazione",genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword());
         WebServer.creaEliminaGenitore("carica",genitore);
+        genitori.add(genitore);
     }
 
     /**
@@ -49,8 +78,39 @@ public class Controllore {
     public void registraClasse(int anno, String corso, char sezione){
         Classe classe = new Classe(anno,corso,sezione);
         WebServer.creaEliminaClasse("carica",classe);
+        classi.add(classe);
     }
     // --- FINE REGISTRAZIONE --- //
+
+    //RICERCA x nome e cognome-------------------------------
+    public ArrayList<Studente> cercaStudente(String nome, String cognome){
+        ArrayList<Studente> tmp = new ArrayList<>();
+        for (Studente s: studenti) {
+            if(s.getNome().equals(nome) && s.getCognome().equals(cognome)){
+                tmp.add(s);
+            }
+        }
+        return tmp;
+    }
+    public ArrayList<Docente> cercaDocente(String nome, String cognome){
+        ArrayList<Docente> tmp = new ArrayList<>();
+        for (Docente d: docenti) {
+            if(d.getNome().equals(nome) && d.getCognome().equals(cognome)){
+                tmp.add(d);
+            }
+        }
+        return tmp;
+    }
+    public ArrayList<Genitore> cercaGenitore(String nome, String cognome){
+        ArrayList<Genitore> tmp = new ArrayList<>();
+        for (Genitore g: genitori) {
+            if(g.getNome().equals(nome) && g.getCognome().equals(cognome)){
+                tmp.add(g);
+            }
+        }
+        return tmp;
+    }
+    //RICERCA x nome e cognome-------------------------------
 
     // --- ELIMINAZIONE --- //
 
@@ -75,6 +135,7 @@ public class Controllore {
             studente.setClasse(new Classe(0,"000",'0'));
         }
         WebServer.creaEliminaStudente("elimina",studente);
+        //eliminali anche in locale
     }
 
     /**
@@ -165,10 +226,14 @@ public class Controllore {
      */
     public boolean alreadyExistentCf(String cf){
         cf = cf.trim().toLowerCase();
-        ArrayList<Persona> utenti = new ArrayList<>();
-        utenti.add(new Studente("ciao","bro",null,"0000000000000000",null));
 
-        for (Persona p: utenti) {
+        for (Studente p: studenti) {
+            if(p.getCF().equals(cf)) return true;
+        }
+        for (Docente p: docenti) {
+            if(p.getCF().equals(cf)) return true;
+        }
+        for (Genitore p: genitori) {
             if(p.getCF().equals(cf)) return true;
         }
 
@@ -211,11 +276,11 @@ public class Controllore {
     //GETTER DAL WEB SERVER----------------------------------------------------------------------
 
     /**
-     * Restituisce lista degli studenti registrati.
+     * Restituisce lista degli studenti registrati presa dal server.
      *
      * @return Lista degli studenti registrati.
      */
-    public ArrayList<Studente> getStudenti(){
+    public ArrayList<Studente> getStudentiServer(){
         ArrayList<Studente> studenti = new ArrayList<>();
 
         String s = WebServer.getStudenti();
@@ -367,7 +432,7 @@ public class Controllore {
      *
      * @return Lista delle classi registrate.
      */
-    public ArrayList<Classe> getClassi(){
+    public ArrayList<Classe> getClassiServer(){
         ArrayList<Classe> classi = new ArrayList<>();
 
         String c = WebServer.getClassi();
@@ -398,7 +463,7 @@ public class Controllore {
      *
      * @return Lista dei genitori registrati.
      */
-    public ArrayList<Genitore> getGenitori(){
+    public ArrayList<Genitore> getGenitoriServer(){
         String s = WebServer.getGenitori();
         ArrayList<Genitore> genitori = new ArrayList<>();
 
@@ -460,7 +525,7 @@ public class Controllore {
      *
      * @return Lista dei docenti registrati.
      */
-    public ArrayList<Docente> getDocenti(){
+    public ArrayList<Docente> getDocentiServer(){
         String s = WebServer.getDocenti();
 
         ArrayList<Docente> docenti = new ArrayList<>();

@@ -170,21 +170,45 @@ public class StudentiFrame extends JFrame {
         JPanel elencoPanel = new JPanel();
         elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
         sfondoLabel.add(elencoPanel);
-        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*3);
+        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
         JLabel listaLabel = new JLabel("SELEZIONA UNO STUDENTE");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 
-        JComboBox<String> listaStudenti = new JComboBox<>();
+        //nome cognome cerca------------------------------------------
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height);
+        cercaPanel.setOpaque(false);
 
+        JLabel nome = new JLabel("NOME: ");
+        JLabel cognome = new JLabel("COGNOME: ");
+        nome.setFont(new Font("Arial", Font.BOLD, height/60));
+        nome.setForeground(Color.WHITE);
+        cognome.setFont(new Font("Arial", Font.BOLD, height/60));
+        cognome.setForeground(Color.WHITE);
+
+        JTextField nomeField = new JTextField();
+        JTextField cognomeField = new JTextField();
+
+        cercaPanel.add(nome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(nomeField);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeField);
+        //nome cognome cerca------------------------------------------
+
+        JComboBox<String> listaStudenti = new JComboBox<>();
         ArrayList<Studente> studenti = controllore.getStudenti();
 
         listaStudenti.addItem("");
-        for (Studente tmp: studenti) {
+        /*for (Studente tmp: studenti) {
             listaStudenti.addItem(tmp.getCF());
-        }
+        }*/
 
         //pulsanti
         JButton conferma = new JButton("CONFERMA");
@@ -222,9 +246,11 @@ public class StudentiFrame extends JFrame {
         });
 
         elencoPanel.add(listaLabel);
-        elencoPanel.add(Box.createVerticalStrut(60));
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(cercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(listaStudenti);
-        elencoPanel.add(Box.createVerticalStrut(60));
+        elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(conferma);
         //PANEL LISTA NOMI-------------------------------------------------
 
