@@ -208,7 +208,8 @@ public class ClassFrame extends JFrame {
                     }
                     else if(selectedButton.equals("elimina")){
                         String s = listaClassi.getSelectedItem().toString();
-                        controllore.eliminaClasse(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2),s.charAt(1));
+                        Classe c = new Classe(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2),s.charAt(1));
+                        controllore.eliminaClasse(c);
                         JOptionPane.showMessageDialog(null,"Classe eliminata");
                         new ClassFrame(controllore);
                         dispose();

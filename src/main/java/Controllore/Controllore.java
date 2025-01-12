@@ -113,7 +113,6 @@ public class Controllore {
     //RICERCA x nome e cognome-------------------------------
 
     // --- ELIMINAZIONE --- //
-
     /**
      * Metodo che permette di eliminare un utente dal sistema.
      *
@@ -134,8 +133,9 @@ public class Controllore {
         if(studente.getClasse()==null){
             studente.setClasse(new Classe(0,"000",'0'));
         }
+
         WebServer.creaEliminaStudente("elimina",studente);
-        //eliminali anche in locale
+        studenti.removeIf(s -> s.getCredenziali().equals(studente.getCredenziali()));
     }
 
     /**
@@ -145,7 +145,9 @@ public class Controllore {
      */
     public void eliminaDocente(Docente docente){
         eliminaUtente(docente.getCredenziali().getUser(),docente.getCredenziali().getPassword());
+
         WebServer.creaEliminaDocente("elimina",docente);
+        docenti.removeIf(d -> d.getCredenziali().equals(docente.getCredenziali()));
     }
 
     /**
@@ -155,22 +157,24 @@ public class Controllore {
      */
     public void eliminaGenitore(Genitore genitore){
         eliminaUtente(genitore.getCredenziali().getUser(),genitore.getCredenziali().getPassword());
-        Date data = new GregorianCalendar(0, Calendar.JANUARY,1).getTime();
         if(genitore.getFiglio()==null){
+            Date data = new GregorianCalendar(0, Calendar.JANUARY,1).getTime();
             genitore.setFiglio(new Studente("nome","cognome",data,"0",new Classe(0,"0",'0')));
         }
+
         WebServer.creaEliminaGenitore("elimina",genitore);
+        genitori.removeIf(g -> g.getCredenziali().equals(genitore.getCredenziali()));
     }
 
     /**
      * Metodo che permette di eliminare una classe dal sistema.
      *
-     * @param anno Anno della classe da eliminare.
-     * @param indirizzo Indirizzo della classe da eliminare.
-     * @param sezione Sezione della classe da eliminare.
+     * @param classe Classe da eliminare
      */
-    public void eliminaClasse(int anno, String indirizzo, char sezione){
-        WebServer.creaEliminaClasse("elimina",new Classe(anno,indirizzo,sezione));
+    public void eliminaClasse(Classe classe){
+        WebServer.creaEliminaClasse("elimina",classe);
+        classi.removeIf(c -> c.toString().equals(classe.toString()));
+
     }
     // --- ELIMINAZIONE --- //
 
@@ -281,7 +285,7 @@ public class Controllore {
      * @return Lista degli studenti registrati.
      */
     public ArrayList<Studente> getStudentiServer(){
-        ArrayList<Studente> studenti = new ArrayList<>();
+        studenti = new ArrayList<>();
 
         String s = WebServer.getStudenti();
         String[] s2 = s.split("\\[");
@@ -433,7 +437,7 @@ public class Controllore {
      * @return Lista delle classi registrate.
      */
     public ArrayList<Classe> getClassiServer(){
-        ArrayList<Classe> classi = new ArrayList<>();
+        classi = new ArrayList<>();
 
         String c = WebServer.getClassi();
         String[] s2 = c.split("\\[");
@@ -465,7 +469,7 @@ public class Controllore {
      */
     public ArrayList<Genitore> getGenitoriServer(){
         String s = WebServer.getGenitori();
-        ArrayList<Genitore> genitori = new ArrayList<>();
+        genitori = new ArrayList<>();
 
         String[] s2 = s.split("\\[");
 
@@ -528,7 +532,7 @@ public class Controllore {
     public ArrayList<Docente> getDocentiServer(){
         String s = WebServer.getDocenti();
 
-        ArrayList<Docente> docenti = new ArrayList<>();
+        docenti = new ArrayList<>();
 
         String[] s2 = s.split("\\[");
 

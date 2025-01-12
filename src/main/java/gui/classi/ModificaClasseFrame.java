@@ -20,7 +20,8 @@ public class ModificaClasseFrame extends JFrame {
      * @param classe Classe che si deve modificare.
      */
     public ModificaClasseFrame(Controllore controllore, Classe classe) {
-        controllore.eliminaClasse(classe.getAnno(),classe.getIndirizzo(),classe.getSezione());
+        Classe c = new Classe(classe.getAnno(),classe.getIndirizzo(),classe.getSezione());
+        controllore.eliminaClasse(c);
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);

@@ -32,4 +32,8 @@ public class Credenziali {
     public String getPassword() {
         return password;
     }
+
+    public boolean equals(Credenziali credenziali){
+        return (this.user.equals(credenziali.getUser()) && this.password.equals(credenziali.getPassword()));
+    }
 }
