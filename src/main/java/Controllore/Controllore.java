@@ -86,7 +86,7 @@ public class Controllore {
     public ArrayList<Studente> cercaStudente(String nome, String cognome){
         ArrayList<Studente> tmp = new ArrayList<>();
         for (Studente s: studenti) {
-            if(s.getNome().equals(nome) && s.getCognome().equals(cognome)){
+            if(s.getNome().equalsIgnoreCase(nome) || s.getCognome().equalsIgnoreCase(cognome)){
                 tmp.add(s);
             }
         }
@@ -95,7 +95,7 @@ public class Controllore {
     public ArrayList<Docente> cercaDocente(String nome, String cognome){
         ArrayList<Docente> tmp = new ArrayList<>();
         for (Docente d: docenti) {
-            if(d.getNome().equals(nome) && d.getCognome().equals(cognome)){
+            if(d.getNome().equalsIgnoreCase(nome) || d.getCognome().equalsIgnoreCase(cognome)){
                 tmp.add(d);
             }
         }
@@ -104,7 +104,7 @@ public class Controllore {
     public ArrayList<Genitore> cercaGenitore(String nome, String cognome){
         ArrayList<Genitore> tmp = new ArrayList<>();
         for (Genitore g: genitori) {
-            if(g.getNome().equals(nome) && g.getCognome().equals(cognome)){
+            if(g.getNome().equalsIgnoreCase(nome) || g.getCognome().equalsIgnoreCase(cognome)){
                 tmp.add(g);
             }
         }

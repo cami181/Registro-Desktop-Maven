@@ -3,6 +3,7 @@ package gui.studenti;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 import Controllore.Controllore;
@@ -12,7 +13,7 @@ import gui.pulsanti.*;
 
 public class StudentiFrame extends JFrame {
     private String selectedButton = "";
-    Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+    private ArrayList<Studente> studenti;
 
     /**
      * Funzione che costruisce la finestra degli studenti.
@@ -180,7 +181,7 @@ public class StudentiFrame extends JFrame {
         //nome cognome cerca------------------------------------------
         JPanel cercaPanel = new JPanel();
         cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
-        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height);
+        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
         cercaPanel.setOpaque(false);
 
         JLabel nome = new JLabel("NOME: ");
@@ -193,6 +194,13 @@ public class StudentiFrame extends JFrame {
         JTextField nomeField = new JTextField();
         JTextField cognomeField = new JTextField();
 
+        JComboBox<String> listaStudenti = new JComboBox<>();
+        listaStudenti.addItem("");
+        studenti = controllore.getStudenti();
+        for (Studente s: studenti) {
+            listaStudenti.addItem(s.getNome() + " " + s.getCognome() + " " + s.getCF());
+        }
+
         cercaPanel.add(nome);
         cercaPanel.add(Box.createHorizontalStrut(20));
         cercaPanel.add(nomeField);
@@ -202,56 +210,35 @@ public class StudentiFrame extends JFrame {
         cercaPanel.add(cognomeField);
         //nome cognome cerca------------------------------------------
 
-        JComboBox<String> listaStudenti = new JComboBox<>();
-        ArrayList<Studente> studenti = controllore.getStudenti();
-
-        listaStudenti.addItem("");
-        /*for (Studente tmp: studenti) {
-            listaStudenti.addItem(tmp.getCF());
-        }*/
-
-        //pulsanti
-        JButton conferma = new JButton("CONFERMA");
+        //cerca
+        JPanel confermaPanel = new JPanel();
+        confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
+        confermaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaPanel.setOpaque(false);
+        JButton conferma = new JButton("CERCA");
         conferma.addActionListener(e ->{
-            if(Objects.requireNonNull(listaStudenti.getSelectedItem()).toString().isEmpty()){
-                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
+            listaStudenti.removeAllItems();
+            listaStudenti.addItem("");
+            if(nomeField.getText().isEmpty() && cognomeField.getText().isEmpty()){
+                studenti = controllore.getStudenti();
             }
             else{
-                if(!selectedButton.isEmpty()){
-                    if(selectedButton.equals("modifica")){
-                        //prendo lo studente e lo elimino dalla lista
-                        String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
-                        for (Studente tmp: studenti) {
-                            if(tmp.getCF().equals(cf)){
-                                new ModificaStudenteFrame(controllore,tmp);
-                                dispose();
-                            }
-                        }
-                    }
-                    else if(selectedButton.equals("elimina")){
-                        for (Studente tmp: studenti) {
-                            String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
-                            if(tmp.getCF().equals(cf)){
-                                controllore.eliminaStudente(tmp);
-                                JOptionPane.showMessageDialog(null,"Studente eliminato");
-                                new StudentiFrame(controllore);
-                                dispose();
-                            }
-                        }
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sullo studente");
-                }
+                studenti = controllore.cercaStudente(nomeField.getText(), cognomeField.getText());
+            }
+            for (Studente s: studenti) {
+                listaStudenti.addItem(s.getNome() + " " + s.getCognome() + " " + s.getCF());
             }
         });
+        confermaPanel.add(conferma);
+        //conferma
 
         elencoPanel.add(listaLabel);
         elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(cercaPanel);
         elencoPanel.add(Box.createVerticalStrut(50));
-        elencoPanel.add(listaStudenti);
+        elencoPanel.add(confermaPanel);
         elencoPanel.add(Box.createVerticalStrut(50));
-        elencoPanel.add(conferma);
+        elencoPanel.add(listaStudenti);
         //PANEL LISTA NOMI-------------------------------------------------
 
         //PANEL PULSANTI-------------------------------------------------------

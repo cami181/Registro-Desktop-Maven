@@ -15,7 +15,7 @@ public class Voto {
      * Funzione che crea un voto con: voto, materia, docente e data.
      *
      * @param voto Voto valutazione.
-     * @param materia Materia realativa alla valutazione.
+     * @param materia Materia relativa alla valutazione.
      * @param docente Docente che ha assegnato la valutazione.
      * @param data Data in cui è stato aggiunta la valutazione.
      */
