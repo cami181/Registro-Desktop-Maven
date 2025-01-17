@@ -7,11 +7,13 @@ import java.util.*;
 
 import Controllore.Controllore;
 import Utenti.Docente;
+import Utenti.Studente;
 import gui.home.HomeFrame;
 import gui.pulsanti.*;
 
 public class DocentiFrame extends JFrame {
     private String selectedButton = "";
+    private ArrayList<Docente> docenti;
 
     /**
      * Funzione che costruisce la finestra dei docenti.
@@ -169,62 +171,66 @@ public class DocentiFrame extends JFrame {
         JPanel elencoPanel = new JPanel();
         elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
         sfondoLabel.add(elencoPanel);
-        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*3);
+        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
         JLabel listaLabel = new JLabel("SELEZIONA UN DOCENTE");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 
+        //nome cognome cerca------------------------------------------
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
+
+        JLabel nome = new JLabel("NOME: ");
+        JLabel cognome = new JLabel("COGNOME: ");
+        nome.setFont(new Font("Arial", Font.BOLD, height/60));
+        nome.setForeground(Color.WHITE);
+        cognome.setFont(new Font("Arial", Font.BOLD, height/60));
+        cognome.setForeground(Color.WHITE);
+
+        JTextField nomeField = new JTextField();
+        JTextField cognomeField = new JTextField();
+
         JComboBox<String> listaDocenti = new JComboBox<>();
-
-        ArrayList<Docente> docenti = controllore.getDocenti();
-
         listaDocenti.addItem("");
-        for (Docente tmp: docenti) {
-            listaDocenti.addItem(tmp.getCF());
+        docenti = controllore.getDocenti();
+        for (Docente d: docenti) {
+            listaDocenti.addItem(d.getNome() + " " + d.getCognome() + " " + d.getCF());
         }
 
-        //pulsanti
-        JButton conferma = new JButton("CONFERMA");
+        cercaPanel.add(nome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(nomeField);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeField);
+        //nome cognome cerca------------------------------------------
+
+        //cerca
+        JPanel confermaPanel = new JPanel();
+        confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
+        confermaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaPanel.setOpaque(false);
+        JButton conferma = new JButton("CERCA");
         conferma.addActionListener(e ->{
-            if(Objects.requireNonNull(listaDocenti.getSelectedItem()).toString().isEmpty()){
-                JOptionPane.showMessageDialog(null,"Seleziona un docente");
+            listaDocenti.removeAllItems();
+            listaDocenti.addItem("");
+            if(nomeField.getText().isEmpty() && cognomeField.getText().isEmpty()){
+                docenti = controllore.getDocenti();
             }
             else{
-                if(!selectedButton.isEmpty()){
-                    if(selectedButton.equals("modifica")){
-                        String cf = Objects.requireNonNull(listaDocenti.getSelectedItem()).toString();
-                        for (Docente tmp: docenti) {
-                            if(tmp.getCF().equals(cf)){
-                                new ModificaDocenteFrame(controllore,tmp);
-                                dispose();
-                            }
-                        }
-                    }
-                    else if(selectedButton.equals("elimina")){
-                        for (Docente tmp: docenti) {
-                            String cf = Objects.requireNonNull(listaDocenti.getSelectedItem()).toString();
-                            if(tmp.getCF().equals(cf)){
-                                controllore.eliminaDocente(tmp);
-                                JOptionPane.showMessageDialog(null,"Docente eliminato");
-                                new DocentiFrame(controllore);
-                                dispose();
-                            }
-                        }
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sul docente");
-                }
+                docenti = controllore.cercaDocente(nomeField.getText(), cognomeField.getText());
+            }
+            for (Docente d: docenti) {
+                listaDocenti.addItem(d.getNome() + " " + d.getCognome() + " " + d.getCF());
             }
         });
-
-        elencoPanel.add(listaLabel);
-        elencoPanel.add(Box.createVerticalStrut(60));
-        elencoPanel.add(listaDocenti);
-        elencoPanel.add(Box.createVerticalStrut(60));
-        elencoPanel.add(conferma);
-        //PANEL LISTA NOMI-------------------------------------------------
+        confermaPanel.add(conferma);
+        //conferma
 
         //PANEL PULSANTI-----------------------------------------------------
         JPanel opzioniPanel = new JPanel(new GridLayout(3,1));
@@ -236,6 +242,14 @@ public class DocentiFrame extends JFrame {
         opzioniPanel.add(modifica);
         opzioniPanel.add(elimina);
         //PANEL PULSANTI-------------------------------------------------------
+
+        elencoPanel.add(listaLabel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(cercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(confermaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(listaDocenti);
 
         container.add(sfondoPanel);
         revalidate();

@@ -82,15 +82,6 @@ public class Assenza {
     }
 
     /**
-     * Restituisce il numero max di assenze consentite per uno studente.
-     *
-     * @return Numero max assenze.
-     */
-    public int getMaxAssense(){
-        return 45;
-    }
-
-    /**
      * Funzione che restituisce l'assenza in formato stringa.
      *
      * @return Stringa che rappresenta l'assenza.

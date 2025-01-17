@@ -12,6 +12,7 @@ import gui.pulsanti.*;
 
 public class GenitoriFrame extends JFrame {
     private String selectedButton = "";
+    private ArrayList<Genitore> genitori;
     /**
      * Funzione che costruisce la finestra dei genitori.
      * Imposta: dimensione finestra, visibilità, layout e gestisce vari componenti.
@@ -164,7 +165,7 @@ public class GenitoriFrame extends JFrame {
         });
         //PULSANTI------------------------------------------------------
 
-        //PANEL LISTA NOMI-------------------------------------------------
+        /*//PANEL LISTA NOMI-------------------------------------------------
         JPanel elencoPanel = new JPanel();
         elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
         sfondoLabel.add(elencoPanel);
@@ -224,6 +225,80 @@ public class GenitoriFrame extends JFrame {
         elencoPanel.add(listaGenitori);
         elencoPanel.add(Box.createVerticalStrut(60));
         elencoPanel.add(conferma);
+        //PANEL LISTA NOMI-------------------------------------------------*/
+
+        //PANEL LISTA NOMI-------------------------------------------------
+        JPanel elencoPanel = new JPanel();
+        elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
+        sfondoLabel.add(elencoPanel);
+        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*7/2);
+        elencoPanel.setOpaque(false);
+
+        JLabel listaLabel = new JLabel("SELEZIONA UN GENITORE");
+        listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
+        listaLabel.setForeground(Color.WHITE);
+
+        //nome cognome cerca------------------------------------------
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
+
+        JLabel nome = new JLabel("NOME: ");
+        JLabel cognome = new JLabel("COGNOME: ");
+        nome.setFont(new Font("Arial", Font.BOLD, height/60));
+        nome.setForeground(Color.WHITE);
+        cognome.setFont(new Font("Arial", Font.BOLD, height/60));
+        cognome.setForeground(Color.WHITE);
+
+        JTextField nomeField = new JTextField();
+        JTextField cognomeField = new JTextField();
+
+        JComboBox<String> listaGenitori = new JComboBox<>();
+        listaGenitori.addItem("");
+        genitori = controllore.getGenitori();
+        for (Genitore g: genitori) {
+            listaGenitori.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+        }
+
+        cercaPanel.add(nome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(nomeField);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeField);
+        //nome cognome cerca------------------------------------------
+
+        //cerca
+        JPanel confermaPanel = new JPanel();
+        confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
+        confermaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaPanel.setOpaque(false);
+        JButton conferma = new JButton("CERCA");
+        conferma.addActionListener(e ->{
+            listaGenitori.removeAllItems();
+            listaGenitori.addItem("");
+            if(nomeField.getText().isEmpty() && cognomeField.getText().isEmpty()){
+                genitori = controllore.getGenitori();
+            }
+            else{
+                genitori = controllore.cercaGenitore(nomeField.getText(), cognomeField.getText());
+            }
+            for (Genitore g: genitori) {
+                listaGenitori.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+            }
+        });
+        confermaPanel.add(conferma);
+        //conferma
+
+        elencoPanel.add(listaLabel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(cercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(confermaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(listaGenitori);
         //PANEL LISTA NOMI-------------------------------------------------
 
         //PANEL PULSANTI-------------------------------------------------------
