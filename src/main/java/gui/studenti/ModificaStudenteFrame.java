@@ -91,26 +91,6 @@ public class ModificaStudenteFrame extends JFrame {
         });
         //INDIETRO---------------------------------------------
 
-        //EXIT-------------------------------------------------------------
-        JPanel exitPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(exitPanel);
-        exitPanel.setBounds(0,b_height*2,b_height,b_height);
-        exitPanel.setOpaque(false);
-
-        PulsanteExit exitButton = new PulsanteExit(b_height);
-        exitButton.setFont(new Font("Arial", Font.BOLD, width/68));
-        exitButton.setBorder(new EtchedBorder());
-        exitButton.setBackground(Color.WHITE);
-        exitButton.setForeground(Color.DARK_GRAY);
-        exitPanel.add(exitButton);
-
-        exitButton.addActionListener(e->{
-            controllore.registraStudente(studente);
-            JOptionPane.showMessageDialog(null,"studente salvato come prima");
-            dispose();
-        });
-        //EXIT---------------------------------------------------------
-
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
         titlePanel.setBounds(width/6,height/6,width*2/3,height/5);
@@ -125,7 +105,6 @@ public class ModificaStudenteFrame extends JFrame {
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
-
 
         // PANEL FORM 1 --------------------------------------
         JPanel formPanel1 = new JPanel();
