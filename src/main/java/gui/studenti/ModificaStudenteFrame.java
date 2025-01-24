@@ -22,7 +22,6 @@ public class ModificaStudenteFrame extends JFrame {
      * @param studente Studente che si deve modificare.
      */
     public ModificaStudenteFrame(Controllore controllore, Studente studente) {
-        controllore.eliminaStudente(studente);
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -63,8 +62,8 @@ public class ModificaStudenteFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
+            controllore.eliminaStudente(studente);
             controllore.registraStudente(studente);
-            JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new HomeFrame(controllore);
             dispose();
         });
@@ -84,8 +83,6 @@ public class ModificaStudenteFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            controllore.registraStudente(studente);
-            JOptionPane.showMessageDialog(null,"studente salvato come prima");
             new StudentiFrame(controllore);
             dispose();
         });
@@ -294,7 +291,7 @@ public class ModificaStudenteFrame extends JFrame {
             else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
-            else if(controllore.alreadyExistentCf(cfField.getText())){
+            else if(controllore.alreadyExistentCf(cfField.getText(),studente.getCredenziali())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale già esistente");
             }
             else{
@@ -325,8 +322,8 @@ public class ModificaStudenteFrame extends JFrame {
                     }
                 }
                 studente.setCredenziali(new Credenziali(user,password));
+                controllore.eliminaStudente(studente);
                 controllore.registraStudente(studente);
-                JOptionPane.showMessageDialog(null,"Studente modificato con successo");
                 new StudentiFrame(controllore);
                 dispose();
             }

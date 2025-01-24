@@ -20,7 +20,6 @@ public class ModificaDocenteFrame extends JFrame {
      * @param docente Docente che si deve modificare.
      */
     public ModificaDocenteFrame(Controllore controllore, Docente docente) {
-        controllore.eliminaDocente(docente);
         int width, height, b_height, b_width;
         Docente tmp = docente;
 
@@ -65,6 +64,7 @@ public class ModificaDocenteFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
+            controllore.eliminaDocente(docente);
             controllore.registraDocente(tmp);
             JOptionPane.showMessageDialog(null,"docente salvato come prima");
             new HomeFrame(controllore);
@@ -86,6 +86,7 @@ public class ModificaDocenteFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
+            controllore.eliminaDocente(docente);
             controllore.registraDocente(tmp);
             JOptionPane.showMessageDialog(null,"docente salvato come prima");
             new DocentiFrame(controllore);
@@ -437,6 +438,7 @@ public class ModificaDocenteFrame extends JFrame {
                 }
                 docente.setCredenziali(new Credenziali(user,password));
 
+                controllore.eliminaDocente(docente);
                 controllore.registraDocente(docente);
                 JOptionPane.showMessageDialog(null,"Docente modificato con successo");
 

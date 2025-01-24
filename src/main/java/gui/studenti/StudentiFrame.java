@@ -12,7 +12,6 @@ import gui.home.HomeFrame;
 import gui.pulsanti.*;
 
 public class StudentiFrame extends JFrame {
-    private String selectedButton = "";
     private ArrayList<Studente> studenti;
 
     /**
@@ -101,59 +100,11 @@ public class StudentiFrame extends JFrame {
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
 
-        //PULSANTI------------------------------------------------------
-        JButton crea = new JButton("CREA");
-        crea.setFont(new Font("Arial", Font.BOLD, width/40));
-        crea.setBorder(new EtchedBorder());
-        crea.setBackground(Color.WHITE);
-        crea.setForeground(Color.DARK_GRAY);
-
-        crea.addActionListener(e -> {
-            new CreaStudentiFrame(controllore);
-            dispose();
-        });
-
-        JButton modifica = new JButton("MODIFICA");
-        modifica.setFont(new Font("Arial", Font.BOLD, width/40));
-        modifica.setBorder(new EtchedBorder());
-        modifica.setBackground(Color.WHITE);
-        modifica.setForeground(Color.DARK_GRAY);
-
-        JButton elimina = new JButton("ELIMINA");
-        elimina.setFont(new Font("Arial", Font.BOLD, width/40));
-        elimina.setBorder(new EtchedBorder());
-        elimina.setBackground(Color.WHITE);
-        elimina.setForeground(Color.DARK_GRAY);
-
-        modifica.addActionListener(e ->{
-            if(selectedButton.equals("modifica")){
-                modifica.setBackground(Color.WHITE);
-                selectedButton = "";
-            }
-            else{
-                modifica.setBackground(Color.GREEN);
-                elimina.setBackground(Color.WHITE);
-                selectedButton = "modifica";
-            }
-        });
-        elimina.addActionListener(e ->{
-            if(selectedButton.equals("elimina")){
-                elimina.setBackground(Color.WHITE);
-                selectedButton = "";
-            }
-            else {
-                elimina.setBackground(Color.GREEN);
-                modifica.setBackground(Color.WHITE);
-                selectedButton = "elimina";
-            }
-        });
-        //PULSANTI------------------------------------------------------
-
         //PANEL LISTA NOMI-------------------------------------------------
         JPanel elencoPanel = new JPanel();
         elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
         sfondoLabel.add(elencoPanel);
-        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*7/2);
+        elencoPanel.setBounds(width*2/3-50,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
         JLabel listaLabel = new JLabel("SELEZIONA UNO STUDENTE");
@@ -191,6 +142,57 @@ public class StudentiFrame extends JFrame {
         cercaPanel.add(Box.createHorizontalStrut(20));
         cercaPanel.add(cognomeField);
         //nome cognome cerca------------------------------------------
+
+        //PULSANTI------------------------------------------------------
+        JButton crea = new JButton("CREA");
+        crea.setFont(new Font("Arial", Font.BOLD, width/40));
+        crea.setBorder(new EtchedBorder());
+        crea.setBackground(Color.WHITE);
+        crea.setForeground(Color.DARK_GRAY);
+
+        crea.addActionListener(e -> {
+            new CreaStudentiFrame(controllore);
+            dispose();
+        });
+
+        JButton modifica = new JButton("MODIFICA");
+        modifica.setFont(new Font("Arial", Font.BOLD, width/40));
+        modifica.setBorder(new EtchedBorder());
+        modifica.setBackground(Color.WHITE);
+        modifica.setForeground(Color.DARK_GRAY);
+
+        JButton elimina = new JButton("ELIMINA");
+        elimina.setFont(new Font("Arial", Font.BOLD, width/40));
+        elimina.setBorder(new EtchedBorder());
+        elimina.setBackground(Color.WHITE);
+        elimina.setForeground(Color.DARK_GRAY);
+
+        modifica.addActionListener(e ->{
+            if(Objects.requireNonNull(listaStudenti.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
+            }
+            else{
+                String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString().split(" ")[2];
+                try{
+                    for (Studente s: controllore.getStudenti()) {
+                        if(s.getCF().equalsIgnoreCase(cf)){
+                            new ModificaStudenteFrame(controllore,s);
+                            dispose();
+                        }
+                    }
+                }catch (ConcurrentModificationException ignore){}
+            }
+        });
+        elimina.addActionListener(e ->{
+            String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
+            for (Studente s: controllore.getStudenti()) {
+                if(s.getCF().equalsIgnoreCase(cf)){
+                    controllore.eliminaStudente(s);
+                    dispose();
+                }
+            }
+        });
+        //PULSANTI------------------------------------------------------
 
         //cerca
         JPanel confermaPanel = new JPanel();

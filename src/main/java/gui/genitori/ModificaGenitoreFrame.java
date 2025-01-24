@@ -23,9 +23,6 @@ public class ModificaGenitoreFrame extends JFrame {
      * @param genitore Genitore che si deve modificare.
      */
     public ModificaGenitoreFrame(Controllore controllore, Genitore genitore) {
-        controllore.eliminaGenitore(genitore);
-        Genitore tmp = genitore;
-
         int width, height, b_height, b_width;
 
         setExtendedState(MAXIMIZED_BOTH);
@@ -66,7 +63,8 @@ public class ModificaGenitoreFrame extends JFrame {
         homePanel.add(homeButton);
 
         homeButton.addActionListener(e->{
-            controllore.registraGenitore(tmp);
+            controllore.eliminaGenitore(genitore);
+            controllore.registraGenitore(genitore);
             JOptionPane.showMessageDialog(null,"genitore salvato come prima");
             new HomeFrame(controllore);
             dispose();
@@ -95,7 +93,8 @@ public class ModificaGenitoreFrame extends JFrame {
         indietroPanel.add(indietroButton);
 
         indietroButton.addActionListener(e->{
-            controllore.registraGenitore(tmp);
+            controllore.eliminaGenitore(genitore);
+            controllore.registraGenitore(genitore);
             JOptionPane.showMessageDialog(null,"genitore salvato come prima");
             new GenitoriFrame(controllore);
             dispose();
@@ -306,7 +305,7 @@ public class ModificaGenitoreFrame extends JFrame {
             else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
-            else if(controllore.alreadyExistentCf(cfField.getText())){
+            else if(controllore.alreadyExistentCf(cfField.getText(), genitore.getCredenziali())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale già esistente");
             }
             else{
@@ -335,6 +334,7 @@ public class ModificaGenitoreFrame extends JFrame {
                     }
                 }
                 genitore.setCredenziali(new Credenziali(user,password));
+                controllore.eliminaGenitore(genitore);
                 controllore.registraGenitore(genitore);
                 JOptionPane.showMessageDialog(null,"Genitore modificato con successo");
                 new GenitoriFrame(controllore);

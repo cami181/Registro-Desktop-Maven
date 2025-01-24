@@ -119,7 +119,7 @@ public class Controllore {
      * @param user Nome dell'utente da eliminare.
      * @param password Password dell'utente da eliminare.
      */
-    public void eliminaUtente(String user, String password){
+    private void eliminaUtente(String user, String password){
         WebServer.registerUser("elimina",user,password);
     }
 
@@ -225,20 +225,21 @@ public class Controllore {
     /**
      * Verifica il codice fiscale se già presente nella lista o no.
      *
-     * @param cf Codice fiscale da verificare.
+     * @param cf Codice fiscale da verificare
+     * @param credenziali Credenziali dell'utente
      * @return true se il codice fiscale esiste già, false se è nuovo.
      */
-    public boolean alreadyExistentCf(String cf){
+    public boolean alreadyExistentCf(String cf, Credenziali credenziali){
         cf = cf.trim().toLowerCase();
 
         for (Studente p: studenti) {
-            if(p.getCF().equals(cf)) return true;
+            if(p.getCF().equals(cf) && !p.getCredenziali().equals(credenziali)) return true;
         }
         for (Docente p: docenti) {
-            if(p.getCF().equals(cf)) return true;
+            if(p.getCF().equals(cf) && !p.getCredenziali().equals(credenziali)) return true;
         }
         for (Genitore p: genitori) {
-            if(p.getCF().equals(cf)) return true;
+            if(p.getCF().equals(cf) && !p.getCredenziali().equals(credenziali)) return true;
         }
 
         return false;

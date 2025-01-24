@@ -279,7 +279,7 @@ public class CreaGenitoriFrame extends JFrame {
             else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
-            else if(controllore.alreadyExistentCf(cfField.getText())){
+            else if(controllore.alreadyExistentCf(cfField.getText(),new Credenziali("",""))){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale già esistente");
             }
             else{
