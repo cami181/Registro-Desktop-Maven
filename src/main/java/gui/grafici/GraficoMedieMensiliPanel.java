@@ -17,6 +17,7 @@ public class GraficoMedieMensiliPanel extends JPanel {
     public GraficoMedieMensiliPanel(double[] medie_mensili) {
         for(int i=0;i<10;i++){
             medie_raddoppiate[i] = (int) (medie_mensili[i]*2);
+            if(medie_raddoppiate[i]<0) medie_raddoppiate[i] = 0;
         }
     }
 
@@ -56,6 +57,13 @@ public class GraficoMedieMensiliPanel extends JPanel {
 
             g2D.setColor(Color.BLACK);
             g2D.drawString(mesi[i],x+(larghezzaColonna-5)/2,height-5);
+        }
+
+        g2D.setColor(Color.BLACK);
+        g2D.setFont(new Font("Arial", Font.PLAIN, 12));
+        for (int i = 0; i <= 10; i++) {
+            int alt = height - margine - (i * (height - margine * 2) / 10);
+            g2D.drawString(String.valueOf(i), margine - 20, alt + 5);
         }
 
         g2D.setColor(Color.BLACK);

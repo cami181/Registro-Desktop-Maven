@@ -91,7 +91,7 @@ public class ClassFrame extends JFrame {
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 
-        //nome cognome cerca------------------------------------------
+        //cerca------------------------------------------
         JPanel cercaPanel = new JPanel();
         cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
         cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
@@ -111,7 +111,7 @@ public class ClassFrame extends JFrame {
         }
         JComboBox<String> indirizzoCombo = new JComboBox<>();
         indirizzoCombo.addItem("");
-        for (String s: controllore.getMaterie()) {
+        for (String s: controllore.getIndirizzi()) {
             indirizzoCombo.addItem(s);
         }
 
@@ -144,7 +144,11 @@ public class ClassFrame extends JFrame {
                 classi = controllore.getClassi();
             }
             else{
-                classi = controllore.cercaClasse(Integer.parseInt(annoCombo.getSelectedItem().toString()), indirizzoCombo.getSelectedItem().toString());
+                try{
+                    classi = controllore.cercaClasse(Integer.parseInt(annoCombo.getSelectedItem().toString()), indirizzoCombo.getSelectedItem().toString());
+                }catch (NumberFormatException ex){
+                    classi = controllore.cercaClasse(0, indirizzoCombo.getSelectedItem().toString());
+                }
             }
             for (Classe s: classi) {
                 listaClassi.addItem(s.toString());

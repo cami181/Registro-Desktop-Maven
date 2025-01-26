@@ -18,6 +18,7 @@ public class GraficoMedieMateriePanel extends JPanel {
     public GraficoMedieMateriePanel(double[] medie) {
         for(int i=0;i<5;i++){
             medie_raddoppiate[i] = (int) (medie[i]*2);
+            if(medie_raddoppiate[i]<0) medie_raddoppiate[i] = 0;
         }
     }
 
@@ -52,11 +53,16 @@ public class GraficoMedieMateriePanel extends JPanel {
                 g2D.setColor(new Color(56, 255, 0));
             }
 
-
             g2D.fillRect(x, y, larghezzaColonna-5,altezzaColonna);
 
             g2D.setColor(Color.BLACK);
             g2D.drawString(materie[i], x +(larghezzaColonna-5)/2, height-5);
+        }
+
+        g2D.setFont(new Font("Arial", Font.PLAIN, 12));
+        for (int i = 0; i <= 10; i++) {
+            int alt = height - margine - (i * (height - margine * 2) / 10);
+            g2D.drawString(String.valueOf(i), margine - 20, alt + 5);
         }
 
         g2D.setColor(Color.BLACK);

@@ -154,7 +154,7 @@ public class Studente extends Persona{
         }
 
         if(qt==0){ //non ci sono voti
-            return 0;
+            return -1;
         }
         else{
             return media/qt;
@@ -177,27 +177,10 @@ public class Studente extends Persona{
         }
 
         if(qt==0){ //non ci sono voti
-            return 0;
+            return -1;
         }
         else{
             return media/qt;
         }
-    }
-
-    /**
-     * Funzione che restituisce le assenze mensili dello studente.
-     * @param mese Mese di cui si vuole conoscere le assenze fatte dallo studente.
-     * @return Assenze mensili dello studente.
-     */
-    public int getAssenzeMensili(int mese){
-        int assenze = 0;
-        for (Assenza a: this.assenze) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(a.getData());
-            if(calendar.get(Calendar.MONTH)==mese){
-                assenze++;
-            }
-        }
-        return assenze;
     }
 }

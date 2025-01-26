@@ -59,18 +59,22 @@ public class Classe {
     }
 
     /**
-     * Metodo che serve per calcolare la media mensile sia degli studenti che della classe.
+     * Metodo che serve per calcolare la media mensile degli studenti della classe.
      *
      * @param mese Mese riferito alla media da calcolare (1 = gennaio, 2 = febbraio etc...).
      * @return Media mensile studenti nel mese specificato.
      */
     public double getMediaMensile(int mese){
         double media = 0;
+        int qt = 0;
         for (Studente s: studenti) {
-            media += s.getMediaMensile(mese);
+            if(s.getMediaMensile(mese)>=0){
+                media += s.getMediaMensile(mese);
+                qt++;
+            }
         }
 
-        if(studenti.isEmpty()){ //non ci sono studenti
+        if(qt==0){ //non ci sono studenti
             return 0;
         }
         else{
@@ -79,7 +83,7 @@ public class Classe {
     }
 
     /**
-     * Metodo che serve per calcolare la media di ciascun materia sia degli studenti che della classe.
+     * Metodo che serve per calcolare la media di ciascuna di tutti gli studenti della classe.
      *
      * @param materia Materia per la quale calcolare la media.
      * @return Media materia per gli studenti della classe.
@@ -88,8 +92,10 @@ public class Classe {
         double media = 0;
         int qt = 0;
         for (Studente s: studenti) {
-            media += s.getMediaMateria(materia);
-            qt++;
+            if(s.getMediaMateria(materia)>=0){
+                media += s.getMediaMateria(materia);
+                qt++;
+            }
         }
 
         if(qt==0){ //non ci sono studenti
