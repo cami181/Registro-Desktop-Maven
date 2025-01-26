@@ -325,10 +325,7 @@ public class ModificaDocenteFrame extends JFrame {
         //AGGIUNGI
         JComboBox<String> allClassesBox = new JComboBox<>();
         allClassesBox.setOpaque(false);
-        //PRENDI TUTTE LE CLASSI ESISTENTI
-        ArrayList<Classe> classi = new ArrayList<>();
-        classi.add(new Classe(5,"inf",'b'));
-        classi.add(new Classe(4,"inf",'b'));
+        ArrayList<Classe> classi = controllore.getClassi();
         //togli quelle del docente
         for(Classe c:classiDocente) {
             classi.removeIf(c2 -> c2.toString().equals(c.toString()));

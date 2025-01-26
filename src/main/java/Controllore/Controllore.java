@@ -31,7 +31,15 @@ public class Controllore {
         return genitori;
     }
     public ArrayList<Classe> getClassi() {
-        return classi;
+        ArrayList<Classe> clas = new ArrayList<>();
+        for(int i=1;i<6;i++){
+            for (Classe c: classi) {
+                if(c.getAnno()==i){
+                    clas.add(c);
+                }
+            }
+        }
+        return clas;
     }
     //GETTER-----------------------
     // --- REGISTRAZIONE --- //
@@ -128,7 +136,16 @@ public class Controllore {
                 tmp.add(c);
             }
         }
-        return tmp;
+        ArrayList<Classe> clas = new ArrayList<>();
+        for(int i=1;i<6;i++){
+            for (Classe c: tmp) {
+                if(c.getAnno()==i){
+                    clas.add(c);
+                    tmp.remove(c);
+                }
+            }
+        }
+        return clas;
     }
 
     // --- ELIMINAZIONE --- //
@@ -164,7 +181,6 @@ public class Controllore {
      */
     public void eliminaDocente(Docente docente){
         eliminaUtente(docente.getCredenziali().getUser(),docente.getCredenziali().getPassword());
-
         WebServer.creaEliminaDocente("elimina",docente);
         docenti.removeIf(d -> d.getCredenziali().equals(docente.getCredenziali()));
     }

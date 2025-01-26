@@ -304,27 +304,6 @@ public class CreaStudentiFrame extends JFrame {
         elencoPanel.add(Box.createVerticalStrut(30));
         elencoPanel.add(listaClassi);
 
-        /*JPanel classPanel = new JPanel();
-        classPanel.setLayout(new BoxLayout(classPanel, BoxLayout.X_AXIS));
-        classPanel.setOpaque(false);
-
-        JLabel classLabel = new JLabel("Classe:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        classLabel.setForeground(Color.WHITE);
-
-        JComboBox<String> classCombo = new JComboBox<>();
-
-        ArrayList<Classe> classi = controllore.getClassi();
-
-        classCombo.addItem(" ");
-        for (Classe c : classi) {
-            classCombo.addItem(c.toString());
-        }
-
-        classPanel.add(classLabel);
-        classPanel.add(Box.createHorizontalStrut(10));
-        classPanel.add(classCombo);*/
-
         //CLASSE--------------------------------------------------------------
 
         //aggiunta al panel

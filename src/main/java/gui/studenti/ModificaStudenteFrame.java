@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.*;
 public class ModificaStudenteFrame extends JFrame {
+    private ArrayList<Classe> classi;
 
     /**
      * Funzione che crea la finestra per modificare gli studenti.
@@ -209,7 +210,7 @@ public class ModificaStudenteFrame extends JFrame {
         //PANEL 2--------------------------------------------------------------
         JPanel formPanel2 = new JPanel();
         formPanel2.setLayout(new BoxLayout(formPanel2, BoxLayout.Y_AXIS));
-        formPanel2.setBounds(width*3/5,height/3+68, width/3, height/4);
+        formPanel2.setBounds(width*3/5,height/3+68, width/3, height/3);
         formPanel2.setOpaque(false);
 
         //CODICE FISCALE
@@ -229,41 +230,98 @@ public class ModificaStudenteFrame extends JFrame {
         cfPanel.add(Box.createHorizontalStrut(10));
         cfPanel.add(cfField);
 
-        //CLASSE
-        JPanel classPanel = new JPanel();
-        classPanel.setLayout(new BoxLayout(classPanel, BoxLayout.X_AXIS));
-        classPanel.setOpaque(false);
+        //CLASSE------------------------------------------------------------
+        JPanel elencoPanel = new JPanel();
+        elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
+        sfondoLabel.add(elencoPanel);
+        elencoPanel.setBounds(width*2/3-50,height/2-b_height,b_width*5/2,b_height*5);
+        elencoPanel.setOpaque(false);
 
-        JLabel classLabel = new JLabel("Classe:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        classLabel.setForeground(Color.WHITE);
+        JLabel listaLabel = new JLabel("CLASSE");
+        listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
+        listaLabel.setForeground(Color.WHITE);
 
-        JComboBox<String> classCombo = new JComboBox<>();
-        //esempio
-        ArrayList<Classe> classi = controllore.getClassi();
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
 
-        classCombo.addItem(" ");
-        int tmp_classe = 0;
-        for(int i=0;i<classi.size();i++){
-            classCombo.addItem(classi.get(i).toString());
+        JLabel annoClasse = new JLabel("ANNO: ");
+        JLabel indirizzo = new JLabel("INDIRIZZO: ");
+        annoClasse.setFont(new Font("Arial", Font.BOLD, height/60));
+        annoClasse.setForeground(Color.WHITE);
+        indirizzo.setFont(new Font("Arial", Font.BOLD, height/60));
+        indirizzo.setForeground(Color.WHITE);
 
-            if(studente.getClasse().toString().equals(classi.get(i).toString())) tmp_classe = i + 1;
+        JComboBox<String> annoCercaCombo = new JComboBox<>();
+        annoCercaCombo.addItem("");
+        for(int i=1;i<6;i++){
+            annoCercaCombo.addItem(String.valueOf(i));
         }
-        if(studente.getClasse().toString().equals("00000")){
-            classCombo.setSelectedItem(" ");
-        }
-        else{
-            classCombo.setSelectedIndex(tmp_classe);
+        JComboBox<String> indirizzoCercaCombo = new JComboBox<>();
+        indirizzoCercaCombo.addItem("");
+        for (String s: controllore.getIndirizzi()) {
+            indirizzoCercaCombo.addItem(s);
         }
 
-        classPanel.add(classLabel);
-        classPanel.add(Box.createHorizontalStrut(10));
-        classPanel.add(classCombo);
+        classi = controllore.getClassi();
+        JComboBox<String> listaClassi = new JComboBox<>();
+        listaClassi.addItem("");
+
+        for (Classe s: classi) {
+            listaClassi.addItem(s.toString());
+            if(studente.getClasse().toString().equals(s.toString())){
+                listaClassi.setSelectedItem(s.toString());
+            }
+        }
+
+        cercaPanel.add(annoClasse);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(annoCercaCombo);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(indirizzo);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(indirizzoCercaCombo);
+
+        //cerca
+        JPanel confermaCercaPanel = new JPanel();
+        confermaCercaPanel.setLayout(new BoxLayout(confermaCercaPanel,BoxLayout.X_AXIS));
+        confermaCercaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaCercaPanel.setOpaque(false);
+        JButton cercaPulsante = new JButton("CERCA");
+        cercaPulsante.addActionListener(e ->{
+            listaClassi.removeAllItems();
+            listaClassi.addItem("");
+            if(annoCercaCombo.getSelectedItem().toString().isEmpty() && indirizzoCercaCombo.getSelectedItem().toString().isEmpty()){
+                classi = controllore.getClassi();
+            }
+            else{
+                try{
+                    classi = controllore.cercaClasse(Integer.parseInt(annoCercaCombo.getSelectedItem().toString()), indirizzoCercaCombo.getSelectedItem().toString());
+                }catch (NumberFormatException ex){
+                    classi = controllore.cercaClasse(0, indirizzoCercaCombo.getSelectedItem().toString());
+                }
+            }
+            for (Classe s: classi) {
+                listaClassi.addItem(s.toString());
+            }
+        });
+        confermaCercaPanel.add(cercaPulsante);
+        //conferma
+
+        elencoPanel.add(listaLabel);
+        elencoPanel.add(Box.createVerticalStrut(30));
+        elencoPanel.add(cercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(30));
+        elencoPanel.add(confermaCercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(30));
+        elencoPanel.add(listaClassi);
+        //classi
 
         //aggiunta al panel
         formPanel2.add(cfPanel);
-        formPanel2.add(Box.createVerticalStrut(80));
-        formPanel2.add(classPanel);
+        formPanel2.add(Box.createVerticalStrut(20));
+        formPanel2.add(elencoPanel);
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
         JPanel confermaPanel = new JPanel();
@@ -283,7 +341,7 @@ public class ModificaStudenteFrame extends JFrame {
             if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
-            else if(Objects.equals(classCombo.getSelectedItem(), " ")){
+            else if(Objects.equals(listaClassi.getSelectedItem(), "")){
                 JOptionPane.showMessageDialog(null,"Inserire la classe");
             }
             else if(controllore.codiceFiscaleInvalido(cfField.getText())){
@@ -301,7 +359,7 @@ public class ModificaStudenteFrame extends JFrame {
 
                 Classe classe = null;
                 for (Classe c: classi) {
-                    if(Objects.requireNonNull(classCombo.getSelectedItem()).toString().equals(c.toString())){
+                    if(Objects.requireNonNull(listaClassi.getSelectedItem()).toString().equals(c.toString())){
                         classe = c;
                         break;
                     }

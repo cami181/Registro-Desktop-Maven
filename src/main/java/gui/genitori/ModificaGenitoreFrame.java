@@ -66,7 +66,6 @@ public class ModificaGenitoreFrame extends JFrame {
         homeButton.addActionListener(e->{
             controllore.eliminaGenitore(genitore);
             controllore.registraGenitore(genitore);
-            JOptionPane.showMessageDialog(null,"genitore salvato come prima");
             new HomeFrame(controllore);
             dispose();
         });
@@ -96,7 +95,6 @@ public class ModificaGenitoreFrame extends JFrame {
         indietroButton.addActionListener(e->{
             controllore.eliminaGenitore(genitore);
             controllore.registraGenitore(genitore);
-            JOptionPane.showMessageDialog(null,"genitore salvato come prima");
             new GenitoriFrame(controllore);
             dispose();
         });
@@ -242,9 +240,10 @@ public class ModificaGenitoreFrame extends JFrame {
 
         JTextField cfField = new JTextField();
         cfField.setPreferredSize(new Dimension(200, 15));
+        cfField.setText(genitore.getCF());
 
         cfPanel.add(cfLabel);
-        cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
+        cfPanel.add(Box.createHorizontalStrut(10));
         cfPanel.add(cfField);
         sfondoLabel.add(cfPanel);
 
@@ -275,6 +274,9 @@ public class ModificaGenitoreFrame extends JFrame {
         studenti = controllore.getStudenti();
         for (Studente g: studenti) {
             listaStudenti.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+            if(g.getCF().equals(genitore.getFiglio().getCF())){
+                listaStudenti.setSelectedItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+            }
         }
 
         listaPanel.add(listaStudenti);
@@ -359,7 +361,7 @@ public class ModificaGenitoreFrame extends JFrame {
                 int mese = meseCombo.getSelectedIndex();
                 int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
                 Date data = new GregorianCalendar(anno,mese,giorno).getTime();
-
+                
                 controllore.eliminaGenitore(genitore);
 
                 Studente figlio = null;
