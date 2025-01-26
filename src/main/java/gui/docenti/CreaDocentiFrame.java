@@ -373,8 +373,11 @@ public class CreaDocentiFrame extends JFrame {
             if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Inserisci nome e cognome");
             }
-            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim().toLowerCase())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
+            }
+            else if(controllore.alreadyExistentCf(cfField.getText(),new Credenziali("",""))){
+                JOptionPane.showMessageDialog(null,"Codice Fiscale già esistente");
             }
             else{
                 //data di nascita
@@ -383,13 +386,23 @@ public class CreaDocentiFrame extends JFrame {
                 int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
                 Date data = new GregorianCalendar(anno,mese,giorno).getTime();
 
-                Docente docente = new Docente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classiDocente,materieDocente);
+                String nome = nomeField.getText().replace(" ","");
+                String cognome = cognomeField.getText().replace(" ","");
+                Docente docente = new Docente(nome,cognome,data,cfField.getText(),classiDocente,materieDocente);
                 String user = "d" + docente.getNome() + "." + docente.getCognome();
+                String tmp = "d" + docente.getNome() + "." + docente.getCognome();;
+                int n = 0;
+                while(controllore.alreadyExistentUser(tmp)){
+                    tmp = user + String.valueOf(n);
+                    n++;
+                }
+                user = tmp;
                 String password = "";
-                for(int i=0;i<user.length();i++) {
-                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                        password += user.charAt(i);
-                    }
+                for(int i=0;i<5;i++){
+                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
+                    Random random = new Random();
+                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
+                    password += c;
                 }
                 docente.setCredenziali(new Credenziali(user,password));
                 controllore.registraDocente(docente);

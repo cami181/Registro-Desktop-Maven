@@ -1,8 +1,7 @@
 package gui.grafici;
 
 import Controllore.Controllore;
-import Utenti.Classe;
-import Utenti.Studente;
+import Utenti.*;
 import gui.home.HomeFrame;
 import gui.pulsanti.*;
 
@@ -12,7 +11,13 @@ import java.awt.*;
 import java.util.*;
 
 public class GraficiClassiFrame extends JFrame {
+    private String pulsanteScelto = ""; //mese/materia
     private JPanel graphPanel;
+    private final JLabel sfondoLabel;
+    private final Controllore controllore;
+    private final int width, height, b_height;
+    private final JButton medieMensiliButton, medieMaterieButton;
+    private final JComboBox<String> classiCombo;
 
     /**
      * Funzione che crea la finestra con il grafico delle varie classi.
@@ -20,7 +25,7 @@ public class GraficiClassiFrame extends JFrame {
      * @param controllore Controllore che gestisce: classi e dati studenti.
      */
     public GraficiClassiFrame(Controllore controllore){
-        int width, height, b_height;
+        this.controllore = new Controllore();
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
@@ -41,7 +46,7 @@ public class GraficiClassiFrame extends JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/red.jpg")));
         Image sfondo = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         icon = new ImageIcon(sfondo);
-        JLabel sfondoLabel = new JLabel(icon);
+        sfondoLabel = new JLabel(icon);
         sfondoPanel.add(sfondoLabel);
         // SFONDO ROSSO------------------------------------------------------------------------------------
 
@@ -63,24 +68,6 @@ public class GraficiClassiFrame extends JFrame {
             dispose();
         });
         //HOME--------------------------------------------------------
-
-        //INDIETRO-----------------------------------------
-        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(indietroPanel);
-        indietroPanel.setBounds(0,b_height,b_height,b_height);
-        indietroPanel.setOpaque(false);
-
-        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(new Font("Arial", Font.BOLD, width/35));
-        indietroButton.setBorder(new EtchedBorder());
-        indietroButton.setBackground(Color.WHITE);
-        indietroButton.setForeground(Color.DARK_GRAY);
-        indietroPanel.add(indietroButton);
-
-        indietroButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -113,11 +100,26 @@ public class GraficiClassiFrame extends JFrame {
         seleziona.setFont(new Font("Arial", Font.BOLD, height/39));
         seleziona.setForeground(Color.WHITE);
         ArrayList<Classe> classi = controllore.getClassi();
-        JComboBox<String> classiCombo = new JComboBox<>();
-        classiCombo.addItem("");
+        classiCombo = new JComboBox<>();
+        classiCombo.addItem(" ");
         for (Classe c: classi) {
             classiCombo.addItem(c.toString());
         }
+        classiCombo.addActionListener(e->{
+            if(Objects.equals(classiCombo.getSelectedItem(), " ")){
+                sfondoLabel.remove(graphPanel);
+                revalidate();
+                repaint();
+            }
+            else{
+                if(pulsanteScelto.equals("mese")){
+                    paintGraficoMesi();
+                }
+                else if(pulsanteScelto.equals("materia")){
+                    paintGraficoMaterie();
+                }
+            }
+        });
 
         panel2.add(seleziona);
         panel2.add(Box.createVerticalStrut(20));
@@ -125,107 +127,37 @@ public class GraficiClassiFrame extends JFrame {
         sfondoLabel.add(panel2);
 
         //GRAFICI-------------------------------------------------------------------
-        JButton medieMensiliButton = new JButton("MEDIE MENSILI");
+        medieMensiliButton = new JButton("MEDIE MENSILI");
         medieMensiliButton.setBackground(Color.WHITE);
-        JButton medieMaterieButton = new JButton("MEDIE X MATERIA");
+        medieMaterieButton = new JButton("MEDIE PER MATERIA");
         medieMaterieButton.setBackground(Color.WHITE);
 
         medieMensiliButton.addActionListener(e ->{
-            if(Objects.equals(classiCombo.getSelectedItem(), "")){
-                JOptionPane.showMessageDialog(null,"Seleziona una classe");
-                medieMaterieButton.setBackground(Color.WHITE);
-                medieMensiliButton.setBackground(Color.WHITE);
+            pulsanteScelto = "mese";
+            medieMensiliButton.setBackground(new Color(243, 118, 118));
+            medieMaterieButton.setBackground(Color.WHITE);
+            if(Objects.equals(classiCombo.getSelectedItem(), " ")){
                 sfondoLabel.remove(graphPanel);
                 revalidate();
                 repaint();
             }
             else{
-                medieMensiliButton.setBackground(new Color(255, 109, 109));
-                medieMaterieButton.setBackground(Color.WHITE);
-                sfondoLabel.remove(graphPanel);
-
-                String classe = classiCombo.getSelectedItem().toString().toLowerCase();
-                //trovo la classe
-                Classe tmp = null;
-                for (Classe c: controllore.getClassi()) {
-                    if(c.toString().equals(Objects.requireNonNull(classe))){
-                        tmp = c;
-                        break;
-                    }
-                }
-                for (Studente s: controllore.getStudenti()) {
-                    if(s.getClasse().toString().equals(classe)){
-                        tmp.getStudenti().add(s);
-                    }
-                }
-
-                //calcolo medie dei mesi
-                double[] medieMensili = new double[10];
-                //set -- dic
-                for(int i=8;i<12;i++){
-                    medieMensili[i-8] = tmp.getMediaMensile(i);
-                }
-                //gen-- giu
-                for(int i=0;i<6;i++){
-                    medieMensili[i+4] = tmp.getMediaMensile(i);
-                }
-                //grafico
-                graphPanel = new GraficoMedieMensiliPanel(medieMensili);
-                graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-                graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
-                sfondoLabel.add(graphPanel);
-                revalidate();
-                repaint();
+                paintGraficoMesi();
             }
         });
         panel1.add(medieMensiliButton);
 
         medieMaterieButton.addActionListener(e ->{
-            if(Objects.equals(classiCombo.getSelectedItem(), "")){
-                JOptionPane.showMessageDialog(null,"Seleziona una classe");
-                medieMaterieButton.setBackground(Color.WHITE);
-                medieMensiliButton.setBackground(Color.WHITE);
+            pulsanteScelto = "materia";
+            medieMaterieButton.setBackground(new Color(243, 118, 118));
+            medieMensiliButton.setBackground(Color.WHITE);
+            if(Objects.equals(classiCombo.getSelectedItem(), " ")){
                 sfondoLabel.remove(graphPanel);
                 revalidate();
                 repaint();
             }
             else{
-                medieMaterieButton.setBackground(new Color(255, 109, 109));
-                medieMensiliButton.setBackground(Color.WHITE);
-                sfondoLabel.remove(graphPanel);
-
-                String classe = classiCombo.getSelectedItem().toString().toLowerCase();
-
-                Classe tmp = null;
-                //trovo la classe
-                for (Classe c: controllore.getClassi()) {
-                    if(c.toString().equals(Objects.requireNonNull(classe.toLowerCase()))){
-                        tmp = c;
-                        break;
-                    }
-                }
-                for (Studente s: controllore.getStudenti()) {
-                    if(s.getClasse().toString().equals(classe)){
-                        tmp.getStudenti().add(s);
-                    }
-                }
-
-                //medie x materia
-                double[] medieMaterie = new double[5];
-                int i=0;
-                for (String s: controllore.getMaterie()){
-                    medieMaterie[i] = tmp.getMediaMateria(s);
-                    i++;
-                }
-
-                //grafico
-                sfondoLabel.remove(graphPanel);
-                graphPanel = new GraficoMedieMateriePanel(medieMaterie);
-                graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-                graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
-                sfondoLabel.add(graphPanel);
-                revalidate();
-                repaint();
+                paintGraficoMaterie();
             }
         });
         panel1.add(medieMaterieButton);
@@ -243,5 +175,88 @@ public class GraficiClassiFrame extends JFrame {
         revalidate();
         repaint();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    /**
+     * Funzione che mostra il grafico delle medie per ogni mese
+     */
+    private void paintGraficoMesi(){
+        medieMensiliButton.setBackground(new Color(255, 109, 109));
+        medieMaterieButton.setBackground(Color.WHITE);
+        sfondoLabel.remove(graphPanel);
+
+        String classe = classiCombo.getSelectedItem().toString().toLowerCase();
+        //trovo la classe
+        Classe tmp = null;
+        for (Classe c: controllore.getClassi()) {
+            if(c.toString().equals(Objects.requireNonNull(classe))){
+                tmp = c;
+                break;
+            }
+        }
+        for (Studente s: controllore.getStudenti()) {
+            if(s.getClasse().toString().equals(classe)){
+                tmp.getStudenti().add(s);
+            }
+        }
+        //calcolo medie dei mesi
+        double[] medieMensili = new double[10];
+        //set -- dic
+        for(int i=8;i<12;i++){
+            medieMensili[i-8] = tmp.getMediaMensile(i);
+        }
+        //gen-- giu
+        for(int i=0;i<6;i++){
+            medieMensili[i+4] = tmp.getMediaMensile(i);
+        }
+        //grafico
+        graphPanel = new GraficoMedieMensiliPanel(medieMensili);
+        graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
+        graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
+        sfondoLabel.add(graphPanel);
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Funzione che mostra il grafico delle medie per materia
+     */
+    private void paintGraficoMaterie(){
+        medieMaterieButton.setBackground(new Color(255, 109, 109));
+        medieMensiliButton.setBackground(Color.WHITE);
+        sfondoLabel.remove(graphPanel);
+
+        String classe = classiCombo.getSelectedItem().toString().toLowerCase();
+
+        Classe tmp = null;
+        //trovo la classe
+        for (Classe c: controllore.getClassi()) {
+            if(c.toString().equals(Objects.requireNonNull(classe.toLowerCase()))){
+                tmp = c;
+                break;
+            }
+        }
+        for (Studente s: controllore.getStudenti()) {
+            if(s.getClasse().toString().equals(classe)){
+                tmp.getStudenti().add(s);
+            }
+        }
+
+        //medie x materia
+        double[] medieMaterie = new double[5];
+        int i=0;
+        for (String s: controllore.getMaterie()){
+            medieMaterie[i] = tmp.getMediaMateria(s);
+            i++;
+        }
+
+        //grafico
+        sfondoLabel.remove(graphPanel);
+        graphPanel = new GraficoMedieMateriePanel(medieMaterie);
+        graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
+        graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
+        sfondoLabel.add(graphPanel);
+        revalidate();
+        repaint();
     }
 }

@@ -66,25 +66,6 @@ public class StudentiFrame extends JFrame {
         });
         //HOME--------------------------------------------------------
 
-        //PULSANTE INDIETRO----------------------------------------
-        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(indietroPanel);
-        indietroPanel.setBounds(0,b_height,b_height,b_height);
-        indietroPanel.setOpaque(false);
-
-        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(new Font("Arial", Font.BOLD, width/40));
-        indietroButton.setBorder(new EtchedBorder());
-        indietroButton.setBackground(Color.WHITE);
-        indietroButton.setForeground(Color.DARK_GRAY);
-        indietroPanel.add(indietroButton);
-
-        indietroButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
-        //PULSANTE INDIETRO---------------------------------------
-
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
         titlePanel.setBounds(width/6,height/4,width*2/3,height/5);
@@ -184,12 +165,23 @@ public class StudentiFrame extends JFrame {
             }
         });
         elimina.addActionListener(e ->{
-            String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString();
-            for (Studente s: controllore.getStudenti()) {
-                if(s.getCF().equalsIgnoreCase(cf)){
-                    controllore.eliminaStudente(s);
-                    dispose();
-                }
+            if(Objects.requireNonNull(listaStudenti.getSelectedItem()).toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
+            }
+            else{
+                String cf = Objects.requireNonNull(listaStudenti.getSelectedItem()).toString().split(" ")[2];
+                try{
+                    for (Studente s: controllore.getStudenti()) {
+                        if(s.getCF().equalsIgnoreCase(cf)){
+                            controllore.eliminaStudente(s);
+                            listaStudenti.removeAllItems();
+                            listaStudenti.addItem("");
+                            for (Studente st: controllore.getStudenti()) {
+                                listaStudenti.addItem(st.getNome() + " " + st.getCognome() + " " + st.getCF());
+                            }
+                        }
+                    }
+                }catch (ConcurrentModificationException ignore){}
             }
         });
         //PULSANTI------------------------------------------------------

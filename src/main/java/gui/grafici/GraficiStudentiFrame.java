@@ -1,6 +1,5 @@
 package gui.grafici;
 
-import Altro.Voto;
 import Controllore.Controllore;
 import Utenti.Studente;
 import gui.home.HomeFrame;
@@ -12,7 +11,14 @@ import java.awt.*;
 import java.util.*;
 
 public class GraficiStudentiFrame extends JFrame {
+    private String pulsanteScelto = ""; //mese/materia/assenza
+    private final Controllore controllore;
     private JPanel graphPanel;
+    private final int width, height, b_height;
+    private JButton medieMensiliButton, medieMaterieButton, assenzeButton;
+    private JLabel sfondoLabel;
+    private JComboBox<String> studentiCombo;
+
 
     /**
      * Funzione che crea la finestra con il grafico dei vari studenti.
@@ -20,7 +26,7 @@ public class GraficiStudentiFrame extends JFrame {
      * @param controllore Controllore che gestisce: dati studenti e materie.
      */
     public GraficiStudentiFrame(Controllore controllore){
-        int width, height, b_height;
+        this.controllore = controllore;
 
         setExtendedState(MAXIMIZED_BOTH);
         setResizable(false);
@@ -41,7 +47,7 @@ public class GraficiStudentiFrame extends JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/red.jpg")));
         Image sfondo = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         icon = new ImageIcon(sfondo);
-        JLabel sfondoLabel = new JLabel(icon);
+        sfondoLabel = new JLabel(icon);
         sfondoPanel.add(sfondoLabel);
         // SFONDO ROSSO------------------------------------------------------------------------------------
 
@@ -63,24 +69,6 @@ public class GraficiStudentiFrame extends JFrame {
             dispose();
         });
         //HOME--------------------------------------------------------
-
-        //INDIETRO-----------------------------------------
-        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(indietroPanel);
-        indietroPanel.setBounds(0,b_height,b_height,b_height);
-        indietroPanel.setOpaque(false);
-
-        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(new Font("Arial", Font.BOLD, width/35));
-        indietroButton.setBorder(new EtchedBorder());
-        indietroButton.setBackground(Color.WHITE);
-        indietroButton.setForeground(Color.DARK_GRAY);
-        indietroPanel.add(indietroButton);
-
-        indietroButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -114,8 +102,8 @@ public class GraficiStudentiFrame extends JFrame {
         seleziona.setForeground(Color.WHITE);
         ArrayList<Studente> studenti = controllore.getStudenti();
 
-        JComboBox<String> studentiCombo = new JComboBox<>();
-        studentiCombo.addItem("");
+        studentiCombo = new JComboBox<>();
+        studentiCombo.addItem(" ");
         for (Studente s: studenti) {
             studentiCombo.addItem(s.getCF());
         }
@@ -126,147 +114,75 @@ public class GraficiStudentiFrame extends JFrame {
         sfondoLabel.add(panel2);
 
         //GRAFICI-------------------------------------------------------------------
-        JButton medieMensiliButton = new JButton("MEDIE MENSILI");
+        medieMensiliButton = new JButton("MEDIE MENSILI");
         medieMensiliButton.setBackground(Color.WHITE);
-        JButton medieMaterieButton = new JButton("MEDIE X MATERIA");
+        medieMaterieButton = new JButton("MEDIE PER MATERIA");
         medieMaterieButton.setBackground(Color.WHITE);
-        JButton assenzeButton = new JButton("ASSENZE MENSILI");
+        assenzeButton = new JButton("ASSENZE MENSILI");
         assenzeButton.setBackground(Color.WHITE);
 
         medieMensiliButton.addActionListener(e ->{
-            if(Objects.equals(studentiCombo.getSelectedItem(), "")){
-                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
-                medieMaterieButton.setBackground(Color.WHITE);
-                medieMensiliButton.setBackground(Color.WHITE);
-                assenzeButton.setBackground(Color.WHITE);
+            pulsanteScelto = "mese";
+            medieMensiliButton.setBackground(new Color(243, 118, 118));
+            medieMaterieButton.setBackground(Color.WHITE);
+            assenzeButton.setBackground(Color.WHITE);
+            if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
                 sfondoLabel.remove(graphPanel);
                 revalidate();
                 repaint();
             }
             else{
-                medieMensiliButton.setBackground(new Color(255, 109, 109));
-                medieMaterieButton.setBackground(Color.WHITE);
-                assenzeButton.setBackground(Color.WHITE);
-                sfondoLabel.remove(graphPanel);
-
-                //trovo lo studente in base al cf
-                Studente tmp = null;
-                for (Studente s: controllore.getStudenti()) {
-                    if(s.getCF().equals(studentiCombo.getSelectedItem())){
-                        tmp = s;
-                        break;
-                    }
-                }
-
-                //calcolo medie dei mesi
-                double[] medieMensili = new double[10];
-                //set -- dic
-                for(int i=8;i<12;i++){
-                        medieMensili[i-8] = tmp.getMediaMensile(i);
-                }
-                //gen-- giu
-                for(int i=0;i<6;i++){
-                        medieMensili[i+4] = tmp.getMediaMensile(i);
-                }
-                //grafico
-                graphPanel = new GraficoMedieMensiliPanel(medieMensili);
-                graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-                graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
-                sfondoLabel.add(graphPanel);
-                revalidate();
-                repaint();
+                painteGraficoMesi();
             }
         });
         panel1.add(medieMensiliButton);
 
         medieMaterieButton.addActionListener(e ->{
-            if(Objects.equals(studentiCombo.getSelectedItem(), "")){
-                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
-                medieMaterieButton.setBackground(Color.WHITE);
-                medieMensiliButton.setBackground(Color.WHITE);
-                assenzeButton.setBackground(Color.WHITE);
+            pulsanteScelto = "materia";
+            medieMaterieButton.setBackground(new Color(243, 118, 118));
+            medieMensiliButton.setBackground(Color.WHITE);
+            assenzeButton.setBackground(Color.WHITE);
+            if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
                 sfondoLabel.remove(graphPanel);
                 revalidate();
                 repaint();
             }
             else{
-                medieMaterieButton.setBackground(new Color(255, 109, 109));
-                medieMensiliButton.setBackground(Color.WHITE);
-                assenzeButton.setBackground(Color.WHITE);
-                sfondoLabel.remove(graphPanel);
-
-                //trovo lo studente in base al cf
-                Studente tmp = null;
-                for (Studente s: controllore.getStudenti()) {
-                    if(s.getCF().equals(studentiCombo.getSelectedItem())){
-                        tmp = s;
-                        break;
-                    }
-                }
-                //medie x materia
-                double[] medieMaterie = new double[5];
-                int i=0;
-                for (String s: controllore.getMaterie()){
-                    medieMaterie[i] = tmp.getMediaMateria(s);
-                    i++;
-                }
-
-                //grafico
-                sfondoLabel.remove(graphPanel);
-                graphPanel = new GraficoMedieMateriePanel(medieMaterie);
-                graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-                graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
-                sfondoLabel.add(graphPanel);
-                revalidate();
-                repaint();
+                paintGraficoMaterie();
             }
         });
         panel1.add(medieMaterieButton);
 
         assenzeButton.addActionListener(e ->{
-            if(Objects.equals(studentiCombo.getSelectedItem(), "")){
-                JOptionPane.showMessageDialog(null,"Seleziona uno studente");
-                medieMaterieButton.setBackground(Color.WHITE);
-                medieMensiliButton.setBackground(Color.WHITE);
-                assenzeButton.setBackground(Color.WHITE);
+            pulsanteScelto = "assenza";
+            assenzeButton.setBackground(new Color(243, 118, 118));
+            medieMaterieButton.setBackground(Color.WHITE);
+            medieMensiliButton.setBackground(Color.WHITE);
+            if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
                 sfondoLabel.remove(graphPanel);
                 revalidate();
                 repaint();
             }
             else{
-                assenzeButton.setBackground(new Color(255, 109, 109));
-                medieMaterieButton.setBackground(Color.WHITE);
-                medieMensiliButton.setBackground(Color.WHITE);
-                sfondoLabel.remove(graphPanel);
-
-                //trovo lo studente in base al cf
-                Studente tmp = null;
-                for (Studente s: controllore.getStudenti()) {
-                    if(s.getCF().equals(studentiCombo.getSelectedItem())){
-                        tmp = s;
-                        break;
-                    }
-                }
-                //calcolo assenze dei mesi
-                int[] assenzeMensili = new int[10];
-                //set -- dic
-                for(int i=8;i<12;i++){
-                    assenzeMensili[i-8] = tmp.getAssenzeMensili(i);
-                }
-                //gen-- giu
-                for(int i=0;i<6;i++){
-                    assenzeMensili[i+4] = tmp.getAssenzeMensili(i);
-                }
-                sfondoLabel.remove(graphPanel);
-                graphPanel = new GraficoAssenzePanel(assenzeMensili);
-                graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-                graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
-                sfondoLabel.add(graphPanel);
-                revalidate();
-                repaint();
+                paintGraficoAssenze();
             }
         });
         panel1.add(assenzeButton);
+
+        studentiCombo.addActionListener(e->{
+            if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
+                sfondoLabel.remove(graphPanel);
+                revalidate();
+                repaint();
+            }
+            else{
+                switch (pulsanteScelto) {
+                    case "mese" -> painteGraficoMesi();
+                    case "materia" -> paintGraficoMaterie();
+                    case "assenza" -> paintGraficoAssenze();
+                }
+            }
+        });
 
         //PANEL GRAFICI--------------------------------------------------------------
         graphPanel = new JPanel();
@@ -281,5 +197,95 @@ public class GraficiStudentiFrame extends JFrame {
         revalidate();
         repaint();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private void painteGraficoMesi(){
+        sfondoLabel.remove(graphPanel);
+
+        //trovo lo studente in base al cf
+        Studente tmp = null;
+        for (Studente s: controllore.getStudenti()) {
+            if(s.getCF().equals(studentiCombo.getSelectedItem())){
+                tmp = s;
+                break;
+            }
+        }
+
+        //calcolo medie dei mesi
+        double[] medieMensili = new double[10];
+        //set -- dic
+        for(int i=8;i<12;i++){
+            medieMensili[i-8] = tmp.getMediaMensile(i);
+        }
+        //gen-- giu
+        for(int i=0;i<6;i++){
+            medieMensili[i+4] = tmp.getMediaMensile(i);
+        }
+        //grafico
+        graphPanel = new GraficoMedieMensiliPanel(medieMensili);
+        graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
+        graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
+        sfondoLabel.add(graphPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void paintGraficoMaterie(){
+        sfondoLabel.remove(graphPanel);
+
+        //trovo lo studente in base al cf
+        Studente tmp = null;
+        for (Studente s: controllore.getStudenti()) {
+            if(s.getCF().equals(studentiCombo.getSelectedItem())){
+                tmp = s;
+                break;
+            }
+        }
+        //medie x materia
+        double[] medieMaterie = new double[5];
+        int i=0;
+        for (String s: controllore.getMaterie()){
+            medieMaterie[i] = tmp.getMediaMateria(s);
+            i++;
+        }
+
+        //grafico
+        sfondoLabel.remove(graphPanel);
+        graphPanel = new GraficoMedieMateriePanel(medieMaterie);
+        graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
+        graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
+        sfondoLabel.add(graphPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void paintGraficoAssenze(){
+        sfondoLabel.remove(graphPanel);
+
+        //trovo lo studente in base al cf
+        Studente tmp = null;
+        for (Studente s: controllore.getStudenti()) {
+            if(s.getCF().equals(studentiCombo.getSelectedItem())){
+                tmp = s;
+                break;
+            }
+        }
+        //calcolo assenze dei mesi
+        int[] assenzeMensili = new int[10];
+        //set -- dic
+        for(int i=8;i<12;i++){
+            assenzeMensili[i-8] = tmp.getAssenzeMensili(i);
+        }
+        //gen-- giu
+        for(int i=0;i<6;i++){
+            assenzeMensili[i+4] = tmp.getAssenzeMensili(i);
+        }
+        sfondoLabel.remove(graphPanel);
+        graphPanel = new GraficoAssenzePanel(assenzeMensili);
+        graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
+        graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
+        sfondoLabel.add(graphPanel);
+        revalidate();
+        repaint();
     }
 }

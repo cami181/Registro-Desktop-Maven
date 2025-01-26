@@ -7,10 +7,8 @@ import java.util.*;
 
 import Controllore.Controllore;
 import Utenti.Docente;
-import Utenti.Studente;
 import gui.home.HomeFrame;
 import gui.pulsanti.*;
-import gui.studenti.ModificaStudenteFrame;
 
 public class DocentiFrame extends JFrame {
     private ArrayList<Docente> docenti;
@@ -66,25 +64,6 @@ public class DocentiFrame extends JFrame {
             dispose();
         });
         //HOME--------------------------------------------------------
-
-        //PULSANTE INDIETRO----------------------------------------
-        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(indietroPanel);
-        indietroPanel.setBounds(0,b_height,b_height,b_height);
-        indietroPanel.setOpaque(false);
-
-        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(new Font("Arial", Font.BOLD, width/40));
-        indietroButton.setBorder(new EtchedBorder());
-        indietroButton.setBackground(Color.WHITE);
-        indietroButton.setForeground(Color.DARK_GRAY);
-        indietroPanel.add(indietroButton);
-
-        indietroButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
-        //PULSANTE INDIETRO---------------------------------------
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -207,17 +186,23 @@ public class DocentiFrame extends JFrame {
             }
         });
         elimina.addActionListener(e ->{
-            if(listaDocenti.getSelectedItem().toString().isEmpty()){
+            if(Objects.requireNonNull(listaDocenti.getSelectedItem()).toString().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Seleziona un docente");
             }
             else{
-                String cf = Objects.requireNonNull(listaDocenti.getSelectedItem()).toString();
-                for (Docente d: controllore.getDocenti()) {
-                    if(d.getCF().equalsIgnoreCase(cf)){
-                        controllore.eliminaDocente(d);
-                        dispose();
+                String cf = Objects.requireNonNull(listaDocenti.getSelectedItem()).toString().split(" ")[2];
+                try{
+                    for (Docente s: controllore.getDocenti()) {
+                        if(s.getCF().equalsIgnoreCase(cf)){
+                            controllore.eliminaDocente(s);
+                            listaDocenti.removeAllItems();
+                            listaDocenti.addItem("");
+                            for (Docente d: controllore.getDocenti()) {
+                                listaDocenti.addItem(d.getNome() + " " + d.getCognome() + " " + d.getCF());
+                            }
+                        }
                     }
-                }
+                }catch (ConcurrentModificationException ignore){}
             }
         });
         //PULSANTI------------------------------------------------------

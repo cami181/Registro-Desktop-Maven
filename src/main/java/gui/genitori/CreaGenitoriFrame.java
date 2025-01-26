@@ -10,8 +10,10 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.*;
 public class CreaGenitoriFrame extends JFrame {
+    private ArrayList<Studente> studenti;
 
     /**
      * Funzione che costruisce la finestra crea.
@@ -215,6 +217,7 @@ public class CreaGenitoriFrame extends JFrame {
         //CODICE FISCALE
         JPanel cfPanel = new JPanel();
         cfPanel.setLayout(new BoxLayout(cfPanel, BoxLayout.X_AXIS));
+        cfPanel.setBounds(width*2/3,height/3,b_width*5/2,b_height/2);
         cfPanel.setOpaque(false);
 
         JLabel cfLabel = new JLabel("Codice Fiscale:");
@@ -227,33 +230,85 @@ public class CreaGenitoriFrame extends JFrame {
         cfPanel.add(cfLabel);
         cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
         cfPanel.add(cfField);
+        sfondoLabel.add(cfPanel);
 
-        //FIGLIO
-        JPanel figlioPanel = new JPanel();
-        figlioPanel.setLayout(new BoxLayout(figlioPanel, BoxLayout.X_AXIS));
-        figlioPanel.setOpaque(false);
+        //nome cognome cerca------------------------------------------
+        JPanel titoloFiglioPanel = new JPanel();
+        titoloFiglioPanel.setLayout(new GridLayout(1,1));
+        titoloFiglioPanel.setBounds(width*2/3,height/3+b_height,b_width*5/2,b_height/2);
+        titoloFiglioPanel.setOpaque(false);
+        JLabel titoloFiglio = new JLabel("SELEZIONA IL FIGLIO");
+        titoloFiglio.setFont(new Font("Arial", Font.BOLD, height/45));
+        titoloFiglio.setForeground(Color.WHITE);
+        titoloFiglioPanel.add(titoloFiglio);
+        sfondoLabel.add(titoloFiglioPanel);
 
-        JLabel classLabel = new JLabel("CF del figlio:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        classLabel.setForeground(Color.WHITE);
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
 
-        JComboBox<String> studentiCombo = new JComboBox<>();
-        //esempio
-        ArrayList<Studente> studenti = controllore.getStudenti();
+        //lista
+        JPanel listaPanel = new JPanel();
+        listaPanel.setLayout(new GridLayout(1,1));
+        listaPanel.setBounds(width*2/3,height/2+2*b_height,b_width*5/2,b_height/2);
 
-        studentiCombo.addItem(" ");
-        for (Studente s : studenti) {
-            studentiCombo.addItem(s.getCF());
+        listaPanel.setOpaque(false);
+        JComboBox<String> listaStudenti = new JComboBox<>();
+        listaStudenti.addItem(" ");
+        studenti = controllore.getStudenti();
+        for (Studente g: studenti) {
+            listaStudenti.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
         }
 
-        figlioPanel.add(classLabel);
-        figlioPanel.add(Box.createHorizontalStrut(10));
-        figlioPanel.add(studentiCombo);
+        listaPanel.add(listaStudenti);
+        sfondoLabel.add(listaPanel);
+        //lista
 
-        //aggiunta al panel
-        formPanel2.add(cfPanel);
-        formPanel2.add(Box.createVerticalStrut(80));
-        formPanel2.add(figlioPanel);
+        JLabel nomeFiglioLabel = new JLabel("NOME: ");
+        JLabel cognomeFiglioLabel = new JLabel("COGNOME: ");
+        nomeFiglioLabel.setFont(new Font("Arial", Font.BOLD, height/60));
+        nomeFiglioLabel.setForeground(Color.WHITE);
+        cognomeFiglioLabel.setFont(new Font("Arial", Font.BOLD, height/60));
+        cognomeFiglioLabel.setForeground(Color.WHITE);
+
+        JTextField nomeFiglioField = new JTextField();
+        JTextField cognomeFiglioField = new JTextField();
+
+
+        cercaPanel.add(nomeFiglioLabel);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(nomeFiglioField);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeFiglioLabel);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeFiglioField);
+        //nome cognome cerca------------------------------------------
+        //cerca
+        JPanel cercaPulsantePanel = new JPanel();
+        cercaPulsantePanel.setLayout(new BoxLayout(cercaPulsantePanel,BoxLayout.X_AXIS));
+        cercaPulsantePanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height);
+        cercaPulsantePanel.setOpaque(false);
+        JButton cercaPulsante = new JButton("CERCA");
+        cercaPulsante.addActionListener(e ->{
+            listaStudenti.removeAllItems();
+            listaStudenti.addItem(" ");
+            if(nomeFiglioField.getText().isEmpty() && cognomeFiglioField.getText().isEmpty()){
+                studenti = controllore.getStudenti();
+            }
+            else{
+                studenti = controllore.cercaStudente(nomeFiglioField.getText(), cognomeFiglioField.getText());
+            }
+            for (Studente g: studenti) {
+                listaStudenti.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+            }
+        });
+        cercaPulsantePanel.add(cercaPulsante);
+        sfondoLabel.add(cercaPulsantePanel);
+        //conferma
+
+        sfondoLabel.add(cercaPanel);
+        sfondoLabel.add(cercaPulsantePanel);
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
         JPanel confermaPanel = new JPanel();
@@ -270,13 +325,13 @@ public class CreaGenitoriFrame extends JFrame {
         //listener x l'invio dello studente
         conferma.addActionListener(e ->{
             //nome e cognome
-            if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
+            if(nomeField.getText().isEmpty() || nomeField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
-            else if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
-                JOptionPane.showMessageDialog(null,"Selezionare il proprio figlio");
+            else if(Objects.equals(listaStudenti.getSelectedItem(), " ")){
+                JOptionPane.showMessageDialog(null,"Selezionare il figlio");
             }
-            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText().toLowerCase().trim())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else if(controllore.alreadyExistentCf(cfField.getText(),new Credenziali("",""))){
@@ -291,16 +346,27 @@ public class CreaGenitoriFrame extends JFrame {
 
                 Studente figlio = null;
                 for (Studente s: studenti) {
-                    if(s.getCF().equals(studentiCombo.getSelectedItem().toString())) figlio = s;
+                    if(s.getCF().equals(listaStudenti.getSelectedItem().toString().split(" ")[2])) figlio = s;
                 }
 
-                Genitore genitore = new Genitore(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),figlio);
+                String nome = nomeField.getText().replace(" ","");
+                String cognome = cognomeField.getText().replace(" ","");
+                Genitore genitore = new Genitore(nome,cognome,data,cfField.getText().toLowerCase().trim(),figlio);
                 String user = "g" + genitore.getNome() + "." + genitore.getCognome();
+                String tmp = "g" + genitore.getNome() + "." + genitore.getCognome();;
+                int n = 0;
+                while(controllore.alreadyExistentUser(tmp)){
+                    tmp = user + String.valueOf(n);
+                    n++;
+                }
+                user = tmp;
+
                 String password = "";
-                for(int i=0;i<user.length();i++) {
-                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                        password += user.charAt(i);
-                    }
+                for(int i=0;i<5;i++){
+                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
+                    Random random = new Random();
+                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
+                    password += c;
                 }
                 genitore.setCredenziali(new Credenziali(user,password));
                 controllore.registraGenitore(genitore);

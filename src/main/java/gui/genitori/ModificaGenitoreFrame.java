@@ -12,9 +12,10 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.*;
 public class ModificaGenitoreFrame extends JFrame {
-    Date data = new GregorianCalendar(2002, Calendar.DECEMBER,20).getTime(); //PROVA
+    private ArrayList<Studente> studenti;
 
     /**
      * Funzione che crea la finestra per modificare i genitori.
@@ -136,6 +137,8 @@ public class ModificaGenitoreFrame extends JFrame {
         nomePanel.add(Box.createHorizontalStrut(10));
         nomePanel.add(nomeField);
 
+
+
         // COGNOME
         JPanel cognomePanel = new JPanel();
         cognomePanel.setLayout(new BoxLayout(cognomePanel, BoxLayout.X_AXIS));
@@ -230,6 +233,7 @@ public class ModificaGenitoreFrame extends JFrame {
         //CODICE FISCALE
         JPanel cfPanel = new JPanel();
         cfPanel.setLayout(new BoxLayout(cfPanel, BoxLayout.X_AXIS));
+        cfPanel.setBounds(width*2/3,height/3,b_width*5/2,b_height/2);
         cfPanel.setOpaque(false);
 
         JLabel cfLabel = new JLabel("Codice Fiscale:");
@@ -238,48 +242,89 @@ public class ModificaGenitoreFrame extends JFrame {
 
         JTextField cfField = new JTextField();
         cfField.setPreferredSize(new Dimension(200, 15));
-        cfField.setText(genitore.getCF());
 
         cfPanel.add(cfLabel);
-        cfPanel.add(Box.createHorizontalStrut(10));
+        cfPanel.add(Box.createHorizontalStrut(10));  // Spazio tra etichetta e campo
         cfPanel.add(cfField);
+        sfondoLabel.add(cfPanel);
 
-        //FIGLIO
-        JPanel figlioPanel = new JPanel();
-        figlioPanel.setLayout(new BoxLayout(figlioPanel, BoxLayout.X_AXIS));
-        figlioPanel.setOpaque(false);
+        //nome cognome cerca------------------------------------------
+        JPanel titoloFiglioPanel = new JPanel();
+        titoloFiglioPanel.setLayout(new GridLayout(1,1));
+        titoloFiglioPanel.setBounds(width*2/3,height/3+b_height,b_width*5/2,b_height/2);
+        titoloFiglioPanel.setOpaque(false);
+        JLabel titoloFiglio = new JLabel("SELEZIONA IL FIGLIO");
+        titoloFiglio.setFont(new Font("Arial", Font.BOLD, height/45));
+        titoloFiglio.setForeground(Color.WHITE);
+        titoloFiglioPanel.add(titoloFiglio);
+        sfondoLabel.add(titoloFiglioPanel);
 
-        JLabel classLabel = new JLabel("CF del figlio:");
-        classLabel.setFont(new Font("Arial", Font.BOLD, height/35));
-        classLabel.setForeground(Color.WHITE);
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
 
-        JComboBox<String> studentiCombo = new JComboBox<>();
+        //lista
+        JPanel listaPanel = new JPanel();
+        listaPanel.setLayout(new GridLayout(1,1));
+        listaPanel.setBounds(width*2/3,height/2+2*b_height,b_width*5/2,b_height/2);
 
-        ArrayList<Studente> studenti = controllore.getStudenti();
+        listaPanel.setOpaque(false);
+        JComboBox<String> listaStudenti = new JComboBox<>();
+        listaStudenti.addItem(" ");
+        studenti = controllore.getStudenti();
+        for (Studente g: studenti) {
+            listaStudenti.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+        }
 
-        studentiCombo.addItem(" ");
-        for (Studente s : studenti) {
-            studentiCombo.addItem(s.getCF());
-            try{
-                if(s.getCF().equals(genitore.getFiglio().getCF())){
-                    studentiCombo.setSelectedItem(s);
-                }
-            }catch (NullPointerException e){
-                studentiCombo.setSelectedItem(" ");
+        listaPanel.add(listaStudenti);
+        sfondoLabel.add(listaPanel);
+        //lista
+
+        JLabel nomeFiglioLabel = new JLabel("NOME: ");
+        JLabel cognomeFiglioLabel = new JLabel("COGNOME: ");
+        nomeFiglioLabel.setFont(new Font("Arial", Font.BOLD, height/60));
+        nomeFiglioLabel.setForeground(Color.WHITE);
+        cognomeFiglioLabel.setFont(new Font("Arial", Font.BOLD, height/60));
+        cognomeFiglioLabel.setForeground(Color.WHITE);
+
+        JTextField nomeFiglioField = new JTextField();
+        JTextField cognomeFiglioField = new JTextField();
+
+
+        cercaPanel.add(nomeFiglioLabel);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(nomeFiglioField);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeFiglioLabel);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeFiglioField);
+        //nome cognome cerca------------------------------------------
+        //cerca
+        JPanel cercaPulsantePanel = new JPanel();
+        cercaPulsantePanel.setLayout(new BoxLayout(cercaPulsantePanel,BoxLayout.X_AXIS));
+        cercaPulsantePanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height);
+        cercaPulsantePanel.setOpaque(false);
+        JButton cercaPulsante = new JButton("CERCA");
+        cercaPulsante.addActionListener(e ->{
+            listaStudenti.removeAllItems();
+            listaStudenti.addItem(" ");
+            if(nomeFiglioField.getText().isEmpty() && cognomeFiglioField.getText().isEmpty()){
+                studenti = controllore.getStudenti();
             }
-        }
-        if(Objects.requireNonNull(studentiCombo.getSelectedItem()).toString().isEmpty()){
-            JOptionPane.showMessageDialog(null,"Account del figlio non associato");
-        }
+            else{
+                studenti = controllore.cercaStudente(nomeFiglioField.getText(), cognomeFiglioField.getText());
+            }
+            for (Studente g: studenti) {
+                listaStudenti.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+            }
+        });
+        cercaPulsantePanel.add(cercaPulsante);
+        sfondoLabel.add(cercaPulsantePanel);
+        //conferma
 
-        figlioPanel.add(classLabel);
-        figlioPanel.add(Box.createHorizontalStrut(10));
-        figlioPanel.add(studentiCombo);
-
-        //aggiunta al panel
-        formPanel2.add(cfPanel);
-        formPanel2.add(Box.createVerticalStrut(80));
-        formPanel2.add(figlioPanel);
+        sfondoLabel.add(cercaPanel);
+        sfondoLabel.add(cercaPulsantePanel);
 
         //PULSANTE CONFERMA----------------------------------------------------------------------
         JPanel confermaPanel = new JPanel();
@@ -299,10 +344,10 @@ public class ModificaGenitoreFrame extends JFrame {
             if(nomeField.getText().isEmpty() || cognomeField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Compila tutti i campi");
             }
-            else if(Objects.equals(studentiCombo.getSelectedItem(), " ")){
+            else if(Objects.equals(listaStudenti.getSelectedItem(), " ")){
                 JOptionPane.showMessageDialog(null,"Selezionare il CF del proprio figlio");
             }
-            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else if(controllore.alreadyExistentCf(cfField.getText(), genitore.getCredenziali())){
@@ -315,28 +360,36 @@ public class ModificaGenitoreFrame extends JFrame {
                 int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
                 Date data = new GregorianCalendar(anno,mese,giorno).getTime();
 
+                controllore.eliminaGenitore(genitore);
+
                 Studente figlio = null;
                 for (Studente s: studenti) {
-                    if(Objects.requireNonNull(studentiCombo.getSelectedItem()).toString().equals(s.getCF())){
+                    if(listaStudenti.getSelectedItem().toString().split(" ")[2].equals(s.getCF())){
                         figlio = s;
                     }
                 }
                 genitore.setNome(nomeField.getText());
                 genitore.setCognome(cognomeField.getText());
                 genitore.setDataDiNascita(data);
-                genitore.setCF(cfField.getText());
+                genitore.setCF(cfField.getText().toLowerCase().trim());
                 genitore.setFiglio(figlio);
                 String user = "g" + genitore.getNome() + "." + genitore.getCognome();
+                String tmp = "g" + genitore.getNome() + "." + genitore.getCognome();;
+                int n = 0;
+                while(controllore.alreadyExistentUser(tmp)){
+                    tmp = user + String.valueOf(n);
+                    n++;
+                }
+                user = tmp;
                 String password = "";
-                for(int i=0;i<user.length();i++) {
-                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                        password += user.charAt(i);
-                    }
+                for(int i=0;i<5;i++){
+                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
+                    Random random = new Random();
+                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
+                    password += c;
                 }
                 genitore.setCredenziali(new Credenziali(user,password));
-                controllore.eliminaGenitore(genitore);
                 controllore.registraGenitore(genitore);
-                JOptionPane.showMessageDialog(null,"Genitore modificato con successo");
                 new GenitoriFrame(controllore);
                 dispose();
             }

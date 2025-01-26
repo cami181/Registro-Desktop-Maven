@@ -186,11 +186,11 @@ public class CreaStudentiFrame extends JFrame {
         //label e combo nel panel separate da spazi
         dataNascitaPanel.add(dataNascitaLabel);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(giornoCombo);
+        dataNascitaPanel.add(annoCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
         dataNascitaPanel.add(meseCombo);
         dataNascitaPanel.add(Box.createHorizontalStrut(10));
-        dataNascitaPanel.add(annoCombo);
+        dataNascitaPanel.add(giornoCombo);
 
         // Aggiungi i panel di input al formPanel
         formPanel1.add(nomePanel);
@@ -269,7 +269,7 @@ public class CreaStudentiFrame extends JFrame {
             else if(Objects.equals(classCombo.getSelectedItem(), " ")){
                 JOptionPane.showMessageDialog(null,"Inserire la classe");
             }
-            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else if(controllore.alreadyExistentCf(cfField.getText(), new Credenziali("",""))){
@@ -289,13 +289,24 @@ public class CreaStudentiFrame extends JFrame {
                     }
                 }
 
-                Studente studente = new Studente(nomeField.getText(),cognomeField.getText(),data,cfField.getText(),classe);
+                String nome = nomeField.getText().replace(" ","");
+                String cognome = cognomeField.getText().replace(" ","");
+                Studente studente = new Studente(nome,cognome,data,cfField.getText().toLowerCase().trim(),classe);
                 String user = "s" + studente.getNome() + "." + studente.getCognome();
+                String tmp = "s" + studente.getNome() + "." + studente.getCognome();;
+                int n = 0;
+                while(controllore.alreadyExistentUser(tmp)){
+                    tmp = user + String.valueOf(n);
+                    n++;
+                }
+                user = tmp;
+
                 String password = "";
-                for(int i=0;i<user.length();i++) {
-                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                        password += user.charAt(i);
-                    }
+                for(int i=0;i<5;i++){
+                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
+                    Random random = new Random();
+                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
+                    password += c;
                 }
                 studente.setCredenziali(new Credenziali(user,password));
                 controllore.registraStudente(studente);

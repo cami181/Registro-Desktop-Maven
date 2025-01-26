@@ -7,10 +7,8 @@ import java.util.*;
 
 import Controllore.Controllore;
 import Utenti.*;
-import gui.docenti.ModificaDocenteFrame;
 import gui.home.HomeFrame;
 import gui.pulsanti.*;
-import gui.studenti.ModificaStudenteFrame;
 
 public class GenitoriFrame extends JFrame {
     private ArrayList<Genitore> genitori;
@@ -65,25 +63,6 @@ public class GenitoriFrame extends JFrame {
             dispose();
         });
         //HOME--------------------------------------------------------
-
-        //PULSANTE INDIETRO----------------------------------------
-        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(indietroPanel);
-        indietroPanel.setBounds(0,b_height,b_height,b_height);
-        indietroPanel.setOpaque(false);
-
-        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(new Font("Arial", Font.BOLD, width/40));
-        indietroButton.setBorder(new EtchedBorder());
-        indietroButton.setBackground(Color.WHITE);
-        indietroButton.setForeground(Color.DARK_GRAY);
-        indietroPanel.add(indietroButton);
-
-        indietroButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
-        //PULSANTE INDIETRO---------------------------------------
 
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
@@ -206,21 +185,26 @@ public class GenitoriFrame extends JFrame {
             }
         });
         elimina.addActionListener(e ->{
-            if(listaGenitori.getSelectedItem().toString().isEmpty()){
+            if(Objects.requireNonNull(listaGenitori.getSelectedItem()).toString().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Seleziona un genitore");
             }
             else{
-                String cf = Objects.requireNonNull(listaGenitori.getSelectedItem()).toString();
-                for (Genitore g: controllore.getGenitori()) {
-                    if(g.getCF().equalsIgnoreCase(cf)){
-                        controllore.eliminaGenitore(g);
-                        dispose();
+                String cf = Objects.requireNonNull(listaGenitori.getSelectedItem()).toString().split(" ")[2];
+                try{
+                    for (Genitore s: controllore.getGenitori()) {
+                        if(s.getCF().equalsIgnoreCase(cf)){
+                            controllore.eliminaGenitore(s);
+                            listaGenitori.removeAllItems();
+                            listaGenitori.addItem("");
+                            for (Genitore g: controllore.getGenitori()) {
+                                listaGenitori.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+                            }
+                        }
                     }
-                }
+                }catch (ConcurrentModificationException ignore){}
             }
         });
         //PULSANTI------------------------------------------------------
-
 
         elencoPanel.add(listaLabel);
         elencoPanel.add(Box.createVerticalStrut(50));

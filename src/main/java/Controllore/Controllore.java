@@ -86,7 +86,9 @@ public class Controllore {
     public ArrayList<Studente> cercaStudente(String nome, String cognome){
         ArrayList<Studente> tmp = new ArrayList<>();
         for (Studente s: studenti) {
-            if(s.getNome().equalsIgnoreCase(nome) || s.getCognome().equalsIgnoreCase(cognome)){
+            if(cognome.isEmpty() && s.getNome().toLowerCase().contains(nome.toLowerCase())
+                || nome.isEmpty() && s.getCognome().toLowerCase().contains(cognome.toLowerCase())
+                    || (s.getCognome().toLowerCase().contains(cognome.toLowerCase()) && s.getNome().toLowerCase().contains(nome.toLowerCase()))){
                 tmp.add(s);
             }
         }
@@ -94,18 +96,22 @@ public class Controllore {
     }
     public ArrayList<Docente> cercaDocente(String nome, String cognome){
         ArrayList<Docente> tmp = new ArrayList<>();
-        for (Docente d: docenti) {
-            if(d.getNome().equalsIgnoreCase(nome) || d.getCognome().equalsIgnoreCase(cognome)){
-                tmp.add(d);
+        for (Docente s: docenti) {
+            if(cognome.isEmpty() && s.getNome().toLowerCase().contains(nome.toLowerCase())
+                    || nome.isEmpty() && s.getCognome().toLowerCase().contains(cognome.toLowerCase())
+                    || (s.getCognome().toLowerCase().contains(cognome.toLowerCase()) && s.getNome().toLowerCase().contains(nome.toLowerCase()))){
+                tmp.add(s);
             }
         }
         return tmp;
     }
     public ArrayList<Genitore> cercaGenitore(String nome, String cognome){
         ArrayList<Genitore> tmp = new ArrayList<>();
-        for (Genitore g: genitori) {
-            if(g.getNome().equalsIgnoreCase(nome) || g.getCognome().equalsIgnoreCase(cognome)){
-                tmp.add(g);
+        for (Genitore s: genitori) {
+            if(cognome.isEmpty() && s.getNome().toLowerCase().contains(nome.toLowerCase())
+                    || nome.isEmpty() && s.getCognome().toLowerCase().contains(cognome.toLowerCase())
+                    || (s.getCognome().toLowerCase().contains(cognome.toLowerCase()) && s.getNome().toLowerCase().contains(nome.toLowerCase()))){
+                tmp.add(s);
             }
         }
         return tmp;
@@ -193,6 +199,19 @@ public class Controllore {
             if(c.toString().equals(tmp.toString())) return true;
         }
         registraClasse(anno, indirizzo, sezione);
+        return false;
+    }
+
+    public boolean alreadyExistentUser(String user){
+        for (Studente p: studenti) {
+            if(p.getCredenziali().getUser().equals(user)) return true;
+        }
+        for (Docente p: docenti) {
+            if(p.getCredenziali().getUser().equals(user)) return true;
+        }
+        for (Genitore p: genitori) {
+            if(p.getCredenziali().getUser().equals(user)) return true;
+        }
         return false;
     }
 

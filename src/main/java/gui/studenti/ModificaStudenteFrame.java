@@ -4,9 +4,7 @@ import Credenziali.Credenziali;
 import Utenti.*;
 import Controllore.Controllore;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
-import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
+import gui.pulsanti.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -288,7 +286,7 @@ public class ModificaStudenteFrame extends JFrame {
             else if(Objects.equals(classCombo.getSelectedItem(), " ")){
                 JOptionPane.showMessageDialog(null,"Inserire la classe");
             }
-            else if(controllore.codiceFiscaleInvalido(cfField.getText().trim())){
+            else if(controllore.codiceFiscaleInvalido(cfField.getText())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
             else if(controllore.alreadyExistentCf(cfField.getText(),studente.getCredenziali())){
@@ -308,21 +306,32 @@ public class ModificaStudenteFrame extends JFrame {
                         break;
                     }
                 }
-                studente.setNome(nomeField.getText());
-                studente.setCognome(cognomeField.getText());
+                controllore.eliminaStudente(studente);
+
+                String nome = nomeField.getText().replace(" ","");
+                String cognome = cognomeField.getText().replace(" ","");
+                studente.setNome(nome);
+                studente.setCognome(cognome);
                 studente.setDataDiNascita(data);
                 studente.setCF(cfField.getText().trim().toLowerCase());
                 studente.setClasse(classe);
 
                 String user = "s" + studente.getNome() + "." + studente.getCognome();
+                String tmp = "s" + studente.getNome() + "." + studente.getCognome();;
+                int n = 0;
+                while(controllore.alreadyExistentUser(tmp)){
+                    tmp = user + String.valueOf(n);
+                    n++;
+                }
+                user = tmp;
                 String password = "";
-                for(int i=0;i<user.length();i++) {
-                    if (user.charAt(i) != 'a' && user.charAt(i) != 'e' && user.charAt(i) != 'i' && user.charAt(i) != 'o' && user.charAt(i) != 'u' && user.charAt(i) != '.') {
-                        password += user.charAt(i);
-                    }
+                for(int i=0;i<5;i++){
+                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
+                    Random random = new Random();
+                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
+                    password += c;
                 }
                 studente.setCredenziali(new Credenziali(user,password));
-                controllore.eliminaStudente(studente);
                 controllore.registraStudente(studente);
                 new StudentiFrame(controllore);
                 dispose();
