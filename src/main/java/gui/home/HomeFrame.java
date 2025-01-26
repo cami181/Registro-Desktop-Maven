@@ -97,7 +97,7 @@ public class HomeFrame extends JFrame {
         gestioneUtenti.setBounds(width/3,height/2-50,b_width*3,b_height);
         gestioneUtenti.setOpaque(false);
         JPanel gestioneGrafici = new JPanel(new GridLayout(1,1));
-        gestioneGrafici.setBounds(width/3+b_width/2,height/2+200,b_width*3,b_height);
+        gestioneGrafici.setBounds(width/3+b_width/3,height/2+200,b_width*3,b_height);
         gestioneGrafici.setOpaque(false);
 
         sfondoLabel.add(gestioneUtenti);

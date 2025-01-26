@@ -32,13 +32,15 @@ public class Controllore {
     }
     public ArrayList<Classe> getClassi() {
         ArrayList<Classe> clas = new ArrayList<>();
-        for(int i=1;i<6;i++){
-            for (Classe c: classi) {
-                if(c.getAnno()==i){
-                    clas.add(c);
+        try{
+            for(int i=1;i<6;i++){
+                for (Classe c: classi) {
+                    if(c.getAnno()==i){
+                        clas.add(c);
+                    }
                 }
             }
-        }
+        }catch (ConcurrentModificationException ignore){}
         return clas;
     }
     //GETTER-----------------------
@@ -137,14 +139,16 @@ public class Controllore {
             }
         }
         ArrayList<Classe> clas = new ArrayList<>();
-        for(int i=1;i<6;i++){
-            for (Classe c: tmp) {
-                if(c.getAnno()==i){
-                    clas.add(c);
-                    tmp.remove(c);
+        try{
+            for(int i=1;i<6;i++){
+                for (Classe c: tmp) {
+                    if(c.getAnno()==i){
+                        clas.add(c);
+                        tmp.remove(c);
+                    }
                 }
             }
-        }
+        }catch (ConcurrentModificationException ignore){}
         return clas;
     }
 

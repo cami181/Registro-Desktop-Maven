@@ -68,7 +68,7 @@ public class Classe {
         double media = 0;
         int qt = 0;
         for (Studente s: studenti) {
-            if(s.getMediaMensile(mese)>=0){
+            if(s.getMediaMensile(mese)>0){
                 media += s.getMediaMensile(mese);
                 qt++;
             }
@@ -78,7 +78,7 @@ public class Classe {
             return 0;
         }
         else{
-            return media/studenti.size();
+            return media/qt;
         }
     }
 

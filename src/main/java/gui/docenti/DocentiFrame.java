@@ -87,14 +87,14 @@ public class DocentiFrame extends JFrame {
         elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
-        JLabel listaLabel = new JLabel("DOCENTE");
+        JLabel listaLabel = new JLabel("SELEZIONA");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 
         //nome cognome cerca------------------------------------------
         JPanel cercaPanel = new JPanel();
         cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
-        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
+        cercaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height/2);
         cercaPanel.setOpaque(false);
 
         JLabel nome = new JLabel("NOME: ");
@@ -126,12 +126,11 @@ public class DocentiFrame extends JFrame {
         //cerca
         JPanel confermaPanel = new JPanel();
         confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
-        confermaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaPanel.setBounds(width*2/3,height*5/6+b_height/2,b_width*5/2,b_height);
         confermaPanel.setOpaque(false);
         JButton conferma = new JButton("CERCA");
         conferma.addActionListener(e ->{
             listaDocenti.removeAllItems();
-            listaDocenti.addItem("");
             if(nomeField.getText().isEmpty() && cognomeField.getText().isEmpty()){
                 docenti = controllore.getDocenti();
             }
@@ -220,11 +219,11 @@ public class DocentiFrame extends JFrame {
 
         elencoPanel.add(listaLabel);
         elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(listaDocenti);
+        elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(cercaPanel);
         elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(confermaPanel);
-        elencoPanel.add(Box.createVerticalStrut(50));
-        elencoPanel.add(listaDocenti);
 
         container.add(sfondoPanel);
         revalidate();

@@ -87,14 +87,14 @@ public class ClassFrame extends JFrame {
         elencoPanel.setBounds(width*2/3-50,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
-        JLabel listaLabel = new JLabel("CLASSE");
+        JLabel listaLabel = new JLabel("SELEZIONA");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 
         //cerca------------------------------------------
         JPanel cercaPanel = new JPanel();
         cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
-        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
+        cercaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height/2);
         cercaPanel.setOpaque(false);
 
         JLabel anno = new JLabel("ANNO: ");
@@ -134,12 +134,11 @@ public class ClassFrame extends JFrame {
         //cerca
         JPanel confermaPanel = new JPanel();
         confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
-        confermaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaPanel.setBounds(width*2/3,height*5/6+b_height/2,b_width*5/2,b_height);
         confermaPanel.setOpaque(false);
         JButton conferma = new JButton("CERCA");
         conferma.addActionListener(e ->{
             listaClassi.removeAllItems();
-            listaClassi.addItem("");
             if(annoCombo.getSelectedItem().toString().isEmpty() && indirizzoCombo.getSelectedItem().toString().isEmpty()){
                 classi = controllore.getClassi();
             }
@@ -159,11 +158,11 @@ public class ClassFrame extends JFrame {
 
         elencoPanel.add(listaLabel);
         elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(listaClassi);
+        elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(cercaPanel);
         elencoPanel.add(Box.createVerticalStrut(50));
         elencoPanel.add(confermaPanel);
-        elencoPanel.add(Box.createVerticalStrut(50));
-        elencoPanel.add(listaClassi);
         sfondoLabel.add(elencoPanel);
 
         //CERCA

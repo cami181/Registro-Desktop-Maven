@@ -266,7 +266,6 @@ public class ModificaStudenteFrame extends JFrame {
 
         classi = controllore.getClassi();
         JComboBox<String> listaClassi = new JComboBox<>();
-        listaClassi.addItem("");
 
         for (Classe s: classi) {
             listaClassi.addItem(s.toString());
@@ -291,7 +290,6 @@ public class ModificaStudenteFrame extends JFrame {
         JButton cercaPulsante = new JButton("CERCA");
         cercaPulsante.addActionListener(e ->{
             listaClassi.removeAllItems();
-            listaClassi.addItem("");
             if(annoCercaCombo.getSelectedItem().toString().isEmpty() && indirizzoCercaCombo.getSelectedItem().toString().isEmpty()){
                 classi = controllore.getClassi();
             }

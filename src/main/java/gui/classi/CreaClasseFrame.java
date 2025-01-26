@@ -1,6 +1,7 @@
 package gui.classi;
 
 import Controllore.Controllore;
+import gui.genitori.CreaGenitoriFrame;
 import gui.home.HomeFrame;
 import gui.pulsanti.PulsanteExit;
 import gui.pulsanti.PulsanteHome;
@@ -190,8 +191,7 @@ public class CreaClasseFrame extends JFrame {
                     JOptionPane.showMessageDialog(null,"Classe già esistente");
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Classe registrata");
-                    new ClassFrame(controllore);
+                    new CreaClasseFrame(controllore);
                     dispose();
                 }
             }

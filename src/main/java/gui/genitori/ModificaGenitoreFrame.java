@@ -310,7 +310,6 @@ public class ModificaGenitoreFrame extends JFrame {
         JButton cercaPulsante = new JButton("CERCA");
         cercaPulsante.addActionListener(e ->{
             listaStudenti.removeAllItems();
-            listaStudenti.addItem(" ");
             if(nomeFiglioField.getText().isEmpty() && cognomeFiglioField.getText().isEmpty()){
                 studenti = controllore.getStudenti();
             }
@@ -361,7 +360,7 @@ public class ModificaGenitoreFrame extends JFrame {
                 int mese = meseCombo.getSelectedIndex();
                 int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
                 Date data = new GregorianCalendar(anno,mese,giorno).getTime();
-                
+
                 controllore.eliminaGenitore(genitore);
 
                 Studente figlio = null;

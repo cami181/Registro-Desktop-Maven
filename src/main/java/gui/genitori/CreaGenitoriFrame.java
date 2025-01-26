@@ -292,7 +292,6 @@ public class CreaGenitoriFrame extends JFrame {
         JButton cercaPulsante = new JButton("CERCA");
         cercaPulsante.addActionListener(e ->{
             listaStudenti.removeAllItems();
-            listaStudenti.addItem(" ");
             if(nomeFiglioField.getText().isEmpty() && cognomeFiglioField.getText().isEmpty()){
                 studenti = controllore.getStudenti();
             }

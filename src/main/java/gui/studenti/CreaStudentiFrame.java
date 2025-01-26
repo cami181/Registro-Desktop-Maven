@@ -278,7 +278,6 @@ public class CreaStudentiFrame extends JFrame {
         JButton cercaPulsante = new JButton("CERCA");
         cercaPulsante.addActionListener(e ->{
             listaClassi.removeAllItems();
-            listaClassi.addItem("");
             if(annoCercaCombo.getSelectedItem().toString().isEmpty() && indirizzoCercaCombo.getSelectedItem().toString().isEmpty()){
                 classi = controllore.getClassi();
             }
