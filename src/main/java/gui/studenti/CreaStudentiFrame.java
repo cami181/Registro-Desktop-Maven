@@ -311,7 +311,7 @@ public class CreaStudentiFrame extends JFrame {
                 studente.setCredenziali(new Credenziali(user,password));
                 controllore.registraStudente(studente);
                 JOptionPane.showMessageDialog(null,"Studente creato");
-                new StudentiFrame(controllore);
+                new CreaStudentiFrame(controllore);
                 dispose();
             }
         });

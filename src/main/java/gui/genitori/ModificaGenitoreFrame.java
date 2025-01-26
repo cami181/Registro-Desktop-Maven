@@ -381,14 +381,8 @@ public class ModificaGenitoreFrame extends JFrame {
                     n++;
                 }
                 user = tmp;
-                String password = "";
-                for(int i=0;i<5;i++){
-                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
-                    Random random = new Random();
-                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
-                    password += c;
-                }
-                genitore.setCredenziali(new Credenziali(user,password));
+                Credenziali credenziali = new Credenziali(user,genitore.getCredenziali().getPassword());
+                genitore.setCredenziali(credenziali);
                 controllore.registraGenitore(genitore);
                 new GenitoriFrame(controllore);
                 dispose();

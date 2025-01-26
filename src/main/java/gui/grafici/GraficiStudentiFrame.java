@@ -97,7 +97,7 @@ public class GraficiStudentiFrame extends JFrame {
         panel2.setBounds(width*2/5,height*2/5, width/6, b_height*3/2);
         panel2.setOpaque(false);
 
-        JLabel seleziona = new JLabel("Seleziona lo studente");
+        JLabel seleziona = new JLabel("STUDENTE");
         seleziona.setFont(new Font("Arial", Font.BOLD, height/52));
         seleziona.setForeground(Color.WHITE);
         ArrayList<Studente> studenti = controllore.getStudenti();
@@ -270,18 +270,9 @@ public class GraficiStudentiFrame extends JFrame {
                 break;
             }
         }
-        //calcolo assenze dei mesi
-        int[] assenzeMensili = new int[10];
-        //set -- dic
-        for(int i=8;i<12;i++){
-            assenzeMensili[i-8] = tmp.getAssenzeMensili(i);
-        }
-        //gen-- giu
-        for(int i=0;i<6;i++){
-            assenzeMensili[i+4] = tmp.getAssenzeMensili(i);
-        }
+
         sfondoLabel.remove(graphPanel);
-        graphPanel = new GraficoAssenzePanel(assenzeMensili);
+        graphPanel = new GraficoAssenzePanel((double) tmp.getAssenze().size());
         graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
         graphPanel.setBounds(width*3/5,height/3+68, width/3, height/4);
         sfondoLabel.add(graphPanel);

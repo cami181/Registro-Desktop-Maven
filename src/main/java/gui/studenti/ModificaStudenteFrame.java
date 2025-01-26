@@ -324,14 +324,8 @@ public class ModificaStudenteFrame extends JFrame {
                     n++;
                 }
                 user = tmp;
-                String password = "";
-                for(int i=0;i<5;i++){
-                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
-                    Random random = new Random();
-                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
-                    password += c;
-                }
-                studente.setCredenziali(new Credenziali(user,password));
+                Credenziali credenziali = new Credenziali(user,studente.getCredenziali().getPassword());
+                studente.setCredenziali(credenziali);
                 controllore.registraStudente(studente);
                 new StudentiFrame(controllore);
                 dispose();

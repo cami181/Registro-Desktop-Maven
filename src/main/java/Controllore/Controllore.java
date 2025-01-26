@@ -118,6 +118,19 @@ public class Controllore {
     }
     //RICERCA x nome e cognome-------------------------------
 
+    //ricerca classi
+    public ArrayList<Classe> cercaClasse(int anno, String indirizzo){
+        ArrayList<Classe> tmp = new ArrayList<>();
+        for (Classe c: classi) {
+            if((anno==0 && c.getIndirizzo().equals(indirizzo))
+                || (c.getAnno()==anno && indirizzo.isEmpty())
+                || (c.getAnno()==anno && c.getIndirizzo().equals(indirizzo))){
+                tmp.add(c);
+            }
+        }
+        return tmp;
+    }
+
     // --- ELIMINAZIONE --- //
     /**
      * Metodo che permette di eliminare un utente dal sistema.

@@ -6,16 +6,13 @@ import java.awt.*;
 import java.util.*;
 
 import Controllore.Controllore;
-import Credenziali.Credenziali;
 import Utenti.Classe;
 import Utenti.Studente;
 import gui.home.HomeFrame;
-import gui.pulsanti.PulsanteExit;
 import gui.pulsanti.PulsanteHome;
-import gui.pulsanti.PulsanteIndietro;
 
 public class ClassFrame extends JFrame {
-    private String selectedButton = "";
+    private ArrayList<Classe> classi;
     /**
      * Funzione che costruisce la finestra delle classi.
      * Imposta: dimensione finestra, visibilità, layout e gestisce vari componenti.
@@ -68,25 +65,6 @@ public class ClassFrame extends JFrame {
         });
         //HOME--------------------------------------------------------
 
-        //PULSANTE INDIETRO----------------------------------------
-        JPanel indietroPanel = new JPanel(new GridLayout(1,1));
-        sfondoLabel.add(indietroPanel);
-        indietroPanel.setBounds(0,b_height,b_height,b_height);
-        indietroPanel.setOpaque(false);
-
-        PulsanteIndietro indietroButton = new PulsanteIndietro(b_height);
-        indietroButton.setFont(new Font("Arial", Font.BOLD, width/40));
-        indietroButton.setBorder(new EtchedBorder());
-        indietroButton.setBackground(Color.WHITE);
-        indietroButton.setForeground(Color.DARK_GRAY);
-        indietroPanel.add(indietroButton);
-
-        indietroButton.addActionListener(e->{
-            new HomeFrame(controllore);
-            dispose();
-        });
-        //PULSANTE INDIETRO---------------------------------------
-
         //TITOLO----------------------------------------------------
         JPanel titlePanel = new JPanel(new GridLayout(1,1));
         titlePanel.setBounds(width/6,height/4,width*2/3,height/5);
@@ -101,6 +79,90 @@ public class ClassFrame extends JFrame {
         titoloLabel.setForeground(Color.white);
         titlePanel.add(titoloLabel);
         //TITOLO-----------------------------------------------------
+
+        //PANEL LISTA CLASSI-------------------------------------------------
+        JPanel elencoPanel = new JPanel();
+        elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
+        sfondoLabel.add(elencoPanel);
+        elencoPanel.setBounds(width*2/3-50,height/2,b_width*5/2,b_height*7/2);
+        elencoPanel.setOpaque(false);
+
+        JLabel listaLabel = new JLabel("CLASSE");
+        listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
+        listaLabel.setForeground(Color.WHITE);
+
+        //nome cognome cerca------------------------------------------
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height/2+b_height,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
+
+        JLabel anno = new JLabel("ANNO: ");
+        JLabel indirizzo = new JLabel("INDIRIZZO: ");
+        anno.setFont(new Font("Arial", Font.BOLD, height/60));
+        anno.setForeground(Color.WHITE);
+        indirizzo.setFont(new Font("Arial", Font.BOLD, height/60));
+        indirizzo.setForeground(Color.WHITE);
+
+        JComboBox<String> annoCombo = new JComboBox<>();
+        annoCombo.addItem("");
+        for(int i=1;i<6;i++){
+            annoCombo.addItem(String.valueOf(i));
+        }
+        JComboBox<String> indirizzoCombo = new JComboBox<>();
+        indirizzoCombo.addItem("");
+        for (String s: controllore.getMaterie()) {
+            indirizzoCombo.addItem(s);
+        }
+
+        classi = controllore.getClassi();
+        JComboBox<String> listaClassi = new JComboBox<>();
+        listaClassi.addItem("");
+
+        for (Classe s: classi) {
+            listaClassi.addItem(s.toString());
+        }
+
+        cercaPanel.add(anno);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(annoCombo);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(indirizzo);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(indirizzoCombo);
+
+        //cerca
+        JPanel confermaPanel = new JPanel();
+        confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
+        confermaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height);
+        confermaPanel.setOpaque(false);
+        JButton conferma = new JButton("CERCA");
+        conferma.addActionListener(e ->{
+            listaClassi.removeAllItems();
+            listaClassi.addItem("");
+            if(annoCombo.getSelectedItem().toString().isEmpty() && indirizzoCombo.getSelectedItem().toString().isEmpty()){
+                classi = controllore.getClassi();
+            }
+            else{
+                classi = controllore.cercaClasse(Integer.parseInt(annoCombo.getSelectedItem().toString()), indirizzoCombo.getSelectedItem().toString());
+            }
+            for (Classe s: classi) {
+                listaClassi.addItem(s.toString());
+            }
+        });
+        confermaPanel.add(conferma);
+        //conferma
+
+        elencoPanel.add(listaLabel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(cercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(confermaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(listaClassi);
+        sfondoLabel.add(elencoPanel);
+
+        //CERCA
 
         //PULSANTI------------------------------------------------------
         JButton crea = new JButton("CREA");
@@ -127,87 +189,34 @@ public class ClassFrame extends JFrame {
         elimina.setForeground(Color.DARK_GRAY);
 
         modifica.addActionListener(e ->{
-            if(selectedButton.equals("modifica")){
-                modifica.setBackground(Color.WHITE);
-                selectedButton = "";
-            }
-            else{
-                modifica.setBackground(Color.GREEN);
-                elimina.setBackground(Color.WHITE);
-                selectedButton = "modifica";
-            }
-        });
-        elimina.addActionListener(e ->{
-            if(selectedButton.equals("elimina")){
-                elimina.setBackground(Color.WHITE);
-                selectedButton = "";
-            }
-            else {
-                elimina.setBackground(Color.GREEN);
-                modifica.setBackground(Color.WHITE);
-                selectedButton = "elimina";
-            }
-        });
-        //PULSANTI------------------------------------------------------
-
-        //PANEL LISTA NOMI-------------------------------------------------
-        JPanel elencoPanel = new JPanel();
-        elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
-        sfondoLabel.add(elencoPanel);
-        elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*3);
-        elencoPanel.setOpaque(false);
-
-        JLabel listaLabel = new JLabel("SELEZIONA UNA CLASSE");
-        listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
-        listaLabel.setForeground(Color.WHITE);
-
-        JComboBox<String> listaClassi = new JComboBox<>();
-
-        ArrayList<Classe> classi = controllore.getClassi();
-
-        listaClassi.addItem("");
-        for (Classe tmp: classi) {
-            listaClassi.addItem(tmp.toString());
-        }
-
-        //pulsanti
-        JButton conferma = new JButton("CONFERMA");
-        conferma.addActionListener(e ->{
-            if(Objects.requireNonNull(listaClassi.getSelectedItem()).toString().isEmpty()){
+            if(listaClassi.getSelectedItem().toString().isEmpty()){
                 JOptionPane.showMessageDialog(null,"Seleziona una classe");
             }
             else{
-                if(!selectedButton.isEmpty()){
-                    if(selectedButton.equals("modifica")){
-                        //prendo la classe e la elimino dalla lista
-                        String s = Objects.requireNonNull(listaClassi.getSelectedItem()).toString();
-                        for (Classe tmp: classi) {
-                            if(tmp.toString().equals(s)){
-                                new ModificaClasseFrame(controllore,tmp);
-                                dispose();
-                            }
-                        }
-                    }
-                    else if(selectedButton.equals("elimina")){
-                        String s = listaClassi.getSelectedItem().toString();
-                        Classe c = new Classe(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2),s.charAt(1));
-                        controllore.eliminaClasse(c);
-                        JOptionPane.showMessageDialog(null,"Classe eliminata");
-                        new ClassFrame(controllore);
+                String s = Objects.requireNonNull(listaClassi.getSelectedItem()).toString();
+                for (Classe tmp: classi) {
+                    if(tmp.toString().equals(s)){
+                        new ModificaClasseFrame(controllore,tmp);
                         dispose();
                     }
-                }else {
-                    JOptionPane.showMessageDialog(null,"Seleziona un'azione da compiere sulla classe");
                 }
             }
         });
 
-        elencoPanel.add(listaLabel);
-        elencoPanel.add(Box.createVerticalStrut(60));
-        elencoPanel.add(listaClassi);
-        elencoPanel.add(Box.createVerticalStrut(60));
-        elencoPanel.add(conferma);
-        //PANEL LISTA NOMI-------------------------------------------------
+        elimina.addActionListener(e ->{
+            if(listaClassi.getSelectedItem().toString().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Seleziona una classe");
+            }
+            else{
+                String s = listaClassi.getSelectedItem().toString();
+                Classe c = new Classe(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2),s.charAt(1));
+                controllore.eliminaClasse(c);
+                JOptionPane.showMessageDialog(null,"Classe eliminata");
+                new ClassFrame(controllore);
+                dispose();
+            }
+        });
+        //PULSANTI------------------------------------------------------
 
         //PANEL PULSANTI-------------------------------------------------------
         JPanel opzioniPanel = new JPanel(new GridLayout(3,1));

@@ -87,7 +87,7 @@ public class DocentiFrame extends JFrame {
         elencoPanel.setBounds(width*2/3,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
-        JLabel listaLabel = new JLabel("SELEZIONA UN DOCENTE");
+        JLabel listaLabel = new JLabel("DOCENTE");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 

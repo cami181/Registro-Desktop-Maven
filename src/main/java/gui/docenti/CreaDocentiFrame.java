@@ -406,9 +406,7 @@ public class CreaDocentiFrame extends JFrame {
                 }
                 docente.setCredenziali(new Credenziali(user,password));
                 controllore.registraDocente(docente);
-                JOptionPane.showMessageDialog(null,"Docente registrato");
-
-                new DocentiFrame(controllore);
+                new CreaDocentiFrame(controllore);
                 dispose();
             }
         });

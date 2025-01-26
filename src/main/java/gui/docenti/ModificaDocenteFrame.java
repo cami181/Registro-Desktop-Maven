@@ -413,19 +413,29 @@ public class ModificaDocenteFrame extends JFrame {
             else if(controllore.codiceFiscaleInvalido(cfField.getText())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale invalido");
             }
-            else if(controllore.alreadyExistentCf(cfField.getText(),new Credenziali("",""))){
+            else if(controllore.alreadyExistentCf(cfField.getText(),docente.getCredenziali())){
                 JOptionPane.showMessageDialog(null,"Codice Fiscale già esistente");
             } else{
+                controllore.eliminaDocente(docente);
                 //data di nascita
                 int anno = Integer.parseInt(Objects.requireNonNull(annoCombo.getSelectedItem()).toString());
                 int mese = meseCombo.getSelectedIndex();
                 int giorno = Integer.parseInt(Objects.requireNonNull(giornoCombo.getSelectedItem()).toString());
                 Date data = new GregorianCalendar(anno,mese,giorno).getTime();
 
-                controllore.eliminaDocente(docente);
-
                 String nome = nomeField.getText().replace(" ","");
                 String cognome = cognomeField.getText().replace(" ","");
+
+                String user = "d" + nome + "." + cognome;
+                String tmp = "d" + nome + "." + cognome;
+                int n = 0;
+                while(controllore.alreadyExistentUser(tmp)){
+                    tmp = user + String.valueOf(n);
+                    n++;
+                }
+                user = tmp;
+                Credenziali credenziali = new Credenziali(user,docente.getCredenziali().getPassword());
+                docente.setCredenziali(credenziali);
 
                 docente.setNome(nome);
                 docente.setCognome(cognome);
@@ -433,22 +443,7 @@ public class ModificaDocenteFrame extends JFrame {
                 docente.setCF(cfField.getText().toLowerCase().trim());
                 docente.setClassi(classiDocente);
                 docente.setMaterie(materieDocente);
-                String user = "d" + docente.getNome() + "." + docente.getCognome();
-                String tmp = "d" + docente.getNome() + "." + docente.getCognome();;
-                int n = 0;
-                while(controllore.alreadyExistentUser(tmp)){
-                    tmp = user + String.valueOf(n);
-                    n++;
-                }
-                user = tmp;
-                String password = "";
-                for(int i=0;i<5;i++){
-                    String alfabeto = "abcdefghijklmnopqrstuvwxyz1234567890";
-                    Random random = new Random();
-                    char c = alfabeto.charAt(Math.abs(random.nextInt())%36);
-                    password += c;
-                }
-                docente.setCredenziali(new Credenziali(user,password));
+
                 controllore.registraDocente(docente);
 
                 new DocentiFrame(controllore);

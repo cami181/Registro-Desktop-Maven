@@ -88,7 +88,7 @@ public class StudentiFrame extends JFrame {
         elencoPanel.setBounds(width*2/3-50,height/2,b_width*5/2,b_height*7/2);
         elencoPanel.setOpaque(false);
 
-        JLabel listaLabel = new JLabel("SELEZIONA UNO STUDENTE");
+        JLabel listaLabel = new JLabel("STUDENTE");
         listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
         listaLabel.setForeground(Color.WHITE);
 

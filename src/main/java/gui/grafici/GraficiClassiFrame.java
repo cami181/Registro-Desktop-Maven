@@ -96,7 +96,7 @@ public class GraficiClassiFrame extends JFrame {
         panel2.setBounds(width*2/5,height*2/5, width/6, b_height*3/2);
         panel2.setOpaque(false);
 
-        JLabel seleziona = new JLabel("Seleziona la classe");
+        JLabel seleziona = new JLabel("CLASSE");
         seleziona.setFont(new Font("Arial", Font.BOLD, height/39));
         seleziona.setForeground(Color.WHITE);
         ArrayList<Classe> classi = controllore.getClassi();

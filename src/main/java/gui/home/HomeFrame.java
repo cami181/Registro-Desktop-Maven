@@ -128,7 +128,7 @@ public class HomeFrame extends JFrame {
             dispose();
         });
 
-        JButton docente = new JButton("DOCENTE");
+        JButton docente = new JButton("DOCENTI");
         docente.setFont(new Font("Arial", Font.BOLD, width/68));
         docente.setBorder(new EtchedBorder());
         docente.setBackground(Color.WHITE);
@@ -138,7 +138,7 @@ public class HomeFrame extends JFrame {
             dispose();
         });
 
-        JButton genitore = new JButton("GENITORE");
+        JButton genitore = new JButton("GENITORI");
         genitore.setFont(new Font("Arial", Font.BOLD, width/68));
         genitore.setBorder(new EtchedBorder());
         genitore.setBackground(Color.WHITE);
@@ -148,7 +148,7 @@ public class HomeFrame extends JFrame {
             dispose();
         });
 
-        JButton classe = new JButton("CLASSE");
+        JButton classe = new JButton("CLASSI");
         classe.setFont(new Font("Arial", Font.BOLD, width/68));
         classe.setBorder(new EtchedBorder());
         classe.setBackground(Color.WHITE);
