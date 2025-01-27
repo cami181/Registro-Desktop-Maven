@@ -157,8 +157,6 @@ public class Studente extends Persona{
             return -1;
         }
         else{
-            System.out.println(getNome());
-            System.out.println(qt + "voti");
             return media/qt;
         }
     }
