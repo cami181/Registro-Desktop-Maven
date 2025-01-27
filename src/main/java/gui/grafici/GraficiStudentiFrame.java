@@ -105,7 +105,7 @@ public class GraficiStudentiFrame extends JFrame {
         studentiCombo = new JComboBox<>();
         studentiCombo.addItem(" ");
         for (Studente s: studenti) {
-            studentiCombo.addItem(s.getCF());
+            studentiCombo.addItem(s.getNome() + " " + s.getCognome() + " " + s.getCF());
         }
 
         panel2.add(seleziona);
@@ -205,7 +205,7 @@ public class GraficiStudentiFrame extends JFrame {
         //trovo lo studente in base al cf
         Studente tmp = null;
         for (Studente s: controllore.getStudenti()) {
-            if(s.getCF().equals(studentiCombo.getSelectedItem())){
+            if(s.getCF().equals(studentiCombo.getSelectedItem().toString().split(" ")[2])){
                 tmp = s;
                 break;
             }
@@ -236,7 +236,7 @@ public class GraficiStudentiFrame extends JFrame {
         //trovo lo studente in base al cf
         Studente tmp = null;
         for (Studente s: controllore.getStudenti()) {
-            if(s.getCF().equals(studentiCombo.getSelectedItem())){
+            if(s.getCF().equals(studentiCombo.getSelectedItem().toString().split(" ")[2])){
                 tmp = s;
                 break;
             }
@@ -265,7 +265,7 @@ public class GraficiStudentiFrame extends JFrame {
         //trovo lo studente in base al cf
         Studente tmp = null;
         for (Studente s: controllore.getStudenti()) {
-            if(s.getCF().equals(studentiCombo.getSelectedItem())){
+            if(s.getCF().equals(studentiCombo.getSelectedItem().toString().split(" ")[2])){
                 tmp = s;
                 break;
             }
