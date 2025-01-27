@@ -1,6 +1,7 @@
 package gui.grafici;
 
 import Controllore.Controllore;
+import Utenti.Genitore;
 import Utenti.Studente;
 import gui.home.HomeFrame;
 import gui.pulsanti.*;
@@ -14,10 +15,11 @@ public class GraficiStudentiFrame extends JFrame {
     private String pulsanteScelto = ""; //mese/materia/assenza
     private final Controllore controllore;
     private JPanel graphPanel;
-    private final int width, height, b_height;
+    private final int width, height, b_height, b_width;
     private JButton medieMensiliButton, medieMaterieButton, assenzeButton;
     private JLabel sfondoLabel;
     private JComboBox<String> studentiCombo;
+    private ArrayList<Studente> studenti;
 
 
     /**
@@ -40,6 +42,7 @@ public class GraficiStudentiFrame extends JFrame {
         height = (int) screenSize.getHeight();
 
         b_height = height / 12;
+        b_width = width/9;
 
         JPanel sfondoPanel = new JPanel();
 
@@ -92,15 +95,7 @@ public class GraficiStudentiFrame extends JFrame {
         panel1.setOpaque(false);
 
         //PANEL 2
-        JPanel panel2 = new JPanel();
-        panel2.setLayout(new BoxLayout(panel2,BoxLayout.Y_AXIS));
-        panel2.setBounds(width*2/5,height*2/5, width/6, b_height*3/2);
-        panel2.setOpaque(false);
-
-        JLabel seleziona = new JLabel("STUDENTE");
-        seleziona.setFont(new Font("Arial", Font.BOLD, height/52));
-        seleziona.setForeground(Color.WHITE);
-        ArrayList<Studente> studenti = controllore.getStudenti();
+        studenti = controllore.getStudenti();
 
         studentiCombo = new JComboBox<>();
         studentiCombo.addItem(" ");
@@ -108,10 +103,72 @@ public class GraficiStudentiFrame extends JFrame {
             studentiCombo.addItem(s.getNome() + " " + s.getCognome() + " " + s.getCF());
         }
 
-        panel2.add(seleziona);
-        panel2.add(Box.createVerticalStrut(20));
-        panel2.add(studentiCombo);
-        sfondoLabel.add(panel2);
+        //elenco-------------------------------------------------------------------------------------------------------------
+        //PANEL LISTA NOMI-------------------------------------------------
+        JPanel elencoPanel = new JPanel();
+        elencoPanel.setLayout(new BoxLayout(elencoPanel,BoxLayout.Y_AXIS));
+        sfondoLabel.add(elencoPanel);
+        elencoPanel.setBounds(width/7,height*2/3,b_width*5/2,b_height*7/2);
+        elencoPanel.setOpaque(false);
+
+        JLabel listaLabel = new JLabel("SELEZIONA");
+        listaLabel.setFont(new Font("Arial", Font.BOLD, width/68));
+        listaLabel.setForeground(Color.WHITE);
+        //nome cognome cerca------------------------------------------
+        JPanel cercaPanel = new JPanel();
+        cercaPanel.setLayout(new BoxLayout(cercaPanel,BoxLayout.X_AXIS));
+        cercaPanel.setBounds(width*2/3,height*5/6,b_width*5/2,b_height/2);
+        cercaPanel.setOpaque(false);
+
+        JLabel nome = new JLabel("NOME: ");
+        JLabel cognome = new JLabel("COGNOME: ");
+        nome.setFont(new Font("Arial", Font.BOLD, height/60));
+        nome.setForeground(Color.WHITE);
+        cognome.setFont(new Font("Arial", Font.BOLD, height/60));
+        cognome.setForeground(Color.WHITE);
+
+        JTextField nomeField = new JTextField();
+        JTextField cognomeField = new JTextField();
+
+        cercaPanel.add(nome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(nomeField);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognome);
+        cercaPanel.add(Box.createHorizontalStrut(20));
+        cercaPanel.add(cognomeField);
+        //nome cognome cerca------------------------------------------
+
+        //cerca
+        JPanel confermaPanel = new JPanel();
+        confermaPanel.setLayout(new BoxLayout(confermaPanel,BoxLayout.X_AXIS));
+        confermaPanel.setBounds(width*2/3,height*5/6+b_height/2,b_width*5/2,b_height);
+        confermaPanel.setOpaque(false);
+        JButton conferma = new JButton("CERCA");
+        conferma.addActionListener(e ->{
+            studentiCombo.removeAllItems();
+            if(nomeField.getText().isEmpty() && cognomeField.getText().isEmpty()){
+                studenti = controllore.getStudenti();
+            }
+            else{
+                studenti = controllore.cercaStudente(nomeField.getText(), cognomeField.getText());
+            }
+            for (Studente g: studenti) {
+                studentiCombo.addItem(g.getNome() + " " + g.getCognome() + " " + g.getCF());
+            }
+        });
+        confermaPanel.add(conferma);
+
+        elencoPanel.add(listaLabel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(studentiCombo);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(cercaPanel);
+        elencoPanel.add(Box.createVerticalStrut(50));
+        elencoPanel.add(confermaPanel);
+        sfondoLabel.add(elencoPanel);
+        //conferma
+        //elenco-------------------------------------------------------------------------------------------------------------
 
         //GRAFICI-------------------------------------------------------------------
         medieMensiliButton = new JButton("MEDIE MENSILI");
